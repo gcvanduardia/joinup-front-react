@@ -13,10 +13,10 @@ const Home: React.FC = () => {
       <IonContent fullscreen>
         <IonGrid>
           <IonRow>
-            <IonCol size="8">
+            <IonCol size='12' sizeMd="8">
               <VideoPlayerHls curso="robotica-test" video="curso-robotica-1.m3u8"/>
             </IonCol>
-            <IonCol size="4">
+            <IonCol>
               <IonList>
                 <IonListHeader>
                   <IonLabel><strong>Contenido del curso:</strong></IonLabel>
