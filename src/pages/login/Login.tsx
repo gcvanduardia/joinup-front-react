@@ -1,4 +1,4 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonButton, IonLabel, IonGrid, IonCol, IonRow, IonCard } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonButton, IonLabel, IonGrid, IonCol, IonRow, IonCard, IonAlert } from '@ionic/react';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import './Login.css';
@@ -7,6 +7,7 @@ import { apiReq, setJwt } from "../../shared/services/api/api";
 const Login: React.FC = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [showAlert, setShowAlert] = useState(false);
     const history = useHistory();
 
     const handleSubmit = (event: React.FormEvent) => {
@@ -35,6 +36,8 @@ const Login: React.FC = () => {
                     console.log('storageSession: ', storageSession);
                     localStorage.setItem('joinup-session', JSON.stringify(storageSession));
                     history.push('/home');
+                } else if (response.status === 401){
+                    setShowAlert(true);
                 } else {                
                     console.log('Login failed');
                 }
@@ -68,6 +71,13 @@ const Login: React.FC = () => {
                         </IonCol>
                     </IonRow>
                 </IonGrid>
+                <IonAlert
+                    isOpen={showAlert}
+                    onDidDismiss={() => setShowAlert(false)}
+                    header={'Error'}
+                    message={'Usuario o contraseña incorrectos'}
+                    buttons={['OK']}
+                />
             </IonContent>
         </IonPage>
     );
