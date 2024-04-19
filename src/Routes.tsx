@@ -6,7 +6,7 @@ import Login from "./pages/login/Login";
 
 const Routes: React.FC = () => (
   <IonRouterOutlet>
-    <Route exact path="/"> <Redirect to="/home" /> </Route>
+    <Route exact path="/"> <Redirect to="/login" /> </Route>
     <Route exact path="/login"> <Login /> </Route>
     <Route exact path="/home"> <Home /> </Route>
   </IonRouterOutlet>
