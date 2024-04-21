@@ -8,6 +8,7 @@ const Login: React.FC = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [showAlert, setShowAlert] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
     const history = useHistory();
 
     const handleSubmit = (event: React.FormEvent) => {
@@ -37,6 +38,8 @@ const Login: React.FC = () => {
                     localStorage.setItem('joinup-session', JSON.stringify(storageSession));
                     history.push('/home');
                 } else if (response.status === 401){
+                    console.log('Login failed', response.data);
+                    setErrorMessage(response.data.message);
                     setShowAlert(true);
                 } else {                
                     console.log('Login failed');
@@ -75,7 +78,7 @@ const Login: React.FC = () => {
                     isOpen={showAlert}
                     onDidDismiss={() => setShowAlert(false)}
                     header={'Error'}
-                    message={'Usuario o contraseña incorrectos'}
+                    message={errorMessage}
                     buttons={['OK']}
                 />
             </IonContent>
