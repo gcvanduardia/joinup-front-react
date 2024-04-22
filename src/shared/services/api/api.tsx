@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { environment } from '../../../enviroments/enviroment';
 
 let jwt = "";
@@ -49,7 +49,21 @@ export const apiReq = async (method: string, url: string, data: any) => {
             status: response.status
         };
     } catch (error) {
-        console.error(error);
+        const axiosError = error as AxiosError;
+        console.error(axiosError);
+        if (axiosError.response) {
+            // El servidor respondió con un estado fuera del rango de 2xx
+            return {
+                data: axiosError.response.data,
+                status: axiosError.response.status
+            };
+        } else if (axiosError.request) {
+            // La solicitud se hizo pero no se recibió ninguna respuesta
+            console.log(axiosError.request);
+        } else {
+            // Algo sucedió en la configuración de la solicitud que desencadenó un Error
+            console.log('Error', axiosError.message);
+        }
         return null;
     }
 }

@@ -1,3 +1,4 @@
+
 import { IonContent, IonPage, IonInput, IonButton, IonLabel, IonGrid, IonCol, IonRow, IonCard } from '@ionic/react';
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
@@ -8,6 +9,8 @@ const Login: React.FC = () => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [showAlert, setShowAlert] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
     const history = useHistory();
 
     useEffect(() => {
@@ -46,7 +49,11 @@ const Login: React.FC = () => {
                     };
                     console.log('storageSession: ', storageSession);
                     localStorage.setItem('joinup-session', JSON.stringify(storageSession));
-                    history.replace('/home');
+                    history.push('/home');
+                } else if (response.status === 401){
+                    console.log('Login failed', response.data);
+                    setErrorMessage(response.data.message);
+                    setShowAlert(true);
                 } else {                
                     console.log('Login failed');
                 }
@@ -81,6 +88,13 @@ const Login: React.FC = () => {
                         </IonCol>
                     </IonRow>
                 </IonGrid>
+                <IonAlert
+                    isOpen={showAlert}
+                    onDidDismiss={() => setShowAlert(false)}
+                    header={'Error'}
+                    message={errorMessage}
+                    buttons={['OK']}
+                />
             </IonContent>
         </IonPage>
     );
