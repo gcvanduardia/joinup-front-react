@@ -1,13 +1,26 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonGrid, IonRow, IonCol, IonList, IonItem, IonListHeader, IonLabel } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonGrid, IonRow, IonCol, IonList, IonItem, IonListHeader, IonLabel, IonButton } from '@ionic/react';
 import './Home.css';
 import  VideoPlayerHls from "../../shared/components/video-player-hls/VideoPlayerHls";
+import { setJwt } from '../../shared/services/api/api';
+import { useHistory } from 'react-router-dom';
 
 const Home: React.FC = () => {
+
+  const history = useHistory();
+
+  const logOut = () => {
+    setJwt("");
+    localStorage.removeItem('joinup-session');
+    /* history.push('/login'); */
+    window.location.reload();
+}
+
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
           <IonTitle>Viodeo test</IonTitle>
+          <IonButton slot="end" onClick={logOut}>Logout</IonButton>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
