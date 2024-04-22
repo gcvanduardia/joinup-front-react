@@ -11,6 +11,10 @@ const Login: React.FC = () => {
     const [errorMessage, setErrorMessage] = useState('');
     const history = useHistory();
 
+    const handleRegisterRedirect = () => {
+        history.push('/register'); // Redirige a la página de registro
+    };
+
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
         console.log(`Username: ${username}, Password: ${password}`);
@@ -22,7 +26,6 @@ const Login: React.FC = () => {
             .then((response) => {
                 if(!response){
                     console.log('No response from server');
-                    /* componente alert */
                     return;
                 }
                 console.log('status login: ', response.status);
@@ -68,6 +71,7 @@ const Login: React.FC = () => {
                                             <IonInput type="password" value={password} onIonChange={e => setPassword(e.detail.value!)} />
                                         </IonLabel>
                                         <IonButton expand="block" type="submit" mode="ios">Iniciar sesión</IonButton>
+                                        <IonButton expand="block" fill="clear" mode="ios" onClick={handleRegisterRedirect}>Registrarse</IonButton>
                                     </form>
                                 </IonCard>
                             </div>
