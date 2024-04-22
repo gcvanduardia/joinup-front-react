@@ -1,0 +1,15 @@
+.loading-container {
+    background: #fff;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.large-spinner {
+    --spinner-stroke-width: 16px; /* Ajusta el grosor de las líneas del spinner */
+    width: 100px; /* Ajusta el ancho del spinner */
+    height: 100px; /* Ajusta la altura del spinner */
+}
