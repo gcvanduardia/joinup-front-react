@@ -1,5 +1,5 @@
 
-import { IonContent, IonPage, IonInput, IonButton, IonLabel, IonGrid, IonCol, IonRow, IonCard } from '@ionic/react';
+import { IonContent, IonPage, IonInput, IonButton, IonLabel, IonGrid, IonCol, IonRow, IonCard, IonAlert } from '@ionic/react';
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import './Login.css';
@@ -47,12 +47,11 @@ const Login: React.FC = () => {
                     console.log('Login success');
                     setJwt(response.data.jwt);
                     const storageSession = {
-                        jwt: response.data.token,
-                        user: response.data.username
+                        jwt: response.data.token
                     };
                     console.log('storageSession: ', storageSession);
                     localStorage.setItem('joinup-session', JSON.stringify(storageSession));
-                    history.push('/home');
+                    history.replace('/home');
                 } else if (response.status === 401){
                     console.log('Login failed', response.data);
                     setErrorMessage(response.data.message);
