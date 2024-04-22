@@ -11,3 +11,7 @@ ion-card{
     max-width: 500px;
     min-width: 300px;
 }
+
+.logo{
+    margin-bottom: 10px;
+}
