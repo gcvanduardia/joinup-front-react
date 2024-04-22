@@ -1,13 +1,25 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonButton, IonLabel, IonGrid, IonCol, IonRow, IonCard } from '@ionic/react';
-import React, { useState } from 'react';
+import { IonContent, IonPage, IonInput, IonButton, IonLabel, IonGrid, IonCol, IonRow, IonCard } from '@ionic/react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import './Login.css';
-import { apiReq, setJwt } from "../../shared/services/api/api";
+import { apiReq, setJwt, getJwt, verifyToken } from "../../shared/services/api/api";
 
 const Login: React.FC = () => {
+
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const history = useHistory();
+
+    useEffect(() => {
+        const checkToken = async () => {
+            getJwt();
+            const isValid = await verifyToken();
+            if (isValid) {
+                history.replace('/home');
+            }
+        }
+        checkToken();
+    }, [history]);
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
@@ -34,7 +46,7 @@ const Login: React.FC = () => {
                     };
                     console.log('storageSession: ', storageSession);
                     localStorage.setItem('joinup-session', JSON.stringify(storageSession));
-                    history.push('/home');
+                    history.replace('/home');
                 } else {                
                     console.log('Login failed');
                 }
@@ -52,6 +64,7 @@ const Login: React.FC = () => {
                         <IonCol size="12">
                             <div className='center'>
                                 <IonCard>
+                                    <img src="img/logo2.png" alt="logo2" className='logo' />
                                     <form onSubmit={handleSubmit}>
                                         <IonLabel>
                                             Username:
