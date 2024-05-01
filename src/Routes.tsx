@@ -4,7 +4,9 @@ import { IonRouterOutlet } from '@ionic/react';
 import Home from './pages/home/Home';
 import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
-import ProtectedRoute from './shared/components/auth/protected-route/ProtectedRoute'; // Importa ProtectedRoute desde el nuevo archivo
+import ProtectedRoute from './shared/components/auth/protected-route/ProtectedRoute';
+import Curso from './pages/curso/Curso';
+import CursoElectronica from './pages/curso-Electronica/Curso-Electronica';
 
 const Routes: React.FC = () => (
   <IonRouterOutlet>
@@ -12,6 +14,9 @@ const Routes: React.FC = () => (
     <Route exact path="/login"> <Login /> </Route>
     <Route exact path="/register"> <Register /> </Route>
     <ProtectedRoute exact path="/home" component={Home} />
+    <ProtectedRoute exact path="/curso/:id" component={Curso} />
+    <ProtectedRoute exact path="/curso/" component={Curso} />
+    <ProtectedRoute exact path="/curso-electronica/:id" component={CursoElectronica} />
   </IonRouterOutlet>
 );
 

@@ -1,43 +1,128 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonGrid, IonRow, IonCol, IonList, IonItem, IonListHeader, IonLabel, IonButton } from '@ionic/react';
+import React from 'react';
+import {IonTitle, IonContent, IonPage, IonGrid, IonRow, IonCol, IonCard, IonCardContent } from '@ionic/react';
+import MenuToolbar from '../../shared/components/menuToolbar/MenuToolbar';
 import './Home.css';
-import  VideoPlayerHls from "../../shared/components/video-player-hls/VideoPlayerHls";
-import { setJwt } from '../../shared/services/api/api';
 import { useHistory } from 'react-router-dom';
 
 const Home: React.FC = () => {
-
   const history = useHistory();
-
-  const logOut = () => {
-    setJwt("");
-    localStorage.removeItem('joinup-session');
-    /* history.push('/login'); */
-    window.location.reload();
-}
-
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>Viodeo test</IonTitle>
-          <IonButton slot="end" onClick={logOut}>Logout</IonButton>
-        </IonToolbar>
-      </IonHeader>
-      <IonContent fullscreen>
-        <IonGrid>
+      <MenuToolbar />
+      <IonContent fullscreen id="main">
+        <IonGrid className='grid'>
           <IonRow>
-            <IonCol size='12' sizeMd="8">
-              <VideoPlayerHls curso="robotica-test" video="curso-robotica-1.m3u8"/>
-            </IonCol>
             <IonCol>
-              <IonList>
-                <IonListHeader>
-                  <IonLabel><strong>Contenido del curso:</strong></IonLabel>
-                </IonListHeader>
-                <IonItem>Capítulo 1: Introducción</IonItem>
-                <IonItem>Capítulo 2: Conceptos básicos</IonItem>
-                <IonItem>Capítulo 3: Avanzado</IonItem>
-              </IonList>
+              <IonTitle>Cursos en progreso</IonTitle>
+            </IonCol>
+          </IonRow>
+          <IonRow>
+            <IonCol size="4">
+              <IonCard className="clickable-card" onClick={() => window.location.href = "/curso/1"}>
+                <IonCardContent>
+                  <h2 className="course-title">Curso 1</h2>
+                  <p>Descripción del Curso 1</p>
+                </IonCardContent>
+              </IonCard>
+            </IonCol>
+            <IonCol size="4">
+              <IonCard className="clickable-card" onClick={() => window.location.href = "/curso/2"}>
+                <IonCardContent>
+                  <h2 className="course-title">Curso 2</h2>
+                  <p>Descripción del Curso 2</p>
+                </IonCardContent>
+              </IonCard>
+            </IonCol>
+            <IonCol size="4">
+              <IonCard className="clickable-card" onClick={() => window.location.href = "/curso/3"}>
+                <IonCardContent>
+                  <h2 className="course-title">Curso 3</h2>
+                  <p>Descripción del Curso 3</p>
+                </IonCardContent>
+              </IonCard>
+            </IonCol>
+          </IonRow>
+          <IonRow>
+            <IonCol size="4">
+              <IonCard className="clickable-card" onClick={() => window.location.href = "/curso/4"}>
+                <IonCardContent>
+                  <h2 className="course-title">Curso 4</h2>
+                  <p>Descripción del Curso 4</p>
+                </IonCardContent>
+              </IonCard>
+            </IonCol>
+            <IonCol size="4">
+              <IonCard className="clickable-card" onClick={() => window.location.href = "/curso/5"}>
+                <IonCardContent>
+                  <h2 className="course-title">Curso 5</h2>
+                  <p>Descripción del Curso 5</p>
+                </IonCardContent>
+              </IonCard>
+            </IonCol>
+            <IonCol size="4">
+              <IonCard className="clickable-card" onClick={() => window.location.href = "/curso/6"}>
+                <IonCardContent>
+                  <h2 className="course-title">Curso 6</h2>
+                  <p>Descripción del Curso 6</p>
+                </IonCardContent>
+              </IonCard>
+            </IonCol>
+          </IonRow>
+          <IonRow className='ion-row-recomendados'>
+            <IonCol>
+              <IonTitle>Cursos Recomendados</IonTitle>
+            </IonCol>
+          </IonRow>
+          <IonRow>
+            <IonCol size="4">
+              <IonCard>
+                <IonCardContent>
+                  <h2 className="course-title">Curso 1</h2>
+                  <p>Descripción del Curso 1</p>
+                </IonCardContent>
+              </IonCard>
+            </IonCol>
+            <IonCol size="4">
+              <IonCard>
+                <IonCardContent>
+                  <h2 className="course-title">Curso 2</h2>
+                  <p>Descripción del Curso 2</p>
+                </IonCardContent>
+              </IonCard>
+            </IonCol>
+            <IonCol size="4">
+              <IonCard>
+                <IonCardContent>
+                  <h2 className="course-title">Curso 3</h2>
+                  <p>Descripción del Curso 3</p>
+                </IonCardContent>
+              </IonCard>
+            </IonCol>
+          </IonRow>
+          <IonRow>
+            <IonCol size="4">
+              <IonCard>
+                <IonCardContent>
+                  <h2 className="course-title">Curso 4</h2>
+                  <p>Descripción del Curso 4</p>
+                </IonCardContent>
+              </IonCard>
+            </IonCol>
+            <IonCol size="4">
+              <IonCard>
+                <IonCardContent>
+                  <h2 className="course-title">Curso 5</h2>
+                  <p>Descripción del Curso 5</p>
+                </IonCardContent>
+              </IonCard>
+            </IonCol>
+            <IonCol size="4">
+              <IonCard>
+                <IonCardContent>
+                  <h2 className="course-title">Curso 6</h2>
+                  <p>Descripción del Curso 6</p>
+                </IonCardContent>
+              </IonCard>
             </IonCol>
           </IonRow>
         </IonGrid>
