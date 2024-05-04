@@ -3,17 +3,37 @@ import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import VideoPlayerHls from '../../shared/components/video-player-hls/VideoPlayerHls';
 import MenuToolbar from '../../shared/components/menuToolbar/MenuToolbar';
-import './Curso-Electronica.css';
+import './Clase.css';
 
 const CursoElectronica: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
+  const { idCurso } = useParams<{ idCurso: string }>();
+  const { idClase } = useParams<{ idClase: string }>();
   const [view, setView] = useState('clases');
+  let title;
 
+  /* switch (idClase) {
+      case '1':
+        title = 'Clase 1';
+        break;
+      case '2':
+        title = 'Clase 2'
+        break;
+      case '3':
+        title = 'Clase 3'
+        break;
+      default:
+        title = 'Clase 1';
+  } */
     return (
       <IonPage>
         <MenuToolbar/>
         <IonContent fullscreen id='main'>
           <IonGrid>
+            <IonRow>
+              <IonCol>
+                <IonTitle className='title'>Curso {idCurso}</IonTitle>
+              </IonCol>
+            </IonRow>
             <IonRow>
               <IonCol size="8">
                 <div className='video-container'>
@@ -21,7 +41,7 @@ const CursoElectronica: React.FC = () => {
                 </div>
               </IonCol>
               <IonCol size="4">
-                <IonCard><IonTitle className='title'>Curso {id}</IonTitle></IonCard>
+                <IonCard><IonTitle className='title'>Clase {idClase}</IonTitle></IonCard>
                 <IonCard>
                   <IonSegment value={view} onIonChange={e => {
                       if (typeof e.detail.value === 'string') {
