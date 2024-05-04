@@ -1,7 +1,7 @@
 import { IonContent, IonPage, IonGrid, IonRow, IonCol, IonCard, IonSegment, IonSegmentButton, IonLabel, IonInput, IonList, IonItem, IonTitle   } from '@ionic/react';
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import VideoPlayerHls from '../../shared/components/video-player-hls/VideoPlayerHls';'../../shared/components/video-player-hls/VideoPlayerHls';
+import VideoPlayerHls from '../../shared/components/video-player-hls/VideoPlayerHls';
 import MenuToolbar from '../../shared/components/menuToolbar/MenuToolbar';
 import './Curso-Electronica.css';
 
@@ -30,7 +30,9 @@ const CursoElectronica: React.FC = () => {
           <IonGrid>
             <IonRow>
               <IonCol size="8">
-                <VideoPlayerHls curso="robotica-test" video="curso-robotica-1.m3u8"/>
+                <div className='video-container'>
+                  <VideoPlayerHls curso="robotica-test" video="curso-robotica-1.m3u8"/>
+                </div>
               </IonCol>
               <IonCol size="4">
                 <IonCard><IonTitle className='title'>{title}</IonTitle></IonCard>
@@ -51,13 +53,13 @@ const CursoElectronica: React.FC = () => {
                     <div>
                       <IonTitle className='curse-title'>Curso de Electronica</IonTitle>
                       <IonList>
-                        <IonCard>
+                        <IonCard onClick={() => {window.location.href='/curso-electronica/1'}} className='class-buttons'>
                           <IonItem lines='none'>Clase 1</IonItem>
                         </IonCard>
-                        <IonCard>
+                        <IonCard onClick={() => {window.location.href='/curso-electronica/2'}} className='class-buttons'>
                           <IonItem lines='none'>Clase 2</IonItem>
                         </IonCard>
-                        <IonCard>
+                        <IonCard onClick={() => {window.location.href='/curso-electronica/3'}} className='class-buttons'>
                           <IonItem lines='none'>Clase 3</IonItem>
                         </IonCard>
                       </IonList>

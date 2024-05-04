@@ -9,7 +9,7 @@ const Curso: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   let title;
   let description;
-  let route = window.location.pathname;;
+  let route = window.location.pathname;
   let imageSrc = '../../../public/img/imagenPresentacion.png';
   switch (id) {
     case '1':
