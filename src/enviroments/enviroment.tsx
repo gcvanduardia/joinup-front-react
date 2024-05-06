@@ -1,6 +1,6 @@
 const production = {
     production: true,
-    apiUrl: 'https://api.joinupadventure.com',
+    apiUrl: 'https://api.miplataforma.co',
     apiKey: 'joinupadventureAuthKey'
 }
 
