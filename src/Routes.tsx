@@ -6,8 +6,9 @@ import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
 import ProtectedRoute from './shared/components/auth/protected-route/ProtectedRoute';
 import Curso from './pages/curso/Curso';
-import Clase from './pages/clase/Clase';
 import Progreso from "./pages/progreso/Progreso";
+import Busqueda from './pages/busqueda/Busqueda';
+import Clase from './pages/clase/Clase';
 
 
 const Routes: React.FC = () => (
@@ -20,6 +21,7 @@ const Routes: React.FC = () => (
     <ProtectedRoute exact path="/curso/:id" component={Curso} />
     <ProtectedRoute exact path="/curso/" component={Home} />
     <ProtectedRoute exact path="/progreso/" component={Progreso} />
+    <ProtectedRoute exact path="/busqueda/:searchQuery" component={Busqueda} />
   </IonRouterOutlet>
 );
 

@@ -22,7 +22,7 @@
     "@types/react-router": "^5.1.20",
     "@types/react-router-dom": "^5.3.3",
     "axios": "^1.6.8",
-    "chart.js": "^3.9.1",
+    "chart.js": "^4.1.1",
     "ionicons": "^7.0.0",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",

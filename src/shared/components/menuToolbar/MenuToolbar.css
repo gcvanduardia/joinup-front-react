@@ -1,11 +1,27 @@
-.logout-button, .menu-button{
-    cursor: pointer;
-}
-
 .menu-button:hover {
     --ion-item-background: #f0f0f0;
 }
 
 .popover-menu .logout-button:hover {
     --ion-item-background: #f0f0f0;
-  }
+}
+
+.logo {
+    margin-bottom: 10px;
+}
+.searchbar-container {
+    position: relative;
+}
+
+.search-results {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 40%;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}

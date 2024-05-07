@@ -1,15 +1,17 @@
-import { IonContent, IonPage, IonGrid, IonRow, IonCol, IonCard, IonSegment, IonSegmentButton, IonLabel, IonInput, IonList, IonItem, IonTitle   } from '@ionic/react';
+import { IonContent, IonPage, IonGrid, IonRow, IonCol, IonCard, IonSegment, IonSegmentButton, IonLabel, IonInput, IonList, IonItem, IonTitle, IonButton } from '@ionic/react';
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import VideoPlayerHls from '../../shared/components/video-player-hls/VideoPlayerHls';
 import MenuToolbar from '../../shared/components/menuToolbar/MenuToolbar';
 import './Clase.css';
 
-const CursoElectronica: React.FC = () => {
+const Clase: React.FC = () => {
   const { idCurso } = useParams<{ idCurso: string }>();
   const { idClase } = useParams<{ idClase: string }>();
   const [view, setView] = useState('clases');
-  let title;
+  const history = useHistory();
+  console.log('Componente CursoElectronica renderizado');
 
   /* switch (idClase) {
       case '1':
@@ -36,9 +38,23 @@ const CursoElectronica: React.FC = () => {
             </IonRow>
             <IonRow>
               <IonCol size="8">
-                <div className='video-container'>
-                  <VideoPlayerHls curso="robotica-test" video="curso-robotica-1.m3u8"/>
-                </div>
+                <IonRow>
+                  <div className='video-container'>
+                    <VideoPlayerHls curso="robotica-test" video="curso-robotica-1.m3u8"/>
+                  </div>
+                </IonRow>
+                <IonRow>
+                  <div className='resources-container'>
+                    <h2>Recursos</h2>
+                    <IonList className='resources-list'>
+                      <IonItem button>Recurso 1</IonItem>
+                      <IonItem button>Recurso 2</IonItem>
+                      <IonItem button>Recurso 3</IonItem>
+                      <IonItem button>Recurso 4</IonItem>
+                      <IonItem button>Recurso 5</IonItem>
+                    </IonList>
+                  </div>
+                </IonRow>
               </IonCol>
               <IonCol size="4">
                 <IonCard><IonTitle className='title'>Clase {idClase}</IonTitle></IonCard>
@@ -59,13 +75,13 @@ const CursoElectronica: React.FC = () => {
                     <div>
                       <IonTitle className='curse-title'>Curso de Electronica</IonTitle>
                       <IonList>
-                        <IonCard onClick={() => {window.location.href='/curso-electronica/1'}} className='class-buttons'>
+                        <IonCard onClick={() => history.push(`/curso/${idCurso}/1`)} className='class-buttons'>
                           <IonItem lines='none'>Clase 1</IonItem>
                         </IonCard>
-                        <IonCard onClick={() => {window.location.href='/curso-electronica/2'}} className='class-buttons'>
+                        <IonCard onClick={() => history.push(`/curso/${idCurso}/2`)} className='class-buttons'>
                           <IonItem lines='none'>Clase 2</IonItem>
                         </IonCard>
-                        <IonCard onClick={() => {window.location.href='/curso-electronica/3'}} className='class-buttons'>
+                        <IonCard onClick={() => history.push(`/curso/${idCurso}/3`)} className='class-buttons'>
                           <IonItem lines='none'>Clase 3</IonItem>
                         </IonCard>
                       </IonList>
@@ -86,4 +102,4 @@ const CursoElectronica: React.FC = () => {
     )
 };
 
-export default CursoElectronica;
+export default Clase;

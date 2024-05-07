@@ -73,7 +73,7 @@ const Login: React.FC = () => {
                         <IonCol size="12">
                             <div className='center'>
                                 <IonCard>
-                                    <img src="img/logo2.png" alt="logo2" className='logo' />
+                                    <img src="img/logo2.png" alt="logo2" className='logo-form' />
                                     <form onSubmit={handleSubmit}>
                                         <IonLabel>
                                             Username:

@@ -1,15 +1,14 @@
-import { IonContent, IonPage, IonGrid, IonRow, IonCol, IonLabel, IonImg, IonText, IonCard, IonButton } from '@ionic/react';
+import { IonContent, IonPage, IonGrid, IonRow, IonCol, IonLabel, IonImg, IonText, IonCard, IonButton, IonItem, IonList, IonTitle } from '@ionic/react';
 import './Curso.css';
 import MenuToolbar from '../../shared/components/menuToolbar/MenuToolbar';
-import { useParams } from 'react-router-dom'; 
+import { useParams } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 
 const Curso: React.FC = () => {
 
   const { id } = useParams<{ id: string }>();
-  let description;
-  let route = window.location.pathname;
   let imageSrc = '../../../public/img/imagenPresentacion.png';
+  const history = useHistory();
 
   return (
     <IonPage>
@@ -23,8 +22,33 @@ const Curso: React.FC = () => {
               </IonCol>
               <IonCol className='description-container'>
                 <IonCard><IonLabel className='title'>Curso {id}</IonLabel></IonCard>
-                <IonCard><IonText>{description}</IonText></IonCard>
-                <IonButton className='course-button' onClick={() => window.location.href = route}>Ingresar al curso</IonButton>
+                <IonCard><IonText>Descripcion del Curso {id}</IonText></IonCard>
+              </IonCol>
+            </IonRow>
+            <IonRow>
+              <IonCol>
+                <div className='curso-title'>
+                  <IonTitle>Clases</IonTitle>
+                </div>
+                <div className='curso-list'>
+                  <IonList>
+                    <IonItem button onClick={() => history.push(`/curso/${id}/1`)}>
+                      <IonLabel>Clase 1</IonLabel>
+                    </IonItem>
+                    <IonItem button onClick={() => history.push(`/curso/${id}/2`)}>
+                      <IonLabel>Clase 2</IonLabel>
+                    </IonItem>
+                    <IonItem button onClick={() => history.push(`/curso/${id}/3`)}>
+                      <IonLabel>Clase 3</IonLabel>
+                    </IonItem>
+                    <IonItem button onClick={() => history.push(`/curso/${id}/4`)}>
+                      <IonLabel>Clase 4</IonLabel>
+                    </IonItem>
+                    <IonItem button onClick={() => history.push(`/curso/${id}/5`)}>
+                      <IonLabel>Clase 5</IonLabel>
+                    </IonItem>
+                  </IonList>
+                </div>
               </IonCol>
             </IonRow>
         </IonGrid>

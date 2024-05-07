@@ -31,3 +31,36 @@
     height: 100%;
     margin-top: 10px;
 }
+
+.resources-container {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 5px;
+    background-color: #fff;
+    width: 100%;
+    height: 100%;
+    margin-top: 20px;
+}
+
+.resources-container h2 {
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 5px;
+    background-color: #fff;
+    width: 100%;
+    height: 100%;
+    margin-top: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}
+.resources-list {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 5px;
+    background-color: #fff;
+    width: 100%;
+    height: 100%;
+    margin-top: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}
