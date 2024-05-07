@@ -7,7 +7,7 @@ import { useHistory } from 'react-router-dom';
 const Curso: React.FC = () => {
 
   const { id } = useParams<{ id: string }>();
-  let imageSrc = '../../../public/img/imagenPresentacion.png';
+  let imageSrc = 'public/img/imagenPresentacion.png';
   const history = useHistory();
 
   return (
