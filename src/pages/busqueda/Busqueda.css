@@ -1,0 +1,27 @@
+.custom-card-title {
+    padding: 10px 20px;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    box-sizing: border-box;
+    width: calc(100% - 20px);
+    max-width: calc(100% - 20px);
+    border-radius: 10px;
+    margin: 20px 10px;
+    border: 1px solid #dcdcdc;
+}
+  
+.custom-card-title h2 {
+  text-align: center;
+  margin: 0;
+}
+
+.custom-card {
+  padding: 20px;
+  margin: 10px;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  box-sizing: border-box;
+  width: calc(100% - 20px);
+  max-width: calc(100% - 20px);
+}
