@@ -1,5 +1,6 @@
 import { IonContent, IonPage, IonGrid, IonRow, IonCol, IonLabel, IonImg, IonText, IonCard, IonButton, IonItem, IonList, IonTitle } from '@ionic/react';
 import './Curso.css';
+import imagenPresentacion from '../../../public/img/imagenPresentacion.png';
 import MenuToolbar from '../../shared/components/menuToolbar/MenuToolbar';
 import { useParams } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
@@ -7,7 +8,7 @@ import { useHistory } from 'react-router-dom';
 const Curso: React.FC = () => {
 
   const { id } = useParams<{ id: string }>();
-  let imageSrc = 'public/img/imagenPresentacion.png';
+  let imageSrc = imagenPresentacion;
   const history = useHistory();
 
   return (
