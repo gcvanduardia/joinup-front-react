@@ -1,0 +1,34 @@
+.title-container {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    padding: 15px;
+    background-color: #fff;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.custom-card {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    padding: 15px;
+    background-color: #fff;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.custom-card div {
+    width: 50%;
+    height: 200px;
+}
+
+.statistic-card {
+    text-align: center;
+}
+ion-card .statistic-card h2 {
+    font-size: 30px;
+}
+ion-card .statistic-card p{
+    font-size: 20px;
+}
