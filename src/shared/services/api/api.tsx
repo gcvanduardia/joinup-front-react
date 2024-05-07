@@ -26,6 +26,7 @@ export const verifyToken = async () => {
                 'apiKey': environment.apiKey
             }
         });
+        console.log('verifyToken: ',response.data.data);
         return response.status === 200;
     } catch (error) {
         console.error(error);
