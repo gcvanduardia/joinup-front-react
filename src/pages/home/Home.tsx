@@ -1,29 +1,38 @@
-import React from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { IonTitle, IonContent, IonPage, IonGrid, IonRow, IonCol, IonCard, IonCardContent } from '@ionic/react';
 import MenuToolbar from '../../shared/components/menuToolbar/MenuToolbar';
 import './Home.css';
-import { useHistory } from 'react-router-dom';
 import CourseCard from "../../shared/components/course-card/CourseCard";
+import { UserIdContext } from "../../shared/services/global/global";
+import useApi from "../../shared/services/api/api";
 
 const Home: React.FC = () => {
-  const history = useHistory();
+  const { IdUsuario } = useContext(UserIdContext);
+  const { apiReq } = useApi();
+  const [historialCursos, setHistorialCursos] = useState<any[]>([]);
+  const [recomendedCourses, setRecomendedCourses] = useState<any[]>([]);
 
-  const courses = [
-    { title: "Curso 1", description: "Descripción del Curso 1", id: 1 },
-    { title: "Curso 2", description: "Descripción del Curso 2", id: 2 },
-    { title: "Curso 3", description: "Descripción del Curso 3", id: 3 },
-    { title: "Curso 4", description: "Descripción del Curso 4", id: 4 },
-    { title: "Curso 5", description: "Descripción del Curso 5", id: 5 },
-    { title: "Curso 6", description: "Descripción del Curso 6", id: 6 },
-  ];
-  const RecomendedCourses = [
-    { title: "Curso 11", description: "Descripción del Curso 1", id: 11 },
-    { title: "Curso 22", description: "Descripción del Curso 2", id: 22 },
-    { title: "Curso 33", description: "Descripción del Curso 3", id: 33 },
-    { title: "Curso 54", description: "Descripción del Curso 4", id: 54 },
-    { title: "Curso 55", description: "Descripción del Curso 5", id: 55 },
-    { title: "Curso 66", description: "Descripción del Curso 6", id: 66 },
-  ];
+  useEffect(() => {
+    console.log('IdUsuario from Home: ', IdUsuario);
+    const getHistorialCursos = async () => {
+      const response = await apiReq('GET', `user/historialCursos?IdUsuario=${IdUsuario}`);
+      if (response?.status === 200) {
+        console.log('Historial de cursos: ', response.data.data);
+        setHistorialCursos(response.data.data);
+      }
+    }
+    getHistorialCursos();
+
+    const getRecomendedCourses = async () => {
+      const response = await apiReq('GET', `cursos/getCursosPaginated?pageSize=12&pageNumber=1`);
+      if (response?.status === 200) {
+        console.log('Cursos recomendados: ', response.data.data);
+        setRecomendedCourses(response.data.data);
+      }
+    }
+    getRecomendedCourses();
+
+  }, [IdUsuario]);
 
   return (
     <IonPage>
@@ -36,9 +45,9 @@ const Home: React.FC = () => {
             </IonCol>
           </IonRow>
           <IonRow>
-            {courses.map((course) => (
-              <IonCol size="4" key={course.id}>
-                <CourseCard title={course.title} description={course.description} courseId={course.id} />
+            {historialCursos.map((course) => (
+              <IonCol size="4" key={course.IdCurso}>
+                <CourseCard title={course.NombreCurso} description={course.NombreSesion} courseId={course.IdCurso} Imagen={course.ImagenCurso} ProgresoCurso={course.ProgresoCurso} />
               </IonCol>
             ))}
           </IonRow>
@@ -48,9 +57,9 @@ const Home: React.FC = () => {
             </IonCol>
           </IonRow>
           <IonRow>
-            {RecomendedCourses.map((course) => (
-              <IonCol size="4" key={course.id}>
-                <CourseCard title={course.title} description={course.description} courseId={course.id} />
+            {recomendedCourses.map((course) => (
+              <IonCol size="4" key={course.CursoId}>
+                <CourseCard title={course.Nombre} description={course.NombreProfesor+' '+course.ApellidoProfesor} courseId={course.CursoId} Imagen={course.Imagen} ProgresoCurso={0} />
               </IonCol>
             ))}
           </IonRow>

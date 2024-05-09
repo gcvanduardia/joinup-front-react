@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
-import { IonHeader, IonToolbar, IonButtons, IonButton, IonImg, IonSearchbar, IonMenuButton, IonPopover, IonList, IonItem, IonMenu, IonContent, IonTitle } from '@ionic/react';
+import React, { useState, useContext, useEffect } from 'react';
+import { IonHeader, IonToolbar, IonButtons, IonButton, IonImg, IonSearchbar, IonMenuButton, IonPopover, IonList, IonItem, IonMenu, IonContent, IonTitle, IonText, IonAvatar } from '@ionic/react';
 import logo from '../../../../public/img/logo2.png';
-import { setJwt } from '../../../shared/services/api/api';
 import './MenuToolbar.css';
 import { useHistory } from 'react-router-dom';
 import { SearchbarChangeEventDetail } from '@ionic/core';
+import { UserIdContext } from "../../services/global/global";
+import useApi from "../../services/api/api";
 
 const MenuToolbar: React.FC = () => {
+
   const [showSearchResults, setShowSearchResults] = useState(false);
   const history = useHistory();
   const [searchQuery, setSearchQuery] = useState('');
@@ -16,19 +18,31 @@ const MenuToolbar: React.FC = () => {
     { id: 3, title: 'Curso 3' },
   ]);
   const logOut = () => {
-    setJwt("");
     localStorage.removeItem('joinup-session');
     window.location.reload();
   }
   const [showPopover, setShowPopover] = useState({ isOpen: false, event: undefined });
-
   const handleButtonClick = (e: any) => {
     setShowPopover({ isOpen: true, event: e });
   };
-
   const handlePopoverDismiss = () => {
     setShowPopover({ isOpen: false, event: undefined });
   };
+  const { IdUsuario } = useContext(UserIdContext);
+  const { apiReq } = useApi();
+  const [user, setUser] = useState<any>({});
+
+  useEffect(() => {
+    console.log('IdUsuario from MenuToolbar: ', IdUsuario);
+    const userDataIni = async () => {
+      const response = await apiReq('GET', `user/dataIni?IdUsuario=${IdUsuario}`);
+      if (response?.status === 200) {
+        console.log('user: ', response.data.data);
+        setUser(response.data.data);
+      }
+    }
+    userDataIni();
+  }, [IdUsuario]);
 
   return (
     <>
@@ -68,6 +82,10 @@ const MenuToolbar: React.FC = () => {
             />
           </div>
           <IonButtons slot="end">
+            <IonText>Hola {user.Nombres}!</IonText>
+            <IonAvatar slot="start">
+              <img src={user.Avatar} alt="avatar" />
+            </IonAvatar>
             <IonButton onClick={handleButtonClick}>Mi perfil</IonButton>
             <IonPopover className="popover-menu" isOpen={showPopover.isOpen} event={showPopover.event} onDidDismiss={handlePopoverDismiss}>
               <IonList>

@@ -1,6 +1,8 @@
 import { IonApp, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import Routes from './Routes';
+import { useState } from 'react';
+import { UserIdContext } from "./shared/services/global/global";
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -23,12 +25,17 @@ import './theme/variables.css';
 
 setupIonicReact();
 
-const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <Routes/>
-    </IonReactRouter>
-  </IonApp>
-);
+const App: React.FC = () => {
+  const [IdUsuario, setIdUsuario] = useState(0);
+  return (
+    <UserIdContext.Provider value={{ IdUsuario, setIdUsuario }}>
+      <IonApp>
+        <IonReactRouter>
+          <Routes />
+        </IonReactRouter>
+      </IonApp>
+    </UserIdContext.Provider>
+  );
+};
 
 export default App;

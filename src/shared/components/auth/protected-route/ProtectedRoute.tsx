@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { Route, useHistory } from 'react-router-dom';
-import { getJwt, verifyToken } from '../../../services/api/api';
+import useApi from '../../../services/api/api';
 import CheckAuth from "../check-auth/CheckAuth";
 
 const ProtectedRoute: React.FC<{ exact: boolean, path: string, component: React.FC }> = ({ exact, path, component }) => {
+
+  const { verifyToken } = useApi();
   const history = useHistory();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isCheckingToken, setIsCheckingToken] = useState(true);
 
   useEffect(() => {
     const checkToken = async () => {
-      getJwt();
       const isValid = await verifyToken();
       setIsAuthenticated(isValid);
       setIsCheckingToken(false);
