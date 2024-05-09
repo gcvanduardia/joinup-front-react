@@ -31,8 +31,8 @@ export const verifyToken = async (setUser: React.Dispatch<React.SetStateAction<U
         
         if(response.status === 200){
             const user = await apiReq('POST', 'user/dataIni', {IdUsuario: response.data.data.IdUsuario});
-            console.log('user: ', user?.data.data[0]);
-            setUser(user?.data.data[0]);
+            console.log('user: ', user?.data.data);
+            setUser(user?.data.data);
         }
 
         return response.status === 200;
