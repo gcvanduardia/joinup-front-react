@@ -1,5 +1,6 @@
 import axios, { AxiosError } from 'axios';
 import { environment } from '../../../enviroments/enviroment';
+import { User } from '../global/global'
 
 let jwt = "";
 
@@ -16,7 +17,7 @@ export const getJwt = () => {
     }
 }
 
-export const verifyToken = async () => {
+export const verifyToken = async (setUser: React.Dispatch<React.SetStateAction<User>>) => {
     try {
         const response = await axios({
             method: 'GET',
@@ -27,6 +28,13 @@ export const verifyToken = async () => {
             }
         });
         console.log('verifyToken: ',response.data.data);
+        
+        if(response.status === 200){
+            const user = await apiReq('POST', 'user/dataIni', {IdUsuario: response.data.data.IdUsuario});
+            console.log('user: ', user?.data.data[0]);
+            setUser(user?.data.data[0]);
+        }
+
         return response.status === 200;
     } catch (error) {
         console.error(error);

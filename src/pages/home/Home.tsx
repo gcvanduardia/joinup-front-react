@@ -1,12 +1,27 @@
-import React from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { IonTitle, IonContent, IonPage, IonGrid, IonRow, IonCol, IonCard, IonCardContent } from '@ionic/react';
 import MenuToolbar from '../../shared/components/menuToolbar/MenuToolbar';
 import './Home.css';
-import { useHistory } from 'react-router-dom';
 import CourseCard from "../../shared/components/course-card/CourseCard";
+import { UserContext } from '../../shared/services/global/global';
+import { apiReq } from '../../shared/services/api/api';
 
 const Home: React.FC = () => {
-  const history = useHistory();
+  const { user } = useContext(UserContext);
+  console.log('User from home: ', user);
+  const [historialCursos, setHistorialCursos] = useState<any[]>([]);
+
+  useEffect(() => {
+    if (user) {
+      const fetchData = async () => {
+        const response = await apiReq('POST', 'user/historialCursos', { IdUsuario: user.IdUsuario });
+        console.log('historial de cursos: ',response?.data.data);
+        setHistorialCursos(response?.data.data || []);
+      };
+
+      fetchData();
+    }
+  }, [user]);
 
   const courses = [
     { title: "Curso 1", description: "Descripción del Curso 1", id: 1 },
@@ -36,9 +51,9 @@ const Home: React.FC = () => {
             </IonCol>
           </IonRow>
           <IonRow>
-            {courses.map((course) => (
-              <IonCol size="4" key={course.id}>
-                <CourseCard title={course.title} description={course.description} courseId={course.id} />
+            {historialCursos.map((course:any) => (
+              <IonCol size="4" key={course.IdSesion}>
+                <CourseCard title={course.NombreCurso} description={course.NombreSesion} courseId={course.IdCurso} />
               </IonCol>
             ))}
           </IonRow>

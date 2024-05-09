@@ -1,9 +1,11 @@
 
 import { IonContent, IonPage, IonInput, IonButton, IonLabel, IonGrid, IonCol, IonRow, IonCard, IonAlert } from '@ionic/react';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import './Login.css';
 import { apiReq, setJwt, getJwt, verifyToken } from "../../shared/services/api/api";
+import { UserContext } from '../../shared/services/global/global';
+
 
 const Login: React.FC = () => {
 
@@ -12,6 +14,7 @@ const Login: React.FC = () => {
     const [showAlert, setShowAlert] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const history = useHistory();
+    const { setUser } = useContext(UserContext);
 
     const handleRegisterRedirect = () => {
         history.push('/register'); // Redirige a la página de registro
@@ -20,7 +23,7 @@ const Login: React.FC = () => {
     useEffect(() => {
         const checkToken = async () => {
             getJwt();
-            const isValid = await verifyToken();
+            const isValid = await verifyToken(setUser);
             if (isValid) {
                 history.replace('/home');
             }
