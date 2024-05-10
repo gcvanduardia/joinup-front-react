@@ -2,9 +2,11 @@ import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonButt
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import './Register.css';
-import { apiReq } from "../../shared/services/api/api";
+import useApi from "../../shared/services/api/api";
 
 const Register: React.FC = () => {
+
+    const { apiReq } = useApi();
     const [userName, setUserName] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
