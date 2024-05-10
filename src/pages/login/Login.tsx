@@ -3,10 +3,11 @@ import { IonContent, IonPage, IonInput, IonButton, IonLabel, IonGrid, IonCol, Io
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import './Login.css';
-import { apiReq, setJwt, getJwt, verifyToken } from "../../shared/services/api/api";
+import useApi from "../../shared/services/api/api";
 
 const Login: React.FC = () => {
-
+    
+    const { apiReq, verifyToken } = useApi();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [showAlert, setShowAlert] = useState(false);
@@ -19,7 +20,6 @@ const Login: React.FC = () => {
   
     useEffect(() => {
         const checkToken = async () => {
-            getJwt();
             const isValid = await verifyToken();
             if (isValid) {
                 history.replace('/home');
@@ -45,12 +45,9 @@ const Login: React.FC = () => {
                 console.log('data login: ', response.data);
                 if (response.status === 200) {
                     console.log('Login success');
-                    setJwt(response.data.jwt);
-                    const storageSession = {
-                        jwt: response.data.token
-                    };
+                    const storageSession = response.data.token
                     console.log('storageSession: ', storageSession);
-                    localStorage.setItem('joinup-session', JSON.stringify(storageSession));
+                    localStorage.setItem('joinup-session', storageSession);
                     history.replace('/home');
                 } else if (response.status === 401){
                     console.log('Login failed', response.data);
