@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { IonHeader, IonToolbar, IonButtons, IonButton, IonImg, IonSearchbar, IonMenuButton, IonPopover, IonList, IonItem, IonMenu, IonContent, IonTitle, IonText, IonAvatar } from '@ionic/react';
+import { IonHeader, IonToolbar, IonButtons, IonButton, IonImg, IonSearchbar, IonMenuButton, IonPopover, IonList, IonItem, IonMenu, IonContent, IonTitle, IonText, IonAvatar, IonChip, IonLabel } from '@ionic/react';
 import logo from '../../../../public/img/logo2.png';
 import './MenuToolbar.css';
 import { useHistory } from 'react-router-dom';
@@ -96,7 +96,7 @@ const MenuToolbar: React.FC = () => {
                 <IonIcon icon={search} size='large'/>
               </IonButton>
             )}
-            {width > 768 && <IonText>Hola {user.Nombres}!</IonText>}
+            {width > 768 && <IonChip color={'secondary'}> <IonLabel><strong>Hola {user.Nombres}!</strong></IonLabel></IonChip>}
             <IonAvatar slot="start" onClick={handleButtonClick} class='avatar-button'>
               <img src={user.Avatar} alt="avatar" />
             </IonAvatar>

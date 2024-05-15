@@ -65,7 +65,7 @@ const Clase: React.FC = () => {
     comentario();
 
     const fetchClases = async () => {
-      const response = await apiReq('GET', `cursos/getListadoSesiones?IdCurso=${idClase}`);
+      const response = await apiReq('GET', `cursos/getListadoSesiones?IdCurso=${idCurso}`);
       if (response?.status === 200) {
         setClases(response.data.data);
       }
