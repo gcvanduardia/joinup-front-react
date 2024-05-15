@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonItem } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonItem, IonSearchbar } from '@ionic/react';
 import { useParams } from 'react-router-dom';
 import './Busqueda.css';
 import MenuToolbar from '../../shared/components/menuToolbar/MenuToolbar';
 import { useHistory } from 'react-router-dom';
+import { SearchbarChangeEventDetail } from '@ionic/core';
 
 interface Course {
   id: number;
@@ -11,8 +12,9 @@ interface Course {
 }
 
 const Busqueda: React.FC = () => {
-  const { searchQuery } = useParams<{ searchQuery: string }>();
+  const { searchQuery: initialSearchQuery } = useParams<{ searchQuery: string }>();
   const history = useHistory();
+  const [searchQuery, setSearchQuery] = useState(initialSearchQuery || '');
   const [courses, setCourses] = useState<Course[]>([
     { id: 1, title: 'Curso 1' },
     { id: 2, title: 'Curso 2' },
@@ -21,9 +23,11 @@ const Busqueda: React.FC = () => {
   const [filteredCourses, setFilteredCourses] = useState<Course[]>([]);
 
   useEffect(() => {
-    if (searchQuery) {
-      setFilteredCourses(courses.filter(course => course.title.toLowerCase().includes(searchQuery.toLowerCase())));
-    }
+    setFilteredCourses(
+      courses.filter(course =>
+        searchQuery.trim() === '' || course.title.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    );
   }, [searchQuery, courses]);
 
   return (
@@ -32,9 +36,18 @@ const Busqueda: React.FC = () => {
       <IonContent id = "main">
         <div className="custom-card-title">
           <h2 style={{textAlign: 'center'}}>Búsqueda</h2>
+          <IonSearchbar 
+            value={searchQuery}
+            onIonInput={(e: CustomEvent<SearchbarChangeEventDetail>) => setSearchQuery(e.detail.value!)}
+            onKeyPress={(e: React.KeyboardEvent) => {
+              if (e.key === 'Enter' && searchQuery.trim() !== '') {
+                history.push(`/busqueda/${searchQuery.trim()}`);
+              }
+            }}
+          />
         </div>
         <div className="custom-card">
-          {filteredCourses.length === 0 ? (
+          {searchQuery && filteredCourses.length === 0 ? (
             <IonItem>Curso no encontrado</IonItem>
           ) : (
             filteredCourses.map(filteredCourse => (

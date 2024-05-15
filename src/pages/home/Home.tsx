@@ -46,7 +46,7 @@ const Home: React.FC = () => {
           </IonRow>
           <IonRow>
             {historialCursos.map((course) => (
-              <IonCol size="4" key={course.IdCurso}>
+              <IonCol size="6" size-xs="12" size-sm="4" key={course.IdCurso}>
                 <CourseCard title={course.NombreCurso} description={course.NombreSesion} courseId={course.IdCurso} Imagen={course.ImagenCurso} ProgresoCurso={course.ProgresoCurso} />
               </IonCol>
             ))}
@@ -58,7 +58,7 @@ const Home: React.FC = () => {
           </IonRow>
           <IonRow>
             {recomendedCourses.map((course) => (
-              <IonCol size="4" key={course.CursoId}>
+              <IonCol size="3" size-xs="12" size-sm="4" key={course.CursoId}>
                 <CourseCard title={course.Nombre} description={course.NombreProfesor+' '+course.ApellidoProfesor} courseId={course.CursoId} Imagen={course.Imagen} ProgresoCurso={0} />
               </IonCol>
             ))}

@@ -5,13 +5,18 @@ import './MenuToolbar.css';
 import { useHistory } from 'react-router-dom';
 import { SearchbarChangeEventDetail } from '@ionic/core';
 import { UserIdContext } from "../../services/global/global";
+import { useWindowSize } from 'react-use';
+import { IonIcon } from '@ionic/react';
+import { search } from 'ionicons/icons';
+import { useLocation } from 'react-router-dom';
 import useApi from "../../services/api/api";
 
 const MenuToolbar: React.FC = () => {
-
   const [showSearchResults, setShowSearchResults] = useState(false);
   const history = useHistory();
   const [searchQuery, setSearchQuery] = useState('');
+  const { width } = useWindowSize();
+  const location = useLocation();
   const [courses, setCourses] = useState([
     { id: 1, title: 'Curso 1' },
     { id: 2, title: 'Curso 2' },
@@ -63,33 +68,41 @@ const MenuToolbar: React.FC = () => {
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="start">
-            <IonMenuButton autoHide={false} />
+            <IonMenuButton autoHide={false}></IonMenuButton>
             <IonButton onClick={() => history.push("/home")}>
               <IonImg src={logo} alt="Logo" className="logo" />
             </IonButton>
           </IonButtons>
-          <div className="searchbar-container">
-            <IonSearchbar 
-              className="searchbar"
-              onFocus={() => setShowSearchResults(true)}
-              onBlur={() => setShowSearchResults(false)}
-              onIonInput={(e: CustomEvent<SearchbarChangeEventDetail>) => setSearchQuery(e.detail.value!)}
-              onKeyPress={(e: React.KeyboardEvent) => {
-                if (e.key === 'Enter' && searchQuery.trim() !== '') {
-                  history.push(`/busqueda/${searchQuery.trim()}`);
-                }
-              }}
-            />
-          </div>
+          {width > 768 && !location.pathname.startsWith('/busqueda') && (
+            <div className="searchbar-container">
+              <div className="searchbar-wrapper">
+                <IonSearchbar 
+                  className="searchbar"
+                  onFocus={() => setShowSearchResults(true)}
+                  onBlur={() => setShowSearchResults(false)}
+                  onIonInput={(e: CustomEvent<SearchbarChangeEventDetail>) => setSearchQuery(e.detail.value!)}
+                  onKeyPress={(e: React.KeyboardEvent) => {
+                    if (e.key === 'Enter' && searchQuery.trim() !== '') {
+                      history.push(`/busqueda/${searchQuery.trim()}`);
+                    }
+                  }}
+                />
+              </div>
+            </div>
+          )}
           <IonButtons slot="end">
-            <IonText>Hola {user.Nombres}!</IonText>
-            <IonAvatar slot="start">
+            {width <= 768 && (
+              <IonButton className='search-icon' onClick={() => history.push("/busqueda")}>
+                <IonIcon icon={search} size='large'/>
+              </IonButton>
+            )}
+            {width > 768 && <IonText>Hola {user.Nombres}!</IonText>}
+            <IonAvatar slot="start" onClick={handleButtonClick} class='avatar-button'>
               <img src={user.Avatar} alt="avatar" />
             </IonAvatar>
-            <IonButton onClick={handleButtonClick}>Mi perfil</IonButton>
             <IonPopover className="popover-menu" isOpen={showPopover.isOpen} event={showPopover.event} onDidDismiss={handlePopoverDismiss}>
               <IonList>
-                <IonItem>Perfil</IonItem>
+                <IonItem button onClick={() => {history.push('/perfil')}}>Perfil</IonItem>
                 <IonItem>Configuración</IonItem>
                 <IonItem button onClick={logOut}>Cerrar Sesion</IonItem>
               </IonList>
