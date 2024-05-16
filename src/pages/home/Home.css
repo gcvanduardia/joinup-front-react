@@ -12,13 +12,9 @@
 }
 
 .grid {
-  padding-top: 20px;
+  padding: 20px 10px 10px 10px;
 }
 
 .ion-row-recomendados {
   margin-top: 50px;
-}
-
-.clickable-card {
-  cursor: pointer;
 }

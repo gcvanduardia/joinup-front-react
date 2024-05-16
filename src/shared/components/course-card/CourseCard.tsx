@@ -15,13 +15,15 @@ const CourseCard: React.FC<CourseCardProps> = ({ title, description, courseId, I
   const history = useHistory();
 
   return (
-    <IonCard className="clickable-card" onClick={() => history.push(`/curso/${courseId}`)}>
+    <IonCard className='course-card ion-no-margin' mode='ios' button onClick={() => history.push(`/curso/${courseId}`)}>
       <IonImg src={Imagen} alt={Imagen}></IonImg>
       <IonCardContent>
         <h2 className="course-title">{title}</h2>
         <p>{description}</p>
-        <IonProgressBar value={ProgresoCurso / 100}></IonProgressBar>
       </IonCardContent>
+      <div className="progress-bar-container">
+        <IonProgressBar className="course-progress-bar" value={ProgresoCurso / 100}></IonProgressBar>
+      </div>
     </IonCard>
   );
 }
