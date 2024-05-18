@@ -9,7 +9,7 @@ import Curso from './pages/curso/Curso';
 import Progreso from "./pages/progreso/Progreso";
 import Busqueda from './pages/busqueda/Busqueda';
 import Clase from './pages/clase/Clase';
-
+import Perfil from './pages/perfil/Perfil';
 
 const Routes: React.FC = () => (
   <IonRouterOutlet>
@@ -22,6 +22,8 @@ const Routes: React.FC = () => (
     <ProtectedRoute exact path="/curso/" component={Home} />
     <ProtectedRoute exact path="/progreso/" component={Progreso} />
     <ProtectedRoute exact path="/busqueda/:searchQuery" component={Busqueda} />
+    <ProtectedRoute exact path="/perfil/" component={Perfil} />
+    <ProtectedRoute exact path="/busqueda" component={Busqueda}/>
   </IonRouterOutlet>
 );
 

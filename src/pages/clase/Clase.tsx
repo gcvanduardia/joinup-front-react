@@ -1,17 +1,95 @@
-import { IonContent, IonPage, IonGrid, IonRow, IonCol, IonCard, IonSegment, IonSegmentButton, IonLabel, IonInput, IonList, IonItem, IonTitle, IonButton } from '@ionic/react';
-import React, { useState } from 'react';
+import { IonContent, IonPage, IonGrid, IonRow, IonCol, IonCard, IonImg, IonSegment, IonSegmentButton, IonLabel, IonInput, IonList, IonItem, IonTitle, IonCardContent, IonCardHeader, IonCardTitle, IonButton } from '@ionic/react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import VideoPlayerHls from '../../shared/components/video-player-hls/VideoPlayerHls';
 import MenuToolbar from '../../shared/components/menuToolbar/MenuToolbar';
+import useApi from '../../shared/services/api/api';
 import './Clase.css';
 
 const Clase: React.FC = () => {
+
+  interface InterfaceComentario {
+    Comentario: string;
+    FechaCreacion: string;
+    IdComentario: number;
+    IdSesion: number;
+    IdUsuario: number;
+    NombreCompletoUsuario: string;
+  }
+
+  interface InterfaceRecurso {
+    IdRecurso: number;
+    IdSesion: number;
+    TipoRecurso: string;
+    Descripcion: string;
+    URL: string;
+    FechaCreacion: string;
+    FechaModificacion: string;
+  }
+
+  interface InterfaceClase {
+    Duracion: number;
+    IdCurso: number;
+    IdSesion: number;
+    Imagen: string;
+    Nombre: string;
+    Orden: number;
+    Seccion: string;
+  }
   const { idCurso } = useParams<{ idCurso: string }>();
   const { idClase } = useParams<{ idClase: string }>();
   const [view, setView] = useState('clases');
+  const { apiReq } = useApi();
   const history = useHistory();
-  console.log('Componente CursoElectronica renderizado');
+  const [curso, setCurso] = useState<any>({});
+  const [sesion, setSesion] = useState<any>([]);
+  const [comentarios, setComentarios] = useState<any>([])
+  const [recursos, setRecursos] = useState<any>([])
+  const [clases, setClases] = useState<any>([]);
+
+  useEffect(() => {
+    const cursoDetail = async () => {
+      const response = await apiReq('GET', `cursos/getCursoDetail?cursoId=${idCurso}`);
+      if (response?.status === 200) {
+        console.log('curso: ', response.data.data);
+        setCurso(response.data.data);
+      }
+    }
+    cursoDetail();
+
+    const sesionDetail = async () => {
+      const response = await apiReq('GET', `cursos/getDetalleSesion?IdSesion=${idClase}`);
+      if (response?.status === 200) {
+        setSesion(response.data.data);
+      }
+    }
+    sesionDetail();
+
+    const comentario = async () => {
+      const response = await apiReq('GET', `cursos/getComentariosSesion?IdSesion=${idClase}`);
+      if (response?.status === 200) {
+        setComentarios(response.data.data);
+      }
+    }
+    comentario();
+
+    const fetchClases = async () => {
+      const response = await apiReq('GET', `cursos/getListadoSesiones?IdCurso=${idCurso}`);
+      if (response?.status === 200) {
+        setClases(response.data.data);
+      }
+    }
+    fetchClases();
+
+    const fetchRecursos = async () => {
+      const response = await apiReq('GET', `cursos/getRecursosSesion?IdSesion=${idClase}`);
+      if (response?.status === 200) {
+        setRecursos(response.data.data);
+      }
+    }
+    fetchRecursos()
+  }, []);
 
   return (
     <IonPage>
@@ -20,7 +98,7 @@ const Clase: React.FC = () => {
         <IonGrid>
           <IonRow>
             <IonCol>
-              <IonTitle className='title'>Curso {idCurso}</IonTitle>
+              <IonTitle className='title'>{curso.NombreCurso}</IonTitle>
             </IonCol>
           </IonRow>
           <IonRow>
@@ -34,17 +112,23 @@ const Clase: React.FC = () => {
                 <div className='resources-container'>
                   <h2>Recursos</h2>
                   <IonList className='resources-list'>
-                    <IonItem button>Recurso 1</IonItem>
-                    <IonItem button>Recurso 2</IonItem>
-                    <IonItem button>Recurso 3</IonItem>
-                    <IonItem button>Recurso 4</IonItem>
-                    <IonItem button>Recurso 5</IonItem>
+                    {recursos.map((recurso: InterfaceRecurso, index: number) => (
+                      <IonItem key={index} lines="full" className="resource-item">
+                        <IonLabel className="resource-label">
+                          <div className="resource-info">
+                            <h2 className="resource-title">{recurso.Descripcion}</h2>
+                            <IonButton fill="outline" href={recurso.URL} target="_blank">Ver recurso</IonButton>
+                          </div>
+                          <p className="resource-type">{recurso.TipoRecurso}</p>
+                        </IonLabel>
+                      </IonItem>
+                    ))}
                   </IonList>
                 </div>
               </IonRow>
             </IonCol>
             <IonCol size="4">
-              <IonCard><IonTitle className='title'>Clase {idClase}</IonTitle></IonCard>
+              <IonCard><IonTitle className='title'>{sesion.Nombre}</IonTitle></IonCard>
               <IonCard>
                 <IonSegment value={view} onIonChange={e => {
                   if (typeof e.detail.value === 'string') {
@@ -60,23 +144,33 @@ const Clase: React.FC = () => {
                 </IonSegment>
                 {view === 'clases' && (
                   <div>
-                    <IonTitle className='curse-title'>Curso de Electronica</IonTitle>
                     <IonList>
-                      <IonCard onClick={() => history.push(`/curso/${idCurso}/1`)} className='class-buttons'>
-                        <IonItem lines='none'>Clase 1</IonItem>
-                      </IonCard>
-                      <IonCard onClick={() => history.push(`/curso/${idCurso}/2`)} className='class-buttons'>
-                        <IonItem lines='none'>Clase 2</IonItem>
-                      </IonCard>
-                      <IonCard onClick={() => history.push(`/curso/${idCurso}/3`)} className='class-buttons'>
-                        <IonItem lines='none'>Clase 3</IonItem>
-                      </IonCard>
+                      {clases.map((sesion: InterfaceClase, index: number) => (
+                        <IonItem button onClick={() => history.push(`/curso/${idCurso}/${sesion.IdSesion}`)} key={index}>
+                          <IonImg style={{ height: '60px' }} src={sesion.Imagen}></IonImg>
+                          <IonLabel>{sesion.Nombre}</IonLabel>
+                          <IonLabel>
+                            {Math.floor(sesion.Duracion * 60)} minutos
+                            {Math.round((sesion.Duracion * 60 - Math.floor(sesion.Duracion * 60)) * 60) !== 0 &&
+                              `${Math.round((sesion.Duracion * 60 - Math.floor(sesion.Duracion * 60)) * 60)} segundos`}
+                          </IonLabel>
+                        </IonItem>
+                      ))}
                     </IonList>
                   </div>
                 )}
                 {view === 'comentarios' && (
                   <div>
-                    <IonLabel>Comentarios</IonLabel>
+                    {comentarios.map((comentario: InterfaceComentario, index: number) => (
+                      <IonCard key={index}>
+                        <IonCardHeader>
+                          <IonCardTitle className="user-name">{comentario.NombreCompletoUsuario}</IonCardTitle>
+                        </IonCardHeader>
+                        <IonCardContent className="comment-text">
+                          {comentario.Comentario}
+                        </IonCardContent>
+                      </IonCard>
+                    ))}
                     <IonInput placeholder="Escribe un comentario"></IonInput>
                   </div>
                 )}

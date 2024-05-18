@@ -1,0 +1,16 @@
+.course-card {
+    min-width: 0px !important;
+    min-height: 100%;
+}
+
+.course-progress-ba {
+    height: 5px;
+    border-radius: 3px;
+}
+
+.progress-bar-container {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    padding: 0px 20px 10px 0px;
+  }
