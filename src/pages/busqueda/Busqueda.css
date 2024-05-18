@@ -25,3 +25,7 @@
   width: calc(100% - 20px);
   max-width: calc(100% - 20px);
 }
+
+.professor-name {
+  font-size: large;
+}

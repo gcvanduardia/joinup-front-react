@@ -59,6 +59,11 @@ const Perfil: React.FC = () => {
                             <IonLabel>Telefono: {user.Celular}</IonLabel>
                         </div>
                     </IonRow>
+                    <IonRow>
+                        <div className="card">
+                            <IonLabel>Rol: {user.Rol}</IonLabel>
+                        </div>
+                    </IonRow>
                 </IonGrid>
             </div>
         </IonContent>

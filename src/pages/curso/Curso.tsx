@@ -30,7 +30,6 @@ const Curso: React.FC = () => {
       if (response?.status === 200) {
         console.log('curso: ', response.data.data);
         setCurso(response.data.data);
-        console.log(sesiones)
       }
     }
     cursoDetail();
