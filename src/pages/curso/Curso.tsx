@@ -51,10 +51,10 @@ const Curso: React.FC = () => {
         <div className="curso-container">
           <IonGrid>
             <IonRow>
-              <IonCol size='12' sizeMd="8">
-                <IonImg src={curso.Imagen} alt={id} />
+              <IonCol size='8' sizeXs='12' sizeSm="12" sizeLg='8' >
+                <IonImg src={curso.Imagen} alt={id}  className='image-container'/>
               </IonCol>
-              <IonCol className='description-container'>
+              <IonCol size='4' sizeXs='12' sizeSm='12' sizeLg='4' className='description-container'>
                 <IonCard><IonLabel className='title'>{curso.NombreCurso}</IonLabel></IonCard>
                 <IonCard><IonText>{curso.DescripcionPrincipal}</IonText></IonCard>
                 <IonCard><IonText>{curso.NombreCompletoProfesor}</IonText></IonCard>

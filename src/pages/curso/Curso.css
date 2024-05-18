@@ -52,3 +52,33 @@
     background-color: white;
     width: 100%;
 }
+
+.bounded-element {
+    max-width: 100%;
+    overflow-wrap: break-word;
+}
+.image-container {
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .curso-container {
+      padding: 0 15px;
+    }
+    .curso-container {
+        margin: 10px;
+    }
+}
+
+@media (max-width: 350px) {
+  .bounded-element {
+    font-size: 0.8rem; /* reduce the font size */
+    padding: 5px; /* reduce the padding */
+  }
+  .curso-container {
+    padding: 0 10px; /* reduce the padding */
+  }
+  .image-container {
+    max-width: 300px;
+  }
+}

@@ -64,3 +64,49 @@
     border: 1px solid #ddd;
     border-radius: 10px;
 }
+
+.user-name {
+    font-size: 12px;
+}
+  
+  .comment-text {
+    font-size: 15px;
+}
+
+.resource-item {
+    border-radius: 10px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.resource-label {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+  
+.resource-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-right: 10px;
+}
+
+.resource-type {
+  font-size: 14px;
+  color: #666;
+}
+
+.resource-link {
+  margin-top: 10px;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.resource-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

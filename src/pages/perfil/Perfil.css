@@ -1,0 +1,42 @@
+h2 {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+p {
+  font-size: 16px;
+}
+
+.big-card {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+.card {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 10px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    width: 100%;
+}
+
+.avatar {
+    margin-left: 50px;
+    border-radius: 50%;
+    width: 15%;
+    height: 15%;
+    border: 2px dashed #000;
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+}
