@@ -29,9 +29,9 @@ const MenuToolbar: React.FC = () => {
     setSearchQuery(nextValue);
   
     if (nextValue.trim() !== '') {
-      const response = await apiReq('GET', `cursos/getListadoCursos?terminoBusqueda=${nextValue}`);
+      const response = await apiReq('GET', `cursos/getListadoCursosToolBar?terminoBusqueda=${nextValue}`);
       if (response?.status === 200) {
-        const firstFiveCourses = response.data.data.slice(0, 5);
+        const firstFiveCourses = response.data.data;
         setCourses(firstFiveCourses);
         setShowSearchResults(true);
       }
