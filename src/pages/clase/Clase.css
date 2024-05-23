@@ -110,3 +110,7 @@
     justify-content: space-between;
     align-items: center;
 }
+
+.title-seccion {
+    font-size: large;
+}
