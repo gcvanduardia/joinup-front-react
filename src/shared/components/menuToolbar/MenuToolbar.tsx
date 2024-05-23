@@ -17,16 +17,29 @@ const MenuToolbar: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const { width } = useWindowSize();
   const location = useLocation();
-  const [courses, setCourses] = useState([
-    { id: 1, title: 'Curso 1' },
-    { id: 2, title: 'Curso 2' },
-    { id: 3, title: 'Curso 3' },
-  ]);
+  const [courses, setCourses] = useState<Course[]>([]);
   const logOut = () => {
     localStorage.removeItem('joinup-session');
     window.location.reload();
   }
   const [showPopover, setShowPopover] = useState({ isOpen: false, event: undefined });
+
+  const handleSearch = async (e: CustomEvent<SearchbarChangeEventDetail>) => {
+    const nextValue = e.detail.value!;
+    setSearchQuery(nextValue);
+  
+    if (nextValue.trim() !== '') {
+      const response = await apiReq('GET', `cursos/getListadoCursos?terminoBusqueda=${nextValue}`);
+      if (response?.status === 200) {
+        const firstFiveCourses = response.data.data.slice(0, 5);
+        setCourses(firstFiveCourses);
+        setShowSearchResults(true);
+      }
+    } else {
+      setShowSearchResults(false);
+    }
+  };
+
   const handleButtonClick = (e: any) => {
     setShowPopover({ isOpen: true, event: e });
   };
@@ -37,12 +50,18 @@ const MenuToolbar: React.FC = () => {
   const { apiReq } = useApi();
   const [user, setUser] = useState<any>({});
 
+  interface Course {
+    CursoId: number;
+    Descripcion: string;
+    Imagen: string;
+    Nombre: string;
+    Profesor: string;
+  }
+
   useEffect(() => {
-    console.log('IdUsuario from MenuToolbar: ', IdUsuario);
     const userDataIni = async () => {
       const response = await apiReq('GET', `user/dataIni?IdUsuario=${IdUsuario}`);
       if (response?.status === 200) {
-        console.log('user: ', response.data.data);
         setUser(response.data.data);
       }
     }
@@ -78,9 +97,10 @@ const MenuToolbar: React.FC = () => {
               <div className="searchbar-wrapper">
                 <IonSearchbar 
                   className="searchbar"
+                  debounce={200}
                   onFocus={() => setShowSearchResults(true)}
                   onBlur={() => setShowSearchResults(false)}
-                  onIonInput={(e: CustomEvent<SearchbarChangeEventDetail>) => setSearchQuery(e.detail.value!)}
+                  onIonInput={handleSearch}
                   onKeyPress={(e: React.KeyboardEvent) => {
                     if (e.key === 'Enter' && searchQuery.trim() !== '') {
                       history.push(`/busqueda/${searchQuery.trim()}`);
@@ -111,15 +131,15 @@ const MenuToolbar: React.FC = () => {
         </IonToolbar>
         {showSearchResults && (
           <div className="search-results">
-            {(() => {
-              const filteredCourses = courses.filter(course => course.title.toLowerCase().includes(searchQuery.toLowerCase()));
-              if (filteredCourses.length === 0) {
-                return <IonItem>Curso no encontrado</IonItem>;
-              }
-              return filteredCourses.map(filteredCourse => (
-                <IonItem key={filteredCourse.id} button onMouseDown={() => history.push(`/curso/${filteredCourse.id}`)}>{filteredCourse.title}</IonItem>
-              ));
-            })()}
+            <IonList>
+              {courses.map(course => (
+                <IonItem key={course.CursoId} button onClick={() => history.push(`/curso/${course.CursoId}`)}>
+                  <IonImg slot="start" style={{ height: '50px' }} src={course.Imagen} alt={course.Nombre}/>
+                  {course.Nombre}
+                  <IonLabel className="profesor-name">{course.Profesor}</IonLabel>
+                </IonItem>
+              ))}
+            </IonList>
           </div>
         )}
       </IonHeader>

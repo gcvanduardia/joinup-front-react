@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { IonContent, IonHeader, IonPage, IonLabel, IonNote, IonItem, IonSearchbar } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonLabel, IonNote, IonItem, IonSearchbar, IonImg } from '@ionic/react';
 import { useParams } from 'react-router-dom';
 import './Busqueda.css';
 import MenuToolbar from '../../shared/components/menuToolbar/MenuToolbar';
@@ -7,12 +7,12 @@ import { useHistory } from 'react-router-dom';
 import { SearchbarChangeEventDetail } from '@ionic/core';
 import useApi from "../../shared/services/api/api";
 
-interface Curso {
-  ApellidoProfesor: string;
+interface Course {
   CursoId: number;
+  Descripcion: string;
   Imagen: string;
   Nombre: string;
-  NombreProfesor: string;
+  Profesor: string;
 }
 
 const Busqueda: React.FC = () => {
@@ -20,7 +20,7 @@ const Busqueda: React.FC = () => {
   const history = useHistory();
   const [searchQuery, setSearchQuery] = useState(initialSearchQuery || '');
   const { apiReq } = useApi();
-  const [courses, setCourses] = useState<Curso[]>([]);
+  const [courses, setCourses] = useState<Course[]>([]);
 
   useEffect(() => {
     listadoCursos(initialSearchQuery);
@@ -31,7 +31,6 @@ const Busqueda: React.FC = () => {
       const response = await apiReq('GET', `cursos/getListadoCursos?terminoBusqueda=${terminoBusqueda}`);
       if (response?.status === 200 ) {
         setCourses(response.data.data);
-        console.log('cursos: ', response.data.data);
       }
     }
   }
@@ -57,10 +56,11 @@ const Busqueda: React.FC = () => {
           {courses.length === 0 ? (
             <IonItem>Curso no encontrado</IonItem>
           ) : (
-            courses.map((course: Curso, index: number) => (
+            courses.map((course: Course, index: number) => (
               <IonItem button key={course.CursoId} onClick={() => {history.push(`/curso/${course.CursoId}`)}}>
+                <IonImg slot="start" style={{ height: '60px' }} src={course.Imagen} alt={course.Nombre}/>
                 <IonLabel>{course.Nombre}</IonLabel>
-                <IonNote slot="end" className="professor-name">{course.NombreProfesor} {course.ApellidoProfesor}</IonNote>
+                <IonNote slot="end" className="professor-name">{course.Profesor}</IonNote>
               </IonItem>
             ))
           )}
