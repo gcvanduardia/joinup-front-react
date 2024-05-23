@@ -1,4 +1,4 @@
-import { IonContent, IonPage, IonGrid, IonRow, IonCol, IonLabel, IonImg, IonText, IonCard, IonButton, IonItem, IonList, IonTitle } from '@ionic/react';
+import { IonContent, IonPage, IonGrid, IonRow, IonCol, IonLabel, IonListHeader, IonImg, IonText, IonCard, IonButton, IonItem, IonList, IonTitle } from '@ionic/react';
 import './Curso.css';
 import MenuToolbar from '../../shared/components/menuToolbar/MenuToolbar';
 import { useParams } from 'react-router-dom';
@@ -28,7 +28,6 @@ const Curso: React.FC = () => {
     const cursoDetail = async () => {
       const response = await apiReq('GET', `cursos/getCursoDetail?cursoId=${id}`);
       if (response?.status === 200) {
-        console.log('curso: ', response.data.data);
         setCurso(response.data.data);
       }
     }
@@ -37,7 +36,6 @@ const Curso: React.FC = () => {
     const listadoSesiones = async () => {
       const response = await apiReq('GET', `cursos/getListadoSesiones?IdCurso=${id}`);
       if (response?.status === 200) {
-        console.log('sesiones: ', response.data.data);
         setSesiones(response.data.data);
       }
     }
@@ -48,11 +46,10 @@ const Curso: React.FC = () => {
     <IonPage>
       <MenuToolbar />
       <IonContent fullscreen id="main">
-        <div className="curso-container">
-          <IonGrid>
+          <IonGrid className="curso-container">
             <IonRow>
               <IonCol size='8' sizeXs='12' sizeSm="12" sizeLg='8' >
-                <IonImg src={curso.Imagen} alt={id}  className='image-container'/>
+                  <IonImg src={curso.Imagen} alt={id}/>
               </IonCol>
               <IonCol size='4' sizeXs='12' sizeSm='12' sizeLg='4' className='description-container'>
                 <IonCard><IonLabel className='title'>{curso.NombreCurso}</IonLabel></IonCard>
@@ -67,23 +64,42 @@ const Curso: React.FC = () => {
                 </div>
                 <div className='curso-list'>
                   <IonList>
-                    {sesiones.map((sesion: Sesion, index: number) => (
-                      <IonItem button onClick={() => history.push(`/curso/${id}/${sesion.IdSesion}`)} key={index}>
-                        <IonImg style={{ height: '60px' }} src={sesion.Imagen}></IonImg>
-                        <IonLabel>{sesion.Nombre}</IonLabel>
-                        <IonLabel>
-                          {Math.floor(sesion.Duracion * 60)} minutos
-                          {Math.round((sesion.Duracion * 60 - Math.floor(sesion.Duracion * 60)) * 60) !== 0 &&
-                            `${Math.round((sesion.Duracion * 60 - Math.floor(sesion.Duracion * 60)) * 60)} segundos`}
-                        </IonLabel>
-                      </IonItem>
+                    {Object.entries(sesiones.reduce((r: any, a: Sesion) => {
+                      r[a.Seccion] = [...r[a.Seccion] || [], a];
+                      return r;
+                    }, {}))
+                    .sort(([aKey, aVal], [bKey, bVal]) => {
+                      const aSesiones = aVal as Sesion[];
+                      const bSesiones = bVal as Sesion[];
+                      const aOrden = aSesiones[0]?.Orden || 0;
+                      const bOrden = bSesiones[0]?.Orden || 0;
+                      return aOrden - bOrden;
+                    })
+                    .map(([seccion, sesionesEnSeccion], index) => (
+                      <div key={index}>
+                        <IonListHeader className="section-title">{seccion}</IonListHeader>
+                        {(sesionesEnSeccion as Sesion[])
+                          .sort((a, b) => a.Orden - b.Orden)
+                          .map((sesion, index) => (
+                            <IonItem button onClick={() => history.push(`/curso/${id}/${sesion.IdSesion}`)} key={index}>
+                              <IonImg style={{ height: '60px' }} src={sesion.Imagen}></IonImg>
+                              <div className="session-info">
+                                <IonLabel>{sesion.Nombre}</IonLabel>
+                                <IonLabel>
+                                  {Math.floor(sesion.Duracion * 60)} minutos
+                                  {Math.round((sesion.Duracion * 60 - Math.floor(sesion.Duracion * 60)) * 60) !== 0 &&
+                                    `${Math.round((sesion.Duracion * 60 - Math.floor(sesion.Duracion * 60)) * 60)} segundos`}
+                                </IonLabel>
+                              </div>
+                            </IonItem>
+                        ))}
+                      </div>
                     ))}
                   </IonList>
                 </div>
               </IonCol>
             </IonRow>
           </IonGrid>
-        </div>
       </IonContent>
     </IonPage>
   );

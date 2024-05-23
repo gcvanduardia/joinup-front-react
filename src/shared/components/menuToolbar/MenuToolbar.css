@@ -44,3 +44,7 @@
         display: none;
     }
 }
+
+.profesor-name {
+    text-align: right;
+}

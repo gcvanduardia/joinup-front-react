@@ -1,4 +1,4 @@
-import { IonContent, IonPage, IonGrid, IonRow, IonCol, IonCard, IonImg, IonSegment, IonSegmentButton, IonLabel, IonInput, IonList, IonItem, IonTitle, IonCardContent, IonCardHeader, IonCardTitle, IonButton } from '@ionic/react';
+import { IonContent, IonPage, IonGrid, IonRow, IonCol, IonCard, IonImg, IonListHeader, IonSegment, IonSegmentButton, IonLabel, IonInput, IonList, IonItem, IonTitle, IonCardContent, IonCardHeader, IonCardTitle, IonButton } from '@ionic/react';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
@@ -52,7 +52,6 @@ const Clase: React.FC = () => {
     const cursoDetail = async () => {
       const response = await apiReq('GET', `cursos/getCursoDetail?cursoId=${idCurso}`);
       if (response?.status === 200) {
-        console.log('curso: ', response.data.data);
         setCurso(response.data.data);
       }
     }
@@ -145,16 +144,34 @@ const Clase: React.FC = () => {
                 {view === 'clases' && (
                   <div>
                     <IonList>
-                      {clases.map((sesion: InterfaceClase, index: number) => (
-                        <IonItem button onClick={() => history.push(`/curso/${idCurso}/${sesion.IdSesion}`)} key={index}>
-                          <IonImg style={{ height: '60px' }} src={sesion.Imagen}></IonImg>
-                          <IonLabel>{sesion.Nombre}</IonLabel>
-                          <IonLabel>
-                            {Math.floor(sesion.Duracion * 60)} minutos
-                            {Math.round((sesion.Duracion * 60 - Math.floor(sesion.Duracion * 60)) * 60) !== 0 &&
-                              `${Math.round((sesion.Duracion * 60 - Math.floor(sesion.Duracion * 60)) * 60)} segundos`}
-                          </IonLabel>
-                        </IonItem>
+                      {Object.entries(clases.reduce((r: any, a: InterfaceClase) => {
+                        r[a.Seccion] = [...r[a.Seccion] || [], a];
+                        return r;
+                      }, {}))
+                      .sort(([aKey, aVal], [bKey, bVal]) => {
+                        const aClases = aVal as InterfaceClase[];
+                        const bClases = bVal as InterfaceClase[];
+                        const aOrden = aClases[0]?.Orden || 0;
+                        const bOrden = bClases[0]?.Orden || 0;
+                        return aOrden - bOrden;
+                      })
+                      .map(([seccion, clasesEnSeccion], index) => (
+                        <div key={index}>
+                          <IonListHeader className='title-seccion'>{seccion}</IonListHeader>
+                          {(clasesEnSeccion as InterfaceClase[])
+                            .sort((a, b) => a.Orden - b.Orden)
+                            .map((sesion, index) => (
+                              <IonItem button onClick={() => history.push(`/curso/${idCurso}/${sesion.IdSesion}`)} key={index}>
+                                <IonImg style={{ height: '60px' }} src={sesion.Imagen}></IonImg>
+                                <IonLabel>{sesion.Nombre}</IonLabel>
+                                <IonLabel>
+                                  {Math.floor(sesion.Duracion * 60)} minutos
+                                  {Math.round((sesion.Duracion * 60 - Math.floor(sesion.Duracion * 60)) * 60) !== 0 &&
+                                    `${Math.round((sesion.Duracion * 60 - Math.floor(sesion.Duracion * 60)) * 60)} segundos`}
+                                </IonLabel>
+                              </IonItem>
+                          ))}
+                        </div>
                       ))}
                     </IonList>
                   </div>
