@@ -114,3 +114,16 @@
 .title-seccion {
     font-size: large;
 }
+
+.custom-row {
+  height: 100%; 
+}
+
+.video-col {
+  height: 100%; 
+}
+
+.segment-col {
+  height: 100%; 
+  overflow-y: auto; 
+}

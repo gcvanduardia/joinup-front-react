@@ -133,7 +133,15 @@ const MenuToolbar: React.FC = () => {
           <div className="search-results">
             <IonList>
               {courses.map(course => (
-                <IonItem key={course.CursoId} button onClick={() => history.push(`/curso/${course.CursoId}`)}>
+                <IonItem 
+                key={course.CursoId} 
+                button 
+                onMouseDown={(e) => {
+                  if (e.button === 0) {
+                    history.push(`/curso/${course.CursoId}`);
+                  }
+                }}
+              >
                   <IonImg slot="start" style={{ height: '50px' }} src={course.Imagen} alt={course.Nombre}/>
                   {course.Nombre}
                   <IonLabel className="profesor-name">{course.Profesor}</IonLabel>

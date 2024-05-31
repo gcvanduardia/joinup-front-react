@@ -100,33 +100,13 @@ const Clase: React.FC = () => {
               <IonTitle className='title'>{curso.NombreCurso}</IonTitle>
             </IonCol>
           </IonRow>
-          <IonRow>
-            <IonCol size="8">
-              <IonRow>
-                <div className='video-container'>
-                  <VideoPlayerHls curso="robotica-test" video="curso-robotica-1.m3u8" />
-                </div>
-              </IonRow>
-              <IonRow>
-                <div className='resources-container'>
-                  <h2>Recursos</h2>
-                  <IonList className='resources-list'>
-                    {recursos.map((recurso: InterfaceRecurso, index: number) => (
-                      <IonItem key={index} lines="full" className="resource-item">
-                        <IonLabel className="resource-label">
-                          <div className="resource-info">
-                            <h2 className="resource-title">{recurso.Descripcion}</h2>
-                            <IonButton fill="outline" href={recurso.URL} target="_blank">Ver recurso</IonButton>
-                          </div>
-                          <p className="resource-type">{recurso.TipoRecurso}</p>
-                        </IonLabel>
-                      </IonItem>
-                    ))}
-                  </IonList>
-                </div>
-              </IonRow>
+          <IonRow className='custom-row'>
+            <IonCol sizeLg='8' sizeMd='12' sizeSm='12' sizeXs='12' className="video-col">
+              <div className='video-container'>
+                <VideoPlayerHls curso="robotica-test" video="curso-robotica-1.m3u8" />
+              </div>
             </IonCol>
-            <IonCol size="4">
+            <IonCol sizeLg='4' sizeMd='12' sizeSm='12' sizeXs='12' className="segment-col">
               <IonCard><IonTitle className='title'>{sesion.Nombre}</IonTitle></IonCard>
               <IonCard>
                 <IonSegment value={view} onIonChange={e => {
@@ -192,6 +172,27 @@ const Clase: React.FC = () => {
                   </div>
                 )}
               </IonCard>
+            </IonCol>
+          </IonRow>
+          <IonRow>
+            <IonCol size="12" className='resources-container'>
+                <h2>Recursos</h2>
+                <IonList className='resources-list'>
+                  {recursos.map((recurso: InterfaceRecurso, index: number) => (
+                    <IonItem key={index} lines="full" className="resource-item">
+                      <IonLabel className="resource-label">
+                        <div className="resource-info">
+                          <h2 className="resource-title">{recurso.Descripcion}</h2>
+                          <IonButton fill="outline" href={recurso.URL} target="_blank">Ver recurso</IonButton>
+                        </div>
+                        <p className="resource-type">{recurso.TipoRecurso}</p>
+                      </IonLabel>
+                    </IonItem>
+                  ))}
+                </IonList>
+            </IonCol>
+            <IonCol size="4">
+              
             </IonCol>
           </IonRow>
         </IonGrid>

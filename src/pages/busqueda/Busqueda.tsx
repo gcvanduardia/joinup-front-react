@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { IonContent, IonHeader, IonPage, IonLabel, IonNote, IonItem, IonSearchbar, IonImg } from '@ionic/react';
+import { IonContent, IonGrid, IonPage, IonCol, IonRow, IonItem, IonSearchbar, IonImg, IonInfiniteScroll, IonInfiniteScrollContent } from '@ionic/react';
 import { useParams } from 'react-router-dom';
 import './Busqueda.css';
 import MenuToolbar from '../../shared/components/menuToolbar/MenuToolbar';
 import { useHistory } from 'react-router-dom';
 import { SearchbarChangeEventDetail } from '@ionic/core';
 import useApi from "../../shared/services/api/api";
+import CourseCard from '../../shared/components/course-card/CourseCard';
 
 interface Course {
   CursoId: number;
@@ -21,19 +22,44 @@ const Busqueda: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState(initialSearchQuery || '');
   const { apiReq } = useApi();
   const [courses, setCourses] = useState<Course[]>([]);
+  const [disableInfiniteScroll, setDisableInfiniteScroll] = useState<boolean>(false);
+  const [pageNumber, setPage] = useState<number>(1);
+  const [pageSize, setPageSize] = useState<number>(5);
+  
 
   useEffect(() => {
-    listadoCursos(initialSearchQuery);
+    if (initialSearchQuery) {
+      listadoCursos(initialSearchQuery);
+    }
   }, []);
 
-  const listadoCursos = async (terminoBusqueda: string) => {
-    if (terminoBusqueda) {
-      const response = await apiReq('GET', `cursos/getListadoCursos?terminoBusqueda=${terminoBusqueda}`);
+  const listadoCursos = async (terminoBusqueda: string, page: number = 1) => {
+    if (terminoBusqueda.trim() !== '') {
+      const response = await apiReq('GET', `cursos/getListadoCursos?terminoBusqueda=${terminoBusqueda}&pageNumber=${pageNumber}&pageSize=${pageSize}`);
       if (response?.status === 200 ) {
-        setCourses(response.data.data);
+        if (response.data.data.length > 0) {
+          setCourses(prevCourses => {
+            const newCourses = response.data.data.filter(
+              (newCourse: Course) => !prevCourses.some((course: Course) => course.CursoId === newCourse.CursoId)
+            );
+            return [...prevCourses, ...newCourses];
+          });
+          setPage(page + 1);
+        } else {
+          setDisableInfiniteScroll(true);
+        }
       }
+    } else {
+      setCourses([]);
+      setPage(1);
+      setDisableInfiniteScroll(false);
     }
   }
+
+  const searchNext = ($event: CustomEvent<void>) => {
+    listadoCursos(searchQuery, pageNumber);
+    ($event.target as HTMLIonInfiniteScrollElement).complete();
+  };
 
   return (
     <IonPage>
@@ -43,10 +69,16 @@ const Busqueda: React.FC = () => {
           <h2 style={{textAlign: 'center'}}>Búsqueda</h2>
           <IonSearchbar 
             value={searchQuery}
-            onIonChange={(e: CustomEvent<SearchbarChangeEventDetail>) => setSearchQuery(e.detail.value || '')}
+            onIonInput={(e: CustomEvent<SearchbarChangeEventDetail>) => {
+              const nextValue = e.detail.value || '';
+              setSearchQuery(nextValue);
+              listadoCursos(nextValue);
+            }}
             onKeyPress={(e: React.KeyboardEvent) => {
               const target = e.currentTarget as HTMLInputElement;
               if (e.key === 'Enter' && target.value.trim() !== '') {
+                setPage(1);
+                setDisableInfiniteScroll(false);
                 listadoCursos(target.value.trim());
               }
             }}
@@ -56,15 +88,28 @@ const Busqueda: React.FC = () => {
           {courses.length === 0 ? (
             <IonItem>Curso no encontrado</IonItem>
           ) : (
-            courses.map((course: Course, index: number) => (
-              <IonItem button key={course.CursoId} onClick={() => {history.push(`/curso/${course.CursoId}`)}}>
-                <IonImg slot="start" style={{ height: '60px' }} src={course.Imagen} alt={course.Nombre}/>
-                <IonLabel>{course.Nombre}</IonLabel>
-                <IonNote slot="end" className="professor-name">{course.Profesor}</IonNote>
-              </IonItem>
-            ))
+            <IonGrid>
+              <IonRow>
+                {courses.map((course: Course, index: number) => (
+                  <IonCol size="12" size-md="6" size-lg="4" key={course.CursoId} >
+                    <CourseCard 
+                      title={course.Nombre} 
+                      description={course.Descripcion} 
+                      courseId={course.CursoId} 
+                      Imagen={course.Imagen} 
+                      ProgresoCurso={0}
+                    />
+                  </IonCol>
+                ))}
+              </IonRow>
+            </IonGrid>
           )}
         </div>
+        <IonInfiniteScroll threshold="100px" disabled={disableInfiniteScroll} onIonInfinite={(e: CustomEvent<void>) => searchNext(e)}>
+          <IonInfiniteScrollContent
+            loadingText="Loading more good doggos...">
+          </IonInfiniteScrollContent>
+        </IonInfiniteScroll>
       </IonContent>
     </IonPage>
   );
