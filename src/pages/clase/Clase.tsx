@@ -105,6 +105,22 @@ const Clase: React.FC = () => {
               <div className='video-container'>
                 <VideoPlayerHls curso="robotica-test" video="curso-robotica-1.m3u8" />
               </div>
+              <div className='resource-list-container'>
+                <h2>Recursos</h2>
+                <IonList className='resources-list'>
+                  {recursos.map((recurso: InterfaceRecurso, index: number) => (
+                    <IonItem key={index} lines="full" className="resource-item">
+                      <IonLabel className="resource-label">
+                        <div className="resource-info">
+                          <h2 className="resource-title">{recurso.Descripcion}</h2>
+                          <IonButton fill="outline" href={recurso.URL} target="_blank">Ver recurso</IonButton>
+                        </div>
+                        <p className="resource-type">{recurso.TipoRecurso}</p>
+                      </IonLabel>
+                    </IonItem>
+                  ))}
+                </IonList>
+              </div>
             </IonCol>
             <IonCol sizeLg='4' sizeMd='12' sizeSm='12' sizeXs='12' className="segment-col">
               <IonCard><IonTitle className='title'>{sesion.Nombre}</IonTitle></IonCard>
@@ -128,31 +144,31 @@ const Clase: React.FC = () => {
                         r[a.Seccion] = [...r[a.Seccion] || [], a];
                         return r;
                       }, {}))
-                      .sort(([aKey, aVal], [bKey, bVal]) => {
-                        const aClases = aVal as InterfaceClase[];
-                        const bClases = bVal as InterfaceClase[];
-                        const aOrden = aClases[0]?.Orden || 0;
-                        const bOrden = bClases[0]?.Orden || 0;
-                        return aOrden - bOrden;
-                      })
-                      .map(([seccion, clasesEnSeccion], index) => (
-                        <div key={index}>
-                          <IonListHeader className='title-seccion'>{seccion}</IonListHeader>
-                          {(clasesEnSeccion as InterfaceClase[])
-                            .sort((a, b) => a.Orden - b.Orden)
-                            .map((sesion, index) => (
-                              <IonItem button onClick={() => history.push(`/curso/${idCurso}/${sesion.IdSesion}`)} key={index}>
-                                <IonImg style={{ height: '60px' }} src={sesion.Imagen}></IonImg>
-                                <IonLabel>{sesion.Nombre}</IonLabel>
-                                <IonLabel>
-                                  {Math.floor(sesion.Duracion * 60)} minutos
-                                  {Math.round((sesion.Duracion * 60 - Math.floor(sesion.Duracion * 60)) * 60) !== 0 &&
-                                    `${Math.round((sesion.Duracion * 60 - Math.floor(sesion.Duracion * 60)) * 60)} segundos`}
-                                </IonLabel>
-                              </IonItem>
-                          ))}
-                        </div>
-                      ))}
+                        .sort(([aKey, aVal], [bKey, bVal]) => {
+                          const aClases = aVal as InterfaceClase[];
+                          const bClases = bVal as InterfaceClase[];
+                          const aOrden = aClases[0]?.Orden || 0;
+                          const bOrden = bClases[0]?.Orden || 0;
+                          return aOrden - bOrden;
+                        })
+                        .map(([seccion, clasesEnSeccion], index) => (
+                          <div key={index}>
+                            <IonListHeader className='title-seccion'>{seccion}</IonListHeader>
+                            {(clasesEnSeccion as InterfaceClase[])
+                              .sort((a, b) => a.Orden - b.Orden)
+                              .map((sesion, index) => (
+                                <IonItem button onClick={() => history.push(`/curso/${idCurso}/${sesion.IdSesion}`)} key={index}>
+                                  <IonImg style={{ height: '60px' }} src={sesion.Imagen}></IonImg>
+                                  <IonLabel>{sesion.Nombre}</IonLabel>
+                                  <IonLabel>
+                                    {Math.floor(sesion.Duracion * 60)} minutos
+                                    {Math.round((sesion.Duracion * 60 - Math.floor(sesion.Duracion * 60)) * 60) !== 0 &&
+                                      `${Math.round((sesion.Duracion * 60 - Math.floor(sesion.Duracion * 60)) * 60)} segundos`}
+                                  </IonLabel>
+                                </IonItem>
+                              ))}
+                          </div>
+                        ))}
                     </IonList>
                   </div>
                 )}
@@ -176,23 +192,23 @@ const Clase: React.FC = () => {
           </IonRow>
           <IonRow>
             <IonCol size="12" className='resources-container'>
-                <h2>Recursos</h2>
-                <IonList className='resources-list'>
-                  {recursos.map((recurso: InterfaceRecurso, index: number) => (
-                    <IonItem key={index} lines="full" className="resource-item">
-                      <IonLabel className="resource-label">
-                        <div className="resource-info">
-                          <h2 className="resource-title">{recurso.Descripcion}</h2>
-                          <IonButton fill="outline" href={recurso.URL} target="_blank">Ver recurso</IonButton>
-                        </div>
-                        <p className="resource-type">{recurso.TipoRecurso}</p>
-                      </IonLabel>
-                    </IonItem>
-                  ))}
-                </IonList>
+              <h2>Recursos</h2>
+              <IonList className='resources-list'>
+                {recursos.map((recurso: InterfaceRecurso, index: number) => (
+                  <IonItem key={index} lines="full" className="resource-item">
+                    <IonLabel className="resource-label">
+                      <div className="resource-info">
+                        <h2 className="resource-title">{recurso.Descripcion}</h2>
+                        <IonButton fill="outline" href={recurso.URL} target="_blank">Ver recurso</IonButton>
+                      </div>
+                      <p className="resource-type">{recurso.TipoRecurso}</p>
+                    </IonLabel>
+                  </IonItem>
+                ))}
+              </IonList>
             </IonCol>
             <IonCol size="4">
-              
+
             </IonCol>
           </IonRow>
         </IonGrid>

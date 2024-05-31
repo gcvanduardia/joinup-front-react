@@ -24,28 +24,58 @@ const Busqueda: React.FC = () => {
   const [courses, setCourses] = useState<Course[]>([]);
   const [disableInfiniteScroll, setDisableInfiniteScroll] = useState<boolean>(false);
   const [pageNumber, setPage] = useState<number>(1);
-  const [pageSize, setPageSize] = useState<number>(5);
-  
+  const [pageSize, setPageSize] = useState<number>(12);
+
 
   useEffect(() => {
+
     if (initialSearchQuery) {
       listadoCursos(initialSearchQuery);
     }
+
+    const setResponsivePageSize = () => {
+      if (window.innerWidth < 768) {
+        setPageSize(4);
+      } else if (window.innerWidth < 992) {
+        setPageSize(6);
+      } else {
+        setPageSize(12);
+      }
+    }
+  
+    // Set initial page size
+    setResponsivePageSize();
+  
+    // Listen for window resize events
+    window.addEventListener('resize', setResponsivePageSize);
+  
+    // Cleanup listener on component unmount
+    return () => window.removeEventListener('resize', setResponsivePageSize);
   }, []);
 
   const listadoCursos = async (terminoBusqueda: string, page: number = 1) => {
     if (terminoBusqueda.trim() !== '') {
-      const response = await apiReq('GET', `cursos/getListadoCursos?terminoBusqueda=${terminoBusqueda}&pageNumber=${pageNumber}&pageSize=${pageSize}`);
-      if (response?.status === 200 ) {
+      console.log('page: ', page);
+      const url = `cursos/getListadoCursos?terminoBusqueda=${terminoBusqueda}&pageNumber=${page}&pageSize=${pageSize}`;
+      console.log('url: ', url);
+      const response = await apiReq('GET', url);
+      if (response?.status === 200) {
         if (response.data.data.length > 0) {
-          setCourses(prevCourses => {
-            const newCourses = response.data.data.filter(
-              (newCourse: Course) => !prevCourses.some((course: Course) => course.CursoId === newCourse.CursoId)
-            );
-            return [...prevCourses, ...newCourses];
-          });
-          setPage(page + 1);
+          console.log('response.data.data: ', response.data.data);
+          if (page === 1) {
+            setCourses(response.data.data);
+          } else {
+            setCourses([...courses, ...response.data.data]);
+          }
+          if (response.data.data.length === pageSize) {
+            setPage(page + 1);
+          } else {
+            setDisableInfiniteScroll(true);
+          }
         } else {
+          if (page === 1) {
+            setCourses([]);
+          }
           setDisableInfiniteScroll(true);
         }
       }
@@ -56,18 +86,19 @@ const Busqueda: React.FC = () => {
     }
   }
 
-  const searchNext = ($event: CustomEvent<void>) => {
-    listadoCursos(searchQuery, pageNumber);
+  const searchNext = async ($event: CustomEvent<void>) => {
+    await listadoCursos(searchQuery, pageNumber);
+    console.log('*****finaliza busqueda de cursos');
     ($event.target as HTMLIonInfiniteScrollElement).complete();
   };
 
   return (
     <IonPage>
       <MenuToolbar />
-      <IonContent id = "main">
+      <IonContent id="main">
         <div className="custom-card-title">
-          <h2 style={{textAlign: 'center'}}>Búsqueda</h2>
-          <IonSearchbar 
+          <h2 style={{ textAlign: 'center' }}>Búsqueda</h2>
+          <IonSearchbar
             value={searchQuery}
             onIonInput={(e: CustomEvent<SearchbarChangeEventDetail>) => {
               const nextValue = e.detail.value || '';
@@ -92,11 +123,11 @@ const Busqueda: React.FC = () => {
               <IonRow>
                 {courses.map((course: Course, index: number) => (
                   <IonCol size="12" size-md="6" size-lg="4" key={course.CursoId} >
-                    <CourseCard 
-                      title={course.Nombre} 
-                      description={course.Descripcion} 
-                      courseId={course.CursoId} 
-                      Imagen={course.Imagen} 
+                    <CourseCard
+                      title={course.Nombre}
+                      description={course.Descripcion}
+                      courseId={course.CursoId}
+                      Imagen={course.Imagen}
                       ProgresoCurso={0}
                     />
                   </IonCol>
