@@ -29,9 +29,9 @@ const MenuToolbar: React.FC = () => {
     setSearchQuery(nextValue);
   
     if (nextValue.trim() !== '') {
-      const response = await apiReq('GET', `cursos/getListadoCursos?terminoBusqueda=${nextValue}`);
+      const response = await apiReq('GET', `cursos/getListadoCursosToolBar?terminoBusqueda=${nextValue}`);
       if (response?.status === 200) {
-        const firstFiveCourses = response.data.data.slice(0, 5);
+        const firstFiveCourses = response.data.data;
         setCourses(firstFiveCourses);
         setShowSearchResults(true);
       }
@@ -133,7 +133,15 @@ const MenuToolbar: React.FC = () => {
           <div className="search-results">
             <IonList>
               {courses.map(course => (
-                <IonItem key={course.CursoId} button onClick={() => history.push(`/curso/${course.CursoId}`)}>
+                <IonItem 
+                key={course.CursoId} 
+                button 
+                onMouseDown={(e) => {
+                  if (e.button === 0) {
+                    history.push(`/curso/${course.CursoId}`);
+                  }
+                }}
+              >
                   <IonImg slot="start" style={{ height: '50px' }} src={course.Imagen} alt={course.Nombre}/>
                   {course.Nombre}
                   <IonLabel className="profesor-name">{course.Profesor}</IonLabel>
