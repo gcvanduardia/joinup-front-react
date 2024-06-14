@@ -5,11 +5,12 @@ import { environment } from "../../../enviroments/enviroment";
 interface VideoPlayerProps {
     curso: string;
     video: string;
+    url: string;
 }
 
-const VideoPlayerHls: React.FC<VideoPlayerProps> = ({ curso, video }) => {
-    const folder = video.split('.')[0];
-    const src = `${environment.apiUrl}/video-hls/${curso}/${folder}/${video}`;
+const VideoPlayerHls: React.FC<VideoPlayerProps> = ({ curso, video, url }) => {
+    /* const folder = video.split('.')[0]; */
+    /* const src = `${environment.apiUrl}/video-hls/${curso}/${folder}/${video}`; */
     const playerRef = useRef<ReactPlayer>(null);
     const lastTime = useRef<number>(0);
 
@@ -35,7 +36,7 @@ const VideoPlayerHls: React.FC<VideoPlayerProps> = ({ curso, video }) => {
         <div style={{ position: 'relative', paddingTop: '56.25%' /* 16:9 Aspect Ratio */ }}>
             <ReactPlayer
                 ref={playerRef}
-                url={src}
+                url={url}
                 width='100%'
                 height='100%'
                 controls={true}
