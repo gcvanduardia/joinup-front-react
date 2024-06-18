@@ -1,17 +1,34 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useContext, useState } from 'react';
 import ReactPlayer from 'react-player';
 import { environment } from "../../../enviroments/enviroment";
+import useApi from '../../services/api/api';
+import { UserIdContext } from "../../services/global/global";
 
 interface VideoPlayerProps {
     curso: string;
     video: string;
+    IdSesion: number;
+    IdCurso: number
 }
 
-const VideoPlayerHls: React.FC<VideoPlayerProps> = ({ curso, video }) => {
+const VideoPlayerHls: React.FC<VideoPlayerProps> = ({ curso, video, IdSesion, IdCurso }) => {
+    const { apiReq } = useApi();
     const folder = video.split('.')[0];
+    const { IdUsuario, setIdUsuario } = useContext(UserIdContext);
     const src = `${environment.apiUrl}/video-hls/${curso}/${folder}/${video}`;
     const playerRef = useRef<ReactPlayer>(null);
     const lastTime = useRef<number>(0);
+    const [completada, setCompletada] = useState<boolean>(false);
+
+    const progressDetail = async (idSesion: number) => {
+        const response = await apiReq('GET', `cursos/getUserProgress?IdUsuario=${IdUsuario}&IdSesion=${idSesion}`);
+        if (response?.status === 200 && response.data && response.data.data) {
+          console.log(response.data.data.Completada);
+          console.log(`Id Usuario: ${IdUsuario} Id Sesion: ${idSesion}`);
+          setCompletada(response.data.data.Completada);
+        }
+        return response;
+      }
 
     useEffect(() => {
         const savedTime = localStorage.getItem('lastTime');
@@ -19,6 +36,8 @@ const VideoPlayerHls: React.FC<VideoPlayerProps> = ({ curso, video }) => {
         if (savedTime) {
             lastTime.current = parseFloat(savedTime);
         }
+
+        progressDetail(IdSesion);
     }, []);
 
     const onReady = () => {
@@ -27,9 +46,36 @@ const VideoPlayerHls: React.FC<VideoPlayerProps> = ({ curso, video }) => {
         }
     };
 
-    const onProgress = (state: { playedSeconds: number }) => {
+    const onProgress = async (state: { playedSeconds: number }) => {
+        console.log('onProgress**', state.playedSeconds);
         localStorage.setItem('lastTime', state.playedSeconds.toString());
-    };
+        try {
+            if (completada) {
+                const response = await apiReq('post', 'cursos/updateOrCreateHistorialCurso', {
+                    IdUsuario: IdUsuario,
+                    IdCurso: IdCurso,
+                    IdSesion: IdSesion,
+                    MinutoActual: state.playedSeconds,
+                    ProgresoSesion: state.playedSeconds,
+                    ProgresoCurso: 0.5,
+                    Completada: true
+                });
+            } else {
+                const response = await apiReq('post', 'cursos/updateOrCreateHistorialCurso', {
+                    IdUsuario: IdUsuario,
+                    IdCurso: IdCurso,
+                    IdSesion: IdSesion,
+                    MinutoActual: state.playedSeconds,
+                    ProgresoSesion: state.playedSeconds,
+                    ProgresoCurso: 0.5,
+                    Completada: false
+                });
+            }
+        }
+        catch (error) {
+            console.error(error);
+        }
+        }
 
     return (
         <div style={{ position: 'relative', paddingTop: '56.25%' /* 16:9 Aspect Ratio */ }}>
@@ -42,6 +88,7 @@ const VideoPlayerHls: React.FC<VideoPlayerProps> = ({ curso, video }) => {
                 playing={true}
                 style={{ position: 'absolute', top: 0, left: 0 }}
                 onReady={onReady}
+                progressInterval={5000}
                 onProgress={onProgress}
             />
         </div>

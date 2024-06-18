@@ -130,13 +130,15 @@ const Clase: React.FC = () => {
         <IonGrid>
           <IonRow>
             <IonCol>
-              <IonTitle className='title'>{curso.NombreCurso}</IonTitle>
+              <IonCard button onClick={() => {history.push(`/curso/${idCurso}`)}} >
+                <IonTitle className='title'>{curso.NombreCurso}</IonTitle>
+              </IonCard>
             </IonCol>
           </IonRow>
           <IonRow className='custom-row'>
             <IonCol sizeLg='8' sizeMd='12' sizeSm='12' sizeXs='12' className="video-col">
               <div className='video-container'>
-                <VideoPlayerHls curso="robotica-test" video="curso-robotica-1.m3u8" />
+                <VideoPlayerHls curso="robotica-test" video="curso-robotica-1.m3u8" IdCurso={parseInt(idCurso)} IdSesion={parseInt(idClase)} />
               </div>
               <div className='resource-list-container'>
                 <h2>Recursos</h2>
