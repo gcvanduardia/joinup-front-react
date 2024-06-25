@@ -8,7 +8,6 @@ import MenuToolbar from '../../shared/components/menuToolbar/MenuToolbar';
 import useApi from '../../shared/services/api/api';
 import './Clase.css';
 
-
 const Clase: React.FC = () => {
 
   interface InterfaceComentario {
@@ -157,6 +156,8 @@ const Clase: React.FC = () => {
                 </IonList>
               </div>
             </IonCol>
+
+
             <IonCol sizeLg='4' sizeMd='12' sizeSm='12' sizeXs='12' className="segment-col">
               <IonCard><IonTitle className='title'>{sesion.Nombre}</IonTitle></IonCard>
               <IonCard>
@@ -193,16 +194,14 @@ const Clase: React.FC = () => {
                               .sort((a, b) => a.Orden - b.Orden)
                               .map((sesion, index) => (
                                 <IonItem button onClick={() => history.push(`/curso/${idCurso}/${sesion.IdSesion}`)} key={index}>
-                                  <IonCheckbox legacy disabled checked={sesion.Completada}></IonCheckbox>
+                                  <IonCheckbox disabled checked={sesion.Completada}></IonCheckbox>
                                   <IonImg style={{ height: '60px' }} src={sesion.Imagen}></IonImg>
-                                  <div className="session-info">
-                                    <IonLabel>{sesion.Nombre}</IonLabel>
-                                    <IonLabel>
-                                      {Math.floor(sesion.Duracion * 60)} minutos
-                                      {Math.round((sesion.Duracion * 60 - Math.floor(sesion.Duracion * 60)) * 60) !== 0 &&
-                                        `${Math.round((sesion.Duracion * 60 - Math.floor(sesion.Duracion * 60)) * 60)} segundos`}
-                                    </IonLabel>
-                                  </div>
+                                  <IonLabel>{sesion.Nombre}</IonLabel>
+                                  <IonLabel>
+                                    {Math.floor(sesion.Duracion * 60)} minutos
+                                    {Math.round((sesion.Duracion * 60 - Math.floor(sesion.Duracion * 60)) * 60) !== 0 &&
+                                      `${Math.round((sesion.Duracion * 60 - Math.floor(sesion.Duracion * 60)) * 60)} segundos`}
+                                  </IonLabel>
                                 </IonItem>
                               ))}
                           </div>
