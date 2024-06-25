@@ -47,7 +47,8 @@ const VideoPlayerHls: React.FC<VideoPlayerProps> = ({ curso, video, IdSesion, Id
     };
 
     const onProgress = async (state: { playedSeconds: number }) => {
-        console.log('onProgress**', state.playedSeconds);
+        const playedMinutes = state.playedSeconds / 60;
+        console.log('onProgress**', playedMinutes);
         localStorage.setItem('lastTime', state.playedSeconds.toString());
         try {
             if (completada) {
@@ -55,8 +56,8 @@ const VideoPlayerHls: React.FC<VideoPlayerProps> = ({ curso, video, IdSesion, Id
                     IdUsuario: IdUsuario,
                     IdCurso: IdCurso,
                     IdSesion: IdSesion,
-                    MinutoActual: state.playedSeconds,
-                    ProgresoSesion: state.playedSeconds,
+                    MinutoActual: playedMinutes,
+                    ProgresoSesion: playedMinutes,
                     ProgresoCurso: 0.5,
                     Completada: true
                 });
@@ -65,8 +66,8 @@ const VideoPlayerHls: React.FC<VideoPlayerProps> = ({ curso, video, IdSesion, Id
                     IdUsuario: IdUsuario,
                     IdCurso: IdCurso,
                     IdSesion: IdSesion,
-                    MinutoActual: state.playedSeconds,
-                    ProgresoSesion: state.playedSeconds,
+                    MinutoActual: playedMinutes,
+                    ProgresoSesion: playedMinutes,
                     ProgresoCurso: 0.5,
                     Completada: false
                 });
@@ -77,6 +78,14 @@ const VideoPlayerHls: React.FC<VideoPlayerProps> = ({ curso, video, IdSesion, Id
         }
         }
 
+    const onEnded = () => {
+        setCompletada(true);
+        console.log('onEnded');
+        if (playerRef.current) {
+            const state = { playedSeconds: playerRef.current.getCurrentTime() };
+            onProgress(state);
+        }
+    };
     return (
         <div style={{ position: 'relative', paddingTop: '56.25%' /* 16:9 Aspect Ratio */ }}>
             <ReactPlayer
@@ -90,6 +99,7 @@ const VideoPlayerHls: React.FC<VideoPlayerProps> = ({ curso, video, IdSesion, Id
                 onReady={onReady}
                 progressInterval={5000}
                 onProgress={onProgress}
+                onEnded={onEnded}
             />
         </div>
     );
