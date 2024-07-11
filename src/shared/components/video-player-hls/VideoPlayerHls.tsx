@@ -19,6 +19,7 @@ const VideoPlayerHls: React.FC<VideoPlayerProps> = ({ curso, video, IdSesion, Id
     const playerRef = useRef<ReactPlayer>(null);
     const lastTime = useRef<number>(0);
     const [completada, setCompletada] = useState<boolean>(false);
+    const [progress, setProgress] = useState<number>(0);
 
     const progressDetail = async (idSesion: number) => {
         const response = await apiReq('GET', `cursos/getUserProgress?IdUsuario=${IdUsuario}&IdSesion=${idSesion}`);
@@ -26,6 +27,7 @@ const VideoPlayerHls: React.FC<VideoPlayerProps> = ({ curso, video, IdSesion, Id
           console.log(response.data.data.Completada);
           console.log(`Id Usuario: ${IdUsuario} Id Sesion: ${idSesion}`);
           setCompletada(response.data.data.Completada);
+          setProgress(response.data.data.ProgresoSesion);
         }
         return response;
       }
@@ -48,30 +50,23 @@ const VideoPlayerHls: React.FC<VideoPlayerProps> = ({ curso, video, IdSesion, Id
 
     const onProgress = async (state: { playedSeconds: number }) => {
         const playedMinutes = state.playedSeconds / 60;
-        console.log('onProgress**', playedMinutes);
+        const sessionProgress = progress;
+        console.log('Minuto actual: ', Math.floor(playedMinutes));
+        console.log('progress', progress);
         localStorage.setItem('lastTime', state.playedSeconds.toString());
+        if (playedMinutes > progress) {
+            setProgress(playedMinutes);
+        }
         try {
-            if (completada) {
-                const response = await apiReq('post', 'cursos/updateOrCreateHistorialCurso', {
-                    IdUsuario: IdUsuario,
-                    IdCurso: IdCurso,
-                    IdSesion: IdSesion,
-                    MinutoActual: playedMinutes,
-                    ProgresoSesion: playedMinutes,
-                    ProgresoCurso: 0.5,
-                    Completada: true
-                });
-            } else {
-                const response = await apiReq('post', 'cursos/updateOrCreateHistorialCurso', {
-                    IdUsuario: IdUsuario,
-                    IdCurso: IdCurso,
-                    IdSesion: IdSesion,
-                    MinutoActual: playedMinutes,
-                    ProgresoSesion: playedMinutes,
-                    ProgresoCurso: 0.5,
-                    Completada: false
-                });
-            }
+            const response = await apiReq('post', 'cursos/updateOrCreateHistorialCurso', {
+                IdUsuario: IdUsuario,
+                IdCurso: IdCurso,
+                IdSesion: IdSesion,
+                MinutoActual: playedMinutes,
+                ProgresoSesion: sessionProgress,
+                ProgresoCurso: 0.5,
+                Completada: completada
+            });
         }
         catch (error) {
             console.error(error);

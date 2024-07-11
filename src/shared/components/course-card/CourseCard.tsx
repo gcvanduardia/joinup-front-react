@@ -8,7 +8,7 @@ interface CourseCardProps {
   description: string;
   courseId: number;
   Imagen: string;
-  ProgresoCurso: number;
+  ProgresoCurso?: number;
 }
 
 const CourseCard: React.FC<CourseCardProps> = ({ title, description, courseId, Imagen, ProgresoCurso }) => {
@@ -21,9 +21,11 @@ const CourseCard: React.FC<CourseCardProps> = ({ title, description, courseId, I
         <h2 className="course-title">{title}</h2>
         <p className="course-description">{description}</p>
       </IonCardContent>
-      <div className="progress-bar-container">
-        <IonProgressBar className="course-progress-bar" value={ProgresoCurso / 100}></IonProgressBar>
-      </div>
+      {ProgresoCurso !== undefined && ( 
+        <div className="progress-bar-container">
+          <IonProgressBar className="course-progress-bar" value={ProgresoCurso / 100}></IonProgressBar>
+        </div>
+      )}
     </IonCard>
   );
 }

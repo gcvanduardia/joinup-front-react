@@ -59,7 +59,7 @@ const Home: React.FC = () => {
           <IonRow>
             {recomendedCourses.map((course) => (
               <IonCol size-xs="12" size-sm="6" size-md="4" size-lg="3" key={course.CursoId}>
-                <CourseCard title={course.Nombre} description={course.NombreProfesor+' '+course.ApellidoProfesor} courseId={course.CursoId} Imagen={course.Imagen} ProgresoCurso={0} />
+                <CourseCard title={course.Nombre} description={course.NombreProfesor+' '+course.ApellidoProfesor} courseId={course.CursoId} Imagen={course.Imagen}/>
               </IonCol>
             ))}
           </IonRow>
