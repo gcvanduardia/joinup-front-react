@@ -133,6 +133,25 @@
     overflow-y: auto;
 }
 
+.session-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+  
+@media (max-width: 600px) {
+    .session-info {
+      flex-direction: column;
+    }
+}
+
+@media (min-width: 992px) {
+    .session-info {
+      flex-direction: column;
+    }
+}
+
 @media (max-width: 992px) {
     .resource-list-container {
         display: none;

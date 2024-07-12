@@ -1,5 +1,6 @@
-import { IonContent, IonPage, IonGrid, IonRow, IonCol, IonCard, IonImg, IonListHeader, IonSegment, IonSegmentButton, IonLabel, IonInput, IonList, IonItem, IonTitle, IonCardContent, IonCardHeader, IonCardTitle, IonButton } from '@ionic/react';
-import React, { useEffect, useState } from 'react';
+import { IonContent, IonCheckbox, IonPage, IonGrid, IonRow, IonCol, IonCard, IonImg, IonListHeader, IonSegment, IonSegmentButton, IonLabel, IonInput, IonList, IonItem, IonTitle, IonCardContent, IonCardHeader, IonCardTitle, IonButton } from '@ionic/react';
+import React, { useEffect, useState, useContext } from 'react';
+import { UserIdContext } from "../../shared/services/global/global";
 import { useHistory } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import VideoPlayerHls from '../../shared/components/video-player-hls/VideoPlayerHls';
@@ -36,9 +37,11 @@ const Clase: React.FC = () => {
     Nombre: string;
     Orden: number;
     Seccion: string;
+    Completada?: boolean;
   }
   const { idCurso } = useParams<{ idCurso: string }>();
   const { idClase } = useParams<{ idClase: string }>();
+  const { IdUsuario, setIdUsuario } = useContext(UserIdContext);
   const [view, setView] = useState('clases');
   const { apiReq } = useApi();
   const history = useHistory();
@@ -46,7 +49,18 @@ const Clase: React.FC = () => {
   const [sesion, setSesion] = useState<any>([]);
   const [comentarios, setComentarios] = useState<any>([])
   const [recursos, setRecursos] = useState<any>([])
-  const [clases, setClases] = useState<any>([]);
+  const [clases, setClases] = useState<any[]>([]);
+  const [completada, setCompletada] = useState<boolean>(false);
+
+  const progressDetail = async (idSesion: number) => {
+    const response = await apiReq('GET', `cursos/getUserProgress?IdUsuario=${IdUsuario}&IdSesion=${idSesion}`);
+    if (response?.status === 200 && response.data && response.data.data) {
+      console.log(response.data.data.Completada);
+      console.log(`Id Usuario: ${IdUsuario} Id Sesion: ${idSesion}`);
+      setCompletada(response.data.data.Completada);
+    }
+    return response;
+  }
 
   useEffect(() => {
     const cursoDetail = async () => {
@@ -56,6 +70,8 @@ const Clase: React.FC = () => {
       }
     }
     cursoDetail();
+
+    progressDetail(parseInt(idClase));
 
     const sesionDetail = async () => {
       const response = await apiReq('GET', `cursos/getDetalleSesion?IdSesion=${idClase}`);
@@ -76,7 +92,23 @@ const Clase: React.FC = () => {
     const fetchClases = async () => {
       const response = await apiReq('GET', `cursos/getListadoSesiones?IdCurso=${idCurso}`);
       if (response?.status === 200) {
-        setClases(response.data.data);
+        const sesiones = response.data.data;
+        const clasesConProgreso = await Promise.all(sesiones.map(async (sesion: InterfaceClase) => {
+          const progressResponse = await progressDetail(sesion.IdSesion);
+          if (progressResponse && 'data' in progressResponse && progressResponse.data && 'data' in progressResponse.data && 'Completada' in progressResponse.data.data) {
+            return {
+              ...sesion,
+              Completada: progressResponse.data.data.Completada,
+            };
+          } else {
+            return {
+              ...sesion,
+              Completada: false,
+            };
+          }
+        }));
+        setClases(clasesConProgreso);
+        console.log(clasesConProgreso);
       }
     }
     fetchClases();
@@ -97,13 +129,15 @@ const Clase: React.FC = () => {
         <IonGrid>
           <IonRow>
             <IonCol>
-              <IonTitle className='title'>{curso.NombreCurso}</IonTitle>
+              <IonCard button onClick={() => {history.push(`/curso/${idCurso}`)}} >
+                <IonTitle className='title'>{curso.NombreCurso}</IonTitle>
+              </IonCard>
             </IonCol>
           </IonRow>
           <IonRow className='custom-row'>
             <IonCol sizeLg='8' sizeMd='12' sizeSm='12' sizeXs='12' className="video-col">
               <div className='video-container'>
-                <VideoPlayerHls curso="" video="" url={sesion.LinkVideo} />
+                <VideoPlayerHls curso="robotica-test" video="curso-robotica-1.m3u8" IdCurso={parseInt(idCurso)} IdSesion={parseInt(idClase)} />
               </div>
               <div className='resource-list-container'>
                 <h2>Recursos</h2>
@@ -122,6 +156,8 @@ const Clase: React.FC = () => {
                 </IonList>
               </div>
             </IonCol>
+
+
             <IonCol sizeLg='4' sizeMd='12' sizeSm='12' sizeXs='12' className="segment-col">
               <IonCard><IonTitle className='title'>{sesion.Nombre}</IonTitle></IonCard>
               <IonCard>
@@ -158,6 +194,7 @@ const Clase: React.FC = () => {
                               .sort((a, b) => a.Orden - b.Orden)
                               .map((sesion, index) => (
                                 <IonItem button onClick={() => history.push(`/curso/${idCurso}/${sesion.IdSesion}`)} key={index}>
+                                  <IonCheckbox disabled checked={sesion.Completada}></IonCheckbox>
                                   <IonImg style={{ height: '60px' }} src={sesion.Imagen}></IonImg>
                                   <IonLabel>{sesion.Nombre}</IonLabel>
                                   <IonLabel>

@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { IonHeader, IonToolbar, IonButtons, IonButton, IonImg, IonSearchbar, IonMenuButton, IonPopover, IonList, IonItem, IonMenu, IonContent, IonTitle, IonText, IonAvatar, IonChip, IonLabel } from '@ionic/react';
-import logo from '../../../../public/img/logo2.png';
+import logo from '../../../../public/img/logo3.png';
 import './MenuToolbar.css';
 import { useHistory } from 'react-router-dom';
 import { SearchbarChangeEventDetail } from '@ionic/core';
@@ -88,8 +88,8 @@ const MenuToolbar: React.FC = () => {
         <IonToolbar>
           <IonButtons slot="start">
             <IonMenuButton autoHide={false}></IonMenuButton>
-            <IonButton onClick={() => history.push("/home")}>
-              <IonImg src={logo} alt="Logo" className="logo" />
+            <IonButton className="logo" onClick={() => history.push("/home")}>
+              <IonImg src={logo} alt="Logo"/>
             </IonButton>
           </IonButtons>
           {width > 768 && !location.pathname.startsWith('/busqueda') && (
