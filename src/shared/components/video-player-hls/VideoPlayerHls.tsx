@@ -85,7 +85,7 @@ const VideoPlayerHls: React.FC<VideoPlayerProps> = ({ curso, video, IdSesion, Id
         <div style={{ position: 'relative', paddingTop: '56.25%' /* 16:9 Aspect Ratio */ }}>
             <ReactPlayer
                 ref={playerRef}
-                url={url}
+                url={src}
                 width='100%'
                 height='100%'
                 controls={true}
