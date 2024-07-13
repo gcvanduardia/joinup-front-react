@@ -137,7 +137,7 @@ const Clase: React.FC = () => {
           <IonRow className='custom-row'>
             <IonCol sizeLg='8' sizeMd='12' sizeSm='12' sizeXs='12' className="video-col">
               <div className='video-container'>
-                <VideoPlayerHls curso="robotica-test" video="curso-robotica-1.m3u8" IdCurso={parseInt(idCurso)} IdSesion={parseInt(idClase)} />
+                <VideoPlayerHls curso={curso.NombreCurso} video={sesion.Nombre} IdCurso={parseInt(idCurso)} IdSesion={parseInt(idClase)} url={sesion.LinkVideo}/>
               </div>
               <div className='resource-list-container'>
                 <h2>Recursos</h2>
