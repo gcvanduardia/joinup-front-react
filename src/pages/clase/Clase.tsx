@@ -122,6 +122,10 @@ const Clase: React.FC = () => {
     fetchRecursos()
   }, []);
 
+  const navigateTo = (path: string) => {
+    window.location.href = path;
+  };
+
   return (
     <IonPage>
       <MenuToolbar />
@@ -129,7 +133,7 @@ const Clase: React.FC = () => {
         <IonGrid>
           <IonRow>
             <IonCol>
-              <IonCard button onClick={() => {history.push(`/curso/${idCurso}`)}} >
+            <IonCard button onClick={() => navigateTo(`/curso/${idCurso}`)}>
                 <IonTitle className='title'>{curso.NombreCurso}</IonTitle>
               </IonCard>
             </IonCol>
@@ -193,7 +197,7 @@ const Clase: React.FC = () => {
                             {(clasesEnSeccion as InterfaceClase[])
                               .sort((a, b) => a.Orden - b.Orden)
                               .map((sesion, index) => (
-                                <IonItem button onClick={() => history.push(`/curso/${idCurso}/${sesion.IdSesion}`)} key={index}>
+                                <IonItem button onClick={() => navigateTo(`/curso/${idCurso}/${sesion.IdSesion}`)} key={index}>
                                   <IonCheckbox disabled checked={sesion.Completada}></IonCheckbox>
                                   <IonImg style={{ height: '60px' }} src={sesion.Imagen}></IonImg>
                                   <IonLabel>{sesion.Nombre}</IonLabel>
