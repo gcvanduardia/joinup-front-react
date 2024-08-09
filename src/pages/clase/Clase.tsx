@@ -141,7 +141,7 @@ const Clase: React.FC = () => {
           <IonRow className='custom-row'>
             <IonCol sizeLg='8' sizeMd='12' sizeSm='12' sizeXs='12' className="video-col">
               <div className='video-container'>
-                <VideoPlayerHls curso={curso.NombreCurso} video={sesion.Nombre} IdCurso={parseInt(idCurso)} IdSesion={parseInt(idClase)} url={sesion.LinkVideo}/>
+                <VideoPlayerHls order={sesion.Orden} curso={curso.NombreCurso} video={sesion.Nombre} IdCurso={parseInt(idCurso)} IdSesion={parseInt(idClase)} url={sesion.LinkVideo}/>
               </div>
               <div className='resource-list-container'>
                 <h2>Recursos</h2>
@@ -197,7 +197,12 @@ const Clase: React.FC = () => {
                             {(clasesEnSeccion as InterfaceClase[])
                               .sort((a, b) => a.Orden - b.Orden)
                               .map((sesion, index) => (
-                                <IonItem button onClick={() => navigateTo(`/curso/${idCurso}/${sesion.IdSesion}`)} key={index}>
+                                <IonItem 
+                                  button 
+                                  onClick={() => navigateTo(`/curso/${idCurso}/${sesion.IdSesion}`)} 
+                                  key={index}
+                                  className={sesion.IdSesion === parseInt(idClase) ? 'clase-actual' : ''}
+                                >
                                   <IonCheckbox disabled checked={sesion.Completada}></IonCheckbox>
                                   <IonImg style={{ height: '60px' }} src={sesion.Imagen}></IonImg>
                                   <IonLabel>{sesion.Nombre}</IonLabel>
