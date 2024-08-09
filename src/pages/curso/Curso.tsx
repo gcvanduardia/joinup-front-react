@@ -37,6 +37,7 @@ const Curso: React.FC = () => {
       const response = await apiReq('GET', `cursos/getListadoSesiones?IdCurso=${id}`);
       if (response?.status === 200) {
         setSesiones(response.data.data);
+        console.log(response.data.data)
       }
     }
     listadoSesiones();
@@ -82,7 +83,7 @@ const Curso: React.FC = () => {
                           .sort((a, b) => a.Orden - b.Orden)
                           .map((sesion, index) => (
                             <IonItem button onClick={() => history.push(`/curso/${id}/${sesion.IdSesion}`)} key={index}>
-                              <IonImg style={{ height: '60px' }} src={sesion.Imagen}></IonImg>
+                              <IonImg style={{ height: '60px', marginRight: '20px' }} src={sesion.Imagen}></IonImg>
                               <div className="session-info">
                                 <IonLabel>{sesion.Nombre}</IonLabel>
                                 <IonLabel>

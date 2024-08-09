@@ -10,9 +10,10 @@ interface VideoPlayerProps {
     IdSesion: number;
     IdCurso: number;
     url: string;
+    order: number
 }
 
-const VideoPlayerHls: React.FC<VideoPlayerProps> = ({ curso, video, IdSesion, IdCurso, url }) => {
+const VideoPlayerHls: React.FC<VideoPlayerProps> = ({ curso, video, IdSesion, IdCurso, url, order }) => {
     const { apiReq } = useApi();
     const { IdUsuario, setIdUsuario } = useContext(UserIdContext);
     const src = url;
@@ -22,6 +23,7 @@ const VideoPlayerHls: React.FC<VideoPlayerProps> = ({ curso, video, IdSesion, Id
     const [progress, setProgress] = useState<number>(0);
     const [minutoActual, setMinutoActual] = useState<number>(0);
     const [progresoCurso, setProgresoCurso] = useState<number>(0);
+    const [sesiones, setSesiones] = useState<any>([]);
 
     const progressDetail = async (idSesion: number) => {
         const response = await apiReq('GET', `cursos/getUserProgress?IdUsuario=${IdUsuario}&IdSesion=${idSesion}`);
@@ -50,8 +52,6 @@ const VideoPlayerHls: React.FC<VideoPlayerProps> = ({ curso, video, IdSesion, Id
             return error.response;
         }
     }
-    
-    
 
     useEffect(() => {
         const savedTime = localStorage.getItem('lastTime');
@@ -62,6 +62,15 @@ const VideoPlayerHls: React.FC<VideoPlayerProps> = ({ curso, video, IdSesion, Id
 
         progressDetail(IdSesion);
         courseProgressDetail(IdCurso);
+
+        const listadoSesiones = async () => {
+            const response = await apiReq('GET', `cursos/getListadoSesiones?IdCurso=${IdCurso}`);
+            if (response?.status === 200) {
+              setSesiones(response.data.data);
+            }
+          }
+
+        listadoSesiones();
     }, []);
 
     const onReady = () => {
@@ -97,11 +106,16 @@ const VideoPlayerHls: React.FC<VideoPlayerProps> = ({ curso, video, IdSesion, Id
 
     const onEnded = () => {
         setCompletada(true);
+        console.log(order)
+        const nextClass = sesiones[order].IdSesion
         console.log('onEnded');
         if (playerRef.current) {
             const state = { playedSeconds: playerRef.current.getCurrentTime() };
             onProgress(state);
         }
+        setTimeout(() => {
+            window.location.href = `/curso/${IdCurso}/${nextClass}`;
+          }, 2000);
     };
     return (
         <div style={{ position: 'relative', paddingTop: '56.25%' /* 16:9 Aspect Ratio */ }}>
