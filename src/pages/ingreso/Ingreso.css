@@ -1,0 +1,102 @@
+@font-face {
+  font-family: 'Montserrat';
+  src: url('../../../public/fonts/Montserrat-VariableFont_wght.ttf') format('truetype');
+}
+
+.card-container{
+  max-width: 400px;
+  border-radius: 40px;
+  text-align: center;
+}
+
+.fondo {
+  margin: 0;
+  padding: 0; 
+  box-sizing: border-box; 
+}
+
+.fondo *{
+  font-family: Montserrat;
+}
+
+
+.titulo
+{
+  margin-top: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  color: black;
+}
+
+.subTitulo{
+  margin-top: 10px;
+  font-size: 23px;
+  color: black;
+  font-weight: 800;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+.texto{
+  font-size: 15px;
+  color: black;
+  margin-bottom: 20px;
+}
+
+.center-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh
+}
+
+.fondo{
+  background-color: #00000079;
+  height: 100%;
+}
+
+.btn{
+  --border-radius: 20px;
+  font-size: 12px;
+  text-transform: none;
+  margin: 5px 0px 5px 0px;
+  width: 70%;
+}
+
+.google{
+  --background: #4C8BF5;
+}
+
+.apple{
+  --background: #000000;
+}
+
+.facebook{
+  --background: #3B5998;
+}
+
+.correo{
+  --background: #ff006a;
+}
+
+.iniciaSesion{
+  width: 40%;
+  --background: #68F0B4;
+  color: #2D45FF;
+  font-size: 18px;
+  --border-radius: 15px;
+  text-transform: none;
+  margin: 5px 0px 5px 10px;
+}
+.texto-condiciones{
+  font-size: 11px;
+  color: black;
+  margin: 10px 10px 30px 10px;
+}
