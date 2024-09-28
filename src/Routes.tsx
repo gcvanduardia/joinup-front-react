@@ -10,12 +10,14 @@ import Progreso from "./pages/progreso/Progreso";
 import Busqueda from './pages/busqueda/Busqueda';
 import Clase from './pages/clase/Clase';
 import Perfil from './pages/perfil/Perfil';
+import Ingreso from './pages/ingreso/Ingreso';
 
 const Routes: React.FC = () => (
   <IonRouterOutlet>
     <Route exact path="/"> <Redirect to="/login" /> </Route>
     <Route exact path="/login"> <Login /> </Route>
     <Route exact path="/register"> <Register /> </Route>
+    <Route exact path="/access"> <Ingreso /> </Route>
     <ProtectedRoute exact path="/home" component={Home} />
     <ProtectedRoute exact path="/curso/:idCurso/:idClase" component={Clase} />
     <ProtectedRoute exact path="/curso/:id" component={Curso} />
