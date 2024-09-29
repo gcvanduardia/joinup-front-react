@@ -14,7 +14,7 @@ import Ingreso from './pages/ingreso/Ingreso';
 
 const Routes: React.FC = () => (
   <IonRouterOutlet>
-    <Route exact path="/"> <Redirect to="/login" /> </Route>
+    <Route exact path="/"> <Redirect to="/access" /> </Route>
     <Route exact path="/login"> <Login /> </Route>
     <Route exact path="/register"> <Register /> </Route>
     <Route exact path="/access"> <Ingreso /> </Route>
