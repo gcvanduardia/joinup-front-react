@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom';
 import VideoPlayerHls from '../../shared/components/video-player-hls/VideoPlayerHls';
 import MenuToolbar from '../../shared/components/menuToolbar/MenuToolbar';
 import useApi from '../../shared/services/api/api';
-import './Clase.css';
+import styles from './Clase.module.css';
 
 const Clase: React.FC = () => {
 
@@ -130,26 +130,26 @@ const Clase: React.FC = () => {
           <IonRow>
             <IonCol>
               <IonCard button onClick={() => {history.push(`/curso/${idCurso}`)}} >
-                <IonTitle className='title'>{curso.NombreCurso}</IonTitle>
+                <IonTitle className={styles['title']}>{curso.NombreCurso}</IonTitle>
               </IonCard>
             </IonCol>
           </IonRow>
-          <IonRow className='custom-row'>
-            <IonCol sizeLg='8' sizeMd='12' sizeSm='12' sizeXs='12' className="video-col">
-              <div className='video-container'>
+          <IonRow className={styles['custom-row']}>
+            <IonCol sizeLg='8' sizeMd='12' sizeSm='12' sizeXs='12' className={styles["video-col"]}>
+              <div className={styles['video-container']}>
                 <VideoPlayerHls curso="robotica-test" video="curso-robotica-1.m3u8" IdCurso={parseInt(idCurso)} IdSesion={parseInt(idClase)} />
               </div>
-              <div className='resource-list-container'>
+              <div className={styles['resource-list-container']}>
                 <h2>Recursos</h2>
-                <IonList className='resources-list'>
+                <IonList className={styles['resources-list']}>
                   {recursos.map((recurso: InterfaceRecurso, index: number) => (
-                    <IonItem key={index} lines="full" className="resource-item">
-                      <IonLabel className="resource-label">
-                        <div className="resource-info">
-                          <h2 className="resource-title">{recurso.Descripcion}</h2>
+                    <IonItem key={index} lines="full" className={styles["resource-item"]}>
+                      <IonLabel className={styles["resource-label"]}>
+                        <div className={styles["resource-info"]}>
+                          <h2 className={styles["resource-title"]}>{recurso.Descripcion}</h2>
                           <IonButton fill="outline" href={recurso.URL} target="_blank">Ver recurso</IonButton>
                         </div>
-                        <p className="resource-type">{recurso.TipoRecurso}</p>
+                        <p className={styles["resource-type"]}>{recurso.TipoRecurso}</p>
                       </IonLabel>
                     </IonItem>
                   ))}
@@ -158,8 +158,8 @@ const Clase: React.FC = () => {
             </IonCol>
 
 
-            <IonCol sizeLg='4' sizeMd='12' sizeSm='12' sizeXs='12' className="segment-col">
-              <IonCard><IonTitle className='title'>{sesion.Nombre}</IonTitle></IonCard>
+            <IonCol sizeLg='4' sizeMd='12' sizeSm='12' sizeXs='12' className={styles["segment-col"]}>
+              <IonCard><IonTitle className={styles['title']}>{sesion.Nombre}</IonTitle></IonCard>
               <IonCard>
                 <IonSegment value={view} onIonChange={e => {
                   if (typeof e.detail.value === 'string') {
@@ -189,7 +189,7 @@ const Clase: React.FC = () => {
                         })
                         .map(([seccion, clasesEnSeccion], index) => (
                           <div key={index}>
-                            <IonListHeader className='title-seccion'>{seccion}</IonListHeader>
+                            <IonListHeader className={styles['title-seccion']}>{seccion}</IonListHeader>
                             {(clasesEnSeccion as InterfaceClase[])
                               .sort((a, b) => a.Orden - b.Orden)
                               .map((sesion, index) => (
@@ -214,9 +214,9 @@ const Clase: React.FC = () => {
                     {comentarios.map((comentario: InterfaceComentario, index: number) => (
                       <IonCard key={index}>
                         <IonCardHeader>
-                          <IonCardTitle className="user-name">{comentario.NombreCompletoUsuario}</IonCardTitle>
+                          <IonCardTitle className={styles["user-name"]}>{comentario.NombreCompletoUsuario}</IonCardTitle>
                         </IonCardHeader>
-                        <IonCardContent className="comment-text">
+                        <IonCardContent className={styles["comment-text"]}>
                           {comentario.Comentario}
                         </IonCardContent>
                       </IonCard>
@@ -228,17 +228,17 @@ const Clase: React.FC = () => {
             </IonCol>
           </IonRow>
           <IonRow>
-            <IonCol size="12" className='resources-container'>
+            <IonCol size="12" className={styles['resources-container']}>
               <h2>Recursos</h2>
-              <IonList className='resources-list'>
+              <IonList className={styles['resources-list']}>
                 {recursos.map((recurso: InterfaceRecurso, index: number) => (
-                  <IonItem key={index} lines="full" className="resource-item">
-                    <IonLabel className="resource-label">
-                      <div className="resource-info">
-                        <h2 className="resource-title">{recurso.Descripcion}</h2>
+                  <IonItem key={index} lines="full" className={styles["resource-item"]}>
+                    <IonLabel className={styles["resource-label"]}>
+                      <div className={styles["resource-info"]}>
+                        <h2 className={styles["resource-title"]}>{recurso.Descripcion}</h2>
                         <IonButton fill="outline" href={recurso.URL} target="_blank">Ver recurso</IonButton>
                       </div>
-                      <p className="resource-type">{recurso.TipoRecurso}</p>
+                      <p className={styles["resource-type"]}>{recurso.TipoRecurso}</p>
                     </IonLabel>
                   </IonItem>
                 ))}

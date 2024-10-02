@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { IonHeader, IonToolbar, IonButtons, IonButton, IonImg, IonSearchbar, IonMenuButton, IonPopover, IonList, IonItem, IonMenu, IonContent, IonTitle, IonText, IonAvatar, IonChip, IonLabel } from '@ionic/react';
 import logo from '../../../../public/img/logo3.png';
-import './MenuToolbar.css';
+import styles from './MenuToolbar.module.css';
 import { useHistory } from 'react-router-dom';
 import { SearchbarChangeEventDetail } from '@ionic/core';
 import { UserIdContext } from "../../services/global/global";
@@ -88,15 +88,15 @@ const MenuToolbar: React.FC = () => {
         <IonToolbar>
           <IonButtons slot="start">
             <IonMenuButton autoHide={false}></IonMenuButton>
-            <IonButton className="logo" onClick={() => history.push("/home")}>
+            <IonButton className={styles["logo"]} onClick={() => history.push("/home")}>
               <IonImg src={logo} alt="Logo"/>
             </IonButton>
           </IonButtons>
           {width > 768 && !location.pathname.startsWith('/busqueda') && (
-            <div className="searchbar-container">
-              <div className="searchbar-wrapper">
+            <div className={styles["searchbar-container"]}>
+              <div className={styles["searchbar-wrapper"]}>
                 <IonSearchbar 
-                  className="searchbar"
+                  className={styles["searchbar"]}
                   debounce={200}
                   onFocus={() => setShowSearchResults(true)}
                   onBlur={() => setShowSearchResults(false)}
@@ -112,7 +112,7 @@ const MenuToolbar: React.FC = () => {
           )}
           <IonButtons slot="end">
             {width <= 768 && (
-              <IonButton className='search-icon' onClick={() => history.push("/busqueda")}>
+              <IonButton className={styles['search-icon']} onClick={() => history.push("/busqueda")}>
                 <IonIcon icon={search} size='large'/>
               </IonButton>
             )}
@@ -120,7 +120,7 @@ const MenuToolbar: React.FC = () => {
             <IonAvatar slot="start" onClick={handleButtonClick} class='avatar-button'>
               <img src={user.Avatar} alt="avatar" />
             </IonAvatar>
-            <IonPopover className="popover-menu" isOpen={showPopover.isOpen} event={showPopover.event} onDidDismiss={handlePopoverDismiss}>
+            <IonPopover className={styles["popover-menu"]} isOpen={showPopover.isOpen} event={showPopover.event} onDidDismiss={handlePopoverDismiss}>
               <IonList>
                 <IonItem button onClick={() => {history.push('/perfil')}}>Perfil</IonItem>
                 <IonItem>Configuración</IonItem>
@@ -130,7 +130,7 @@ const MenuToolbar: React.FC = () => {
           </IonButtons>
         </IonToolbar>
         {showSearchResults && (
-          <div className="search-results">
+          <div className={styles["search-results"]}>
             <IonList>
               {courses.map(course => (
                 <IonItem 
@@ -144,7 +144,7 @@ const MenuToolbar: React.FC = () => {
               >
                   <IonImg slot="start" style={{ height: '50px' }} src={course.Imagen} alt={course.Nombre}/>
                   {course.Nombre}
-                  <IonLabel className="profesor-name">{course.Profesor}</IonLabel>
+                  <IonLabel className={styles["profesor-name"]}>{course.Profesor}</IonLabel>
                 </IonItem>
               ))}
             </IonList>

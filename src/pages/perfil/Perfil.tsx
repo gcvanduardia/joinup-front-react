@@ -1,6 +1,6 @@
 import React from 'react';
 import { IonContent, IonLabel, IonPage, IonTitle, IonRow, IonCard, IonCardContent, IonGrid } from '@ionic/react';
-import './Perfil.css';
+import styles from './Perfil.module.css';
 import MenuToolbar from '../../shared/components/menuToolbar/MenuToolbar';
 import { UserIdContext } from '../../shared/services/global/global';
 import { useContext, useEffect, useState } from 'react';
@@ -28,39 +28,39 @@ const Perfil: React.FC = () => {
     <IonPage>
         <MenuToolbar />
         <IonContent fullscreen id='main'>
-            <div className="big-card">
+            <div className={styles["big-card"]}>
                 <IonGrid>
-                    <IonRow className='profile-header'>
+                    <IonRow className={styles['profile-header']}>
                         <h2> Mi Perfil</h2>
-                        <img src={user.Avatar} alt="Avatar" className='avatar'/>
+                        <img src={user.Avatar} alt="Avatar" className={styles['avatar']}/>
                     </IonRow>
                     <IonRow>
-                        <div className="card">
+                        <div className={styles["card"]}>
                             <IonLabel>Nombres: {user.Nombres}</IonLabel>
                         </div>
                     </IonRow>
                     <IonRow>
-                        <div className="card">
+                        <div className={styles["card"]}>
                             <IonLabel>Apellidos: {user.Apellidos}</IonLabel>
                         </div>
                     </IonRow>
                     <IonRow>
-                        <div className="card">
+                        <div className={styles["card"]}>
                             <IonLabel>Email: {user.Email}</IonLabel>
                         </div>
                     </IonRow>
                     <IonRow>
-                        <div className="card">
+                        <div className={styles["card"]}>
                             <IonLabel>Documento: {user.Documento}</IonLabel>
                         </div>
                     </IonRow>
                     <IonRow>
-                        <div className="card">
+                        <div className={styles["card"]}>
                             <IonLabel>Telefono: {user.Celular}</IonLabel>
                         </div>
                     </IonRow>
                     <IonRow>
-                        <div className="card">
+                        <div className={styles["card"]}>
                             <IonLabel>Rol: {user.Rol}</IonLabel>
                         </div>
                     </IonRow>

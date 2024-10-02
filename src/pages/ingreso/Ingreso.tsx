@@ -1,61 +1,61 @@
 import React from 'react';
-import './Ingreso.css';
+import styles from './Ingreso.module.css';
 import { IonPage, IonContent, IonGrid, IonCol, IonRow, IonCard, IonTitle, IonButton, IonLabel } from '@ionic/react';
-import { useHistory } from 'react-router-dom'; // Importa useHistory
+import { useHistory } from 'react-router-dom';
 
 const Ingreso: React.FC = () => {
-  const history = useHistory(); // Usa el hook useHistory
+  const history = useHistory();
 
   const handleIniciaSesionClick = () => {
-    history.push('/login'); // Redirige a la ruta /login
+    history.push('/login');
   };
 
   const handleRegistrarseClick = () => {
-    history.push('/register'); // Redirige a la ruta /login
+    history.push('/register');
   };
 
   return (
     <IonPage>
       <IonContent fullscreen>
-        <IonGrid className='fondo'>
-          <IonRow>
-            <IonCol className='container'>
-              <IonCard className='card-container'>
+        <IonGrid className={styles.fondo}>
+          <IonRow class='center'>
+            <IonCol className={styles.container}>
+              <IonCard className={styles['card-container']}>
                 <IonRow>
-                  <IonTitle className='titulo'>Mi Plataforma</IonTitle>
+                  <IonTitle className={styles.titulo}>Mi Plataforma</IonTitle>
                 </IonRow>
                 
-                <IonRow className="center-content">
-                  <IonLabel className='subTitulo'>Cada paso te acerca a tu futuro!! Únete Gratis</IonLabel>
+                <IonRow className={styles['center-content']}>
+                  <IonLabel className={styles.subTitulo}>Cada paso te acerca a tu futuro!! Únete Gratis</IonLabel>
                 </IonRow>
                 
-                <IonRow className="center-content">
-                  <IonLabel className='texto'>Tenemos más de 2000 cursos y proyectos para que crezcas en eso que tanto te interesa. Disfruta las mejores clases desde solo *5% USD por clase</IonLabel>
+                <IonRow className={styles['center-content']}>
+                  <IonLabel className={styles.texto}>Tenemos más de 2000 cursos y proyectos para que crezcas en eso que tanto te interesa. Disfruta las mejores clases desde solo *5% USD por clase</IonLabel>
                 </IonRow>
 
-                <IonRow className="center-content">
-                  <IonButton className='btn google'>Continuar con Google</IonButton>
+                <IonRow className={styles['center-content']}>
+                  <IonButton className={styles.btn + ' ' + styles.google}>Continuar con Google</IonButton>
                 </IonRow>
 
-                <IonRow className="center-content">
-                  <IonButton className='btn facebook'>Continuar con Facebook</IonButton>
+                <IonRow className={styles['center-content']}>
+                  <IonButton className={styles.btn + ' ' + styles.facebook}>Continuar con Facebook</IonButton>
                 </IonRow>
 
-                <IonRow className="center-content">
-                  <IonButton className='btn apple'>Continuar con Apple</IonButton>
+                <IonRow className={styles['center-content']}>
+                  <IonButton className={styles.btn + ' ' + styles.apple}>Continuar con Apple</IonButton>
                 </IonRow>
                 
-                <IonRow className="center-content">
-                  <IonButton className='btn correo' onClick={handleRegistrarseClick}>Registrate con correo electronico</IonButton>
+                <IonRow className={styles['center-content']}>
+                  <IonButton className={styles.btn + ' ' + styles.correo} onClick={handleRegistrarseClick}>Registrate con correo electronico</IonButton>
                 </IonRow>
 
-                <IonRow className="center-content">
+                <IonRow className={styles['center-content']}>
                   <IonLabel>¿Ya tienes tu cuenta?</IonLabel>
-                  <IonButton className='iniciaSesion' onClick={handleIniciaSesionClick}>Inicia Sesión</IonButton>
+                  <IonButton className={styles.iniciaSesion} onClick={handleIniciaSesionClick}>Inicia Sesión</IonButton>
                 </IonRow>
 
                 <IonRow>
-                  <IonLabel className='texto-condiciones'>Al hacer clic en Registrarse o Continuar con Google, Facebook o Apple, acepta las Condiciones de Servicio y Politica de Privacidad de Miplataforma </IonLabel>
+                  <IonLabel className={styles['texto-condiciones']}>Al hacer clic en Registrarse o Continuar con Google, Facebook o Apple, acepta las Condiciones de Servicio y Politica de Privacidad de Miplataforma </IonLabel>
                 </IonRow>
               </IonCard>
             </IonCol>
