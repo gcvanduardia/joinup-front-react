@@ -1,7 +1,7 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonButton, IonLabel, IonGrid, IonCol, IonRow, IonCard, IonAlert } from '@ionic/react';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import './Register.css';
+import styles from './Register.module.css';
 import useApi from "../../shared/services/api/api";
 
 const Register: React.FC = () => {
@@ -62,7 +62,7 @@ const Register: React.FC = () => {
                 <IonGrid fixed>
                     <IonRow>
                         <IonCol size="12">
-                            <div className='center'>
+                            <div>
                                 <IonCard>
                                     <form onSubmit={handleSubmit}>
                                         <IonLabel>

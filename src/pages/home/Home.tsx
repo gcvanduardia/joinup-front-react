@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { IonTitle, IonContent, IonPage, IonGrid, IonRow, IonCol, IonCard, IonCardContent } from '@ionic/react';
 import MenuToolbar from '../../shared/components/menuToolbar/MenuToolbar';
-import './Home.css';
+import styles from './Home.module.css';
 import CourseCard from "../../shared/components/course-card/CourseCard";
 import { UserIdContext } from "../../shared/services/global/global";
 import useApi from "../../shared/services/api/api";
@@ -38,7 +38,7 @@ const Home: React.FC = () => {
     <IonPage>
       <MenuToolbar />
       <IonContent fullscreen id="main">
-        <IonGrid className='grid'>
+        <IonGrid className={styles.grid}>
           <IonRow>
             <IonCol>
               <IonTitle>Cursos en progreso</IonTitle>
@@ -51,7 +51,7 @@ const Home: React.FC = () => {
               </IonCol>
             ))}
           </IonRow>
-          <IonRow className='ion-row-recomendados'>
+          <IonRow className={styles['ion-row-recomendados']}>
             <IonCol>
               <IonTitle>Cursos Recomendados</IonTitle>
             </IonCol>

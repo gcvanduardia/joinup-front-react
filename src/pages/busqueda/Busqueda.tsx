@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { IonContent, IonGrid, IonPage, IonCol, IonRow, IonItem, IonSearchbar, IonImg, IonInfiniteScroll, IonInfiniteScrollContent } from '@ionic/react';
 import { useParams } from 'react-router-dom';
-import './Busqueda.css';
+import styles from './Busqueda.module.css';
 import MenuToolbar from '../../shared/components/menuToolbar/MenuToolbar';
 import { useHistory } from 'react-router-dom';
 import { SearchbarChangeEventDetail } from '@ionic/core';
@@ -26,9 +26,7 @@ const Busqueda: React.FC = () => {
   const [pageNumber, setPage] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(12);
 
-
   useEffect(() => {
-
     if (initialSearchQuery) {
       listadoCursos(initialSearchQuery);
     }
@@ -96,7 +94,7 @@ const Busqueda: React.FC = () => {
     <IonPage>
       <MenuToolbar />
       <IonContent id="main">
-        <div className="custom-card-title">
+        <div className={styles['custom-card-title']}>
           <h2 style={{ textAlign: 'center' }}>Búsqueda</h2>
           <IonSearchbar
             value={searchQuery}
@@ -115,7 +113,7 @@ const Busqueda: React.FC = () => {
             }}
           />
         </div>
-        <div className="custom-card">
+        <div className={styles['custom-card']}>
           {courses.length === 0 ? (
             <IonItem>Curso no encontrado</IonItem>
           ) : (

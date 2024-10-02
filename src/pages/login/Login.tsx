@@ -1,8 +1,7 @@
-
 import { IonContent, IonPage, IonInput, IonButton, IonLabel, IonGrid, IonCol, IonRow, IonCard, IonAlert } from '@ionic/react';
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import './Login.css';
+import styles from './Login.module.css';
 import useApi from "../../shared/services/api/api";
 
 const Login: React.FC = () => {
@@ -68,9 +67,9 @@ const Login: React.FC = () => {
                 <IonGrid fixed>
                     <IonRow>
                         <IonCol size="12">
-                            <div className='center'>
+                            <div className={styles.center}>
                                 <IonCard>
-                                    <img src="img/logo2.png" alt="logo2" className='logo-form' />
+                                    <img src="img/logo2.png" alt="logo2" className={styles['logo-form']} />
                                     <form onSubmit={handleSubmit}>
                                         <IonLabel>
                                             Username:

@@ -7,8 +7,19 @@
 }
 
 .logo {
-    margin-bottom: 10px;
+    width: 100%;
+    max-width: 100px; 
+    height: auto;
+    padding: 10px;
+    margin-top: 10%;
 }
+
+.searchbar {
+  width: 50%;
+  margin: auto;
+}
+
+
 .searchbar-container {
     position: relative;
     width: 100%;
