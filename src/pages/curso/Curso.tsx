@@ -1,10 +1,11 @@
 import { IonContent, IonPage, IonGrid, IonRow, IonCol, IonLabel, IonListHeader, IonImg, IonText, IonCard, IonButton, IonItem, IonList, IonTitle } from '@ionic/react';
-import './Curso.css';
 import MenuToolbar from '../../shared/components/menuToolbar/MenuToolbar';
 import { useParams } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import useApi from "../../shared/services/api/api";
+import styles from './Curso.module.css';
+import { Style } from '@capacitor/status-bar';
 
 interface Sesion {
   Duracion: number;
@@ -37,7 +38,6 @@ const Curso: React.FC = () => {
       const response = await apiReq('GET', `cursos/getListadoSesiones?IdCurso=${id}`);
       if (response?.status === 200) {
         setSesiones(response.data.data);
-        console.log(response.data.data)
       }
     }
     listadoSesiones();
@@ -47,23 +47,23 @@ const Curso: React.FC = () => {
     <IonPage>
       <MenuToolbar />
       <IonContent fullscreen id="main">
-          <IonGrid className="curso-container">
+          <IonGrid className={styles["curso-container"]}>
             <IonRow>
               <IonCol size='8' sizeXs='12' sizeSm="12" sizeLg='8' >
                   <IonImg src={curso.Imagen} alt={id}/>
               </IonCol>
-              <IonCol size='4' sizeXs='12' sizeSm='12' sizeLg='4' className='description-container'>
-                <IonCard><IonLabel className='title'>{curso.NombreCurso}</IonLabel></IonCard>
+              <IonCol size='4' sizeXs='12' sizeSm='12' sizeLg='4' className={styles['description-container']}>
+                <IonCard><IonLabel className={styles['title']}>{curso.NombreCurso}</IonLabel></IonCard>
                 <IonCard><IonText>{curso.DescripcionPrincipal}</IonText></IonCard>
                 <IonCard><IonText>{curso.NombreCompletoProfesor}</IonText></IonCard>
               </IonCol>
             </IonRow>
             <IonRow>
               <IonCol>
-                <div className='curso-title'>
+                <div className={styles['curso-title']}>
                   <IonTitle>Clases</IonTitle>
                 </div>
-                <div className='curso-list'>
+                <div className={styles['curso-list']}>
                   <IonList>
                     {Object.entries(sesiones.reduce((r: any, a: Sesion) => {
                       r[a.Seccion] = [...r[a.Seccion] || [], a];
@@ -78,13 +78,13 @@ const Curso: React.FC = () => {
                     })
                     .map(([seccion, sesionesEnSeccion], index) => (
                       <div key={index}>
-                        <IonListHeader className="section-title">{seccion}</IonListHeader>
+                        <IonListHeader className={styles["section-title"]}>{seccion}</IonListHeader>
                         {(sesionesEnSeccion as Sesion[])
                           .sort((a, b) => a.Orden - b.Orden)
                           .map((sesion, index) => (
                             <IonItem button onClick={() => history.push(`/curso/${id}/${sesion.IdSesion}`)} key={index}>
-                              <IonImg style={{ height: '60px', marginRight: '20px' }} src={sesion.Imagen}></IonImg>
-                              <div className="session-info">
+                              <IonImg style={{ height: '60px' }} src={sesion.Imagen}></IonImg>
+                              <div className={styles["session-info"]}>
                                 <IonLabel>{sesion.Nombre}</IonLabel>
                                 <IonLabel>
                                   {Math.floor(sesion.Duracion * 60)} minutos

@@ -3,7 +3,7 @@ import { Doughnut, Bar } from 'react-chartjs-2';
 import { Chart, ArcElement, BarElement, CategoryScale, LinearScale } from 'chart.js';
 import { IonGrid, IonRow, IonCol, IonPage, IonContent, IonHeader, IonTitle, IonCard, IonLabel } from '@ionic/react';
 import MenuToolbar from '../../shared/components/menuToolbar/MenuToolbar';
-import './Progreso.css';
+import styles from './Progreso.module.css';
 
 // Register the element
 Chart.register(ArcElement, BarElement, CategoryScale, LinearScale);
@@ -45,15 +45,15 @@ const Progreso: React.FC = () => {
                 <IonGrid>
                     <IonRow>
                         <IonCol>
-                            <div className='title-container'>
-                                <IonTitle className='title'>Mi Progreso</IonTitle>
+                            <div className={styles['title-container']}>
+                                <IonTitle className={styles['title']}>Mi Progreso</IonTitle>
                             </div>
                         </IonCol>
                     </IonRow>
                     <IonRow>
                         <IonCol>
                             <IonCard>
-                                <IonLabel  className='statistic-card'>
+                                <IonLabel  className={styles['statistic-card']}>
                                     <h2>{time}</h2>
                                     <p>de Aprendizaje</p>
                                 </IonLabel>
@@ -61,7 +61,7 @@ const Progreso: React.FC = () => {
                         </IonCol>
                         <IonCol>
                             <IonCard>
-                                <IonLabel  className='statistic-card'>
+                                <IonLabel  className={styles['statistic-card']}>
                                     <h2>{numCursos}</h2>
                                     <p>Cursos tomados</p>
                                 </IonLabel>
@@ -69,7 +69,7 @@ const Progreso: React.FC = () => {
                         </IonCol>
                         <IonCol>
                             <IonCard>
-                                <IonLabel  className='statistic-card'>
+                                <IonLabel  className={styles['statistic-card']}>
                                     <h2>{numClases}</h2>
                                     <p>Clases tomadas</p>
                                 </IonLabel>
@@ -78,14 +78,14 @@ const Progreso: React.FC = () => {
                     </IonRow>
                     <IonRow>
                         <IonCol size='6'>
-                            <div className="custom-card">
+                            <div className={styles["custom-card"]}>
                                 <div>
                                     <Bar data={data} options={{ responsive: true, maintainAspectRatio: false }} />
 </                              div>
                             </div>
                         </IonCol>
                         <IonCol size='6'>
-                            <div className="custom-card">
+                            <div className={styles["custom-card"]}>
                                 <div>
                                   <Doughnut data={data} options={{ responsive: true, maintainAspectRatio: false }} />
 </                              div>

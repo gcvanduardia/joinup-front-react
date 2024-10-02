@@ -1,7 +1,7 @@
 import React from 'react';
 import { IonCard, IonCardContent, IonButton, IonImg, IonProgressBar } from '@ionic/react';
 import { useHistory } from 'react-router-dom';
-import './CourseCard.css';
+import styles from './CourseCard.module.css';
 
 interface CourseCardProps {
   title: string;
@@ -15,15 +15,15 @@ const CourseCard: React.FC<CourseCardProps> = ({ title, description, courseId, I
   const history = useHistory();
 
   return (
-    <IonCard className='course-card ion-no-margin' mode='ios' button onClick={() => history.push(`/curso/${courseId}`)}>
+    <IonCard className={styles['course-card ion-no-margin']} mode='ios' button onClick={() => history.push(`/curso/${courseId}`)}>
       <IonImg src={Imagen} alt={Imagen}></IonImg>
       <IonCardContent>
-        <h2 className="course-title">{title}</h2>
-        <p className="course-description">{description}</p>
+        <h2 className={styles["course-title"]}>{title}</h2>
+        <p className={styles["course-description"]}>{description}</p>
       </IonCardContent>
       {ProgresoCurso !== undefined && ( 
-        <div className="progress-bar-container">
-          <IonProgressBar className="course-progress-bar" value={ProgresoCurso / 100}></IonProgressBar>
+        <div className={styles["progress-bar-container"]}>
+          <IonProgressBar className={styles["course-progress-bar"]} value={ProgresoCurso / 100}></IonProgressBar>
         </div>
       )}
     </IonCard>
