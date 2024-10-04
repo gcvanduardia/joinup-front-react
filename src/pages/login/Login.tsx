@@ -64,26 +64,41 @@ const Login: React.FC = () => {
     return (
         <IonPage>
             <IonContent fullscreen>
-                <IonGrid fixed>
+                <IonGrid fixed className={styles.fondo}>
                     <IonRow>
-                        <IonCol size="12">
-                            <div className={styles.center}>
-                                <IonCard>
-                                    <img src="img/logo2.png" alt="logo2" className={styles['logo-form']} />
+                        <IonCol size="12" className={styles.container}>
+                            
+                            <IonCard className={styles['card-container']}>
+                                <IonRow className={styles['center-content']}>
+                                    <IonLabel className={styles.titulo}>Mi Plataforma</IonLabel>
+                                </IonRow>
+                                <IonRow className={styles['center-content']}>
+                                    <img src="img/logoPrincipal 1.png" alt="logo2" className={styles['logo-form']} />
+                                </IonRow>
+
+                                <IonRow className={styles['center-content']}>
+                                    <IonLabel className={styles['subTitulo']}>INICIO SESIÓN</IonLabel>
+                                </IonRow>
+
+                                <IonRow className={styles['center-content']}>
                                     <form onSubmit={handleSubmit}>
-                                        <IonLabel>
-                                            Username:
-                                            <IonInput type="text" value={username} onIonChange={e => setUsername(e.detail.value!)} />
+                                        <IonLabel className={styles['texto']}>
+                                            Usuario
+                                            <input type="text" value={username} onChange={e => setUsername(e.target.value!)} />
                                         </IonLabel>
-                                        <IonLabel>
-                                            Password:
-                                            <IonInput type="password" value={password} onIonChange={e => setPassword(e.detail.value!)} />
+                                        <IonLabel className={styles['texto']}>
+                                            Password
+                                            <input type="password" value={password} onChange={e => setPassword(e.target.value!)} />
                                         </IonLabel>
                                         <IonButton expand="block" type="submit" mode="ios">Iniciar sesión</IonButton>
                                         <IonButton expand="block" fill="clear" mode="ios" onClick={handleRegisterRedirect}>Registrarse</IonButton>
                                     </form>
-                                </IonCard>
-                            </div>
+                                </IonRow>
+
+                                <IonRow>
+                                    <IonLabel className={styles['texto-condiciones']}>Al unirse acepta las Condiciones de Servicio y Politica de Privacidad de MiPlataforma</IonLabel>
+                                </IonRow>
+                            </IonCard>
                         </IonCol>
                     </IonRow>
                 </IonGrid>

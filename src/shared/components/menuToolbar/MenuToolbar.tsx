@@ -117,7 +117,7 @@ const MenuToolbar: React.FC = () => {
               </IonButton>
             )}
             {width > 768 && <IonChip color={'secondary'}> <IonLabel><strong>Hola {user.Nombres}!</strong></IonLabel></IonChip>}
-            <IonAvatar slot="start" onClick={handleButtonClick} class='avatar-button'>
+            <IonAvatar slot="start" onClick={handleButtonClick} className={styles['avatar-button']}>
               <img src={user.Avatar} alt="avatar" />
             </IonAvatar>
             <IonPopover className={styles["popover-menu"]} isOpen={showPopover.isOpen} event={showPopover.event} onDidDismiss={handlePopoverDismiss}>

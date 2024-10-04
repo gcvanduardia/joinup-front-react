@@ -18,7 +18,7 @@ const Ingreso: React.FC = () => {
     <IonPage>
       <IonContent fullscreen>
         <IonGrid className={styles.fondo}>
-          <IonRow class='center'>
+          <IonRow>
             <IonCol className={styles.container}>
               <IonCard className={styles['card-container']}>
                 <IonRow>
