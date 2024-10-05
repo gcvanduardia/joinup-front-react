@@ -14,7 +14,7 @@
     border: none;
 }
 
-.sideMenu ion-content, ion-list {
+.sideMenu ion-content, .lista-proyectos {
     --color:#fff;
     --background: #2D45FF;
     --ion-item-background: #2D45FF;
