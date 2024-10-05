@@ -1,0 +1,108 @@
+@font-face {
+    font-family: 'Montserrat';
+    src: url('../../../public/fonts/Montserrat-VariableFont_wght.ttf') format('truetype');
+}
+
+*{
+    font-family: 'Montserrat', sans-serif;
+}
+
+.sideMenu {
+    width: 250px;
+    height: 100%;
+    min-width: 250px;
+    border: none;
+}
+
+.sideMenu ion-content, ion-list {
+    --color:#fff;
+    --background: #2D45FF;
+    --ion-item-background: #2D45FF;
+    --ion-item-color: #fff;
+}
+
+.fondo {
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+    padding: 10px;
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+    border: 3px solid #FFF44B;
+    border-radius: 15px;
+    padding: 10px;
+}
+
+.sideMenu ion-title{
+    background-color: #2D45FF;
+    padding: 4%;
+    font-size: 17px;
+}
+
+.center-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.misProyectos{
+    padding: 10px;
+    border-bottom: 3px solid #81E838;
+    text-align: center;
+    font-weight: 700;
+    font-size: 18px;
+    width: 80%;
+}
+
+
+.lista-proyectos{
+    font-size: 10px;
+    --ion-item-color: #81E838;
+    width: 80%;
+    border-bottom: 3px solid #81E838;
+    padding: 10px;
+    
+}
+
+.lista-proyectos ion-item {
+    font-weight: 700; /* Añade esta línea para hacer más gruesa la letra */
+    width: 100%;
+}
+
+.puntosTitulo{
+    padding: 10px;
+    text-align: left;
+    font-weight: 700;
+    font-size: 18px;
+    width: 100%;
+}
+
+.puntos{
+    padding: 0px 10px 10px 10px;
+    text-align: right;
+    font-weight: 700;
+    font-size: 50px;
+    width: 80%;
+    color: #81E838;
+    border-bottom: 3px solid #81E838;
+}
+
+.cursosRecomendados{
+    padding: 10px;
+    text-align: center;
+    color: #FFF44B;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.menu-button:hover {
+    --ion-item-background: #f0f0f0;
+}
+
+.popover-menu .logout-button:hover {
+    --ion-item-background: #f0f0f0;
+}

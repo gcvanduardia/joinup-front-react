@@ -8,22 +8,18 @@ interface VideoPlayerProps {
     curso: string;
     video: string;
     IdSesion: number;
-    IdCurso: number;
-    url: string;
-    order: number
+    IdCurso: number
 }
 
-const VideoPlayerHls: React.FC<VideoPlayerProps> = ({ curso, video, IdSesion, IdCurso, url, order }) => {
+const VideoPlayerHls: React.FC<VideoPlayerProps> = ({ curso, video, IdSesion, IdCurso }) => {
     const { apiReq } = useApi();
+    const folder = video.split('.')[0];
     const { IdUsuario, setIdUsuario } = useContext(UserIdContext);
-    const src = url;
+    const src = `${environment.apiUrl}/video-hls/${curso}/${folder}/${video}`;
     const playerRef = useRef<ReactPlayer>(null);
     const lastTime = useRef<number>(0);
     const [completada, setCompletada] = useState<boolean>(false);
     const [progress, setProgress] = useState<number>(0);
-    const [minutoActual, setMinutoActual] = useState<number>(0);
-    const [progresoCurso, setProgresoCurso] = useState<number>(0);
-    const [sesiones, setSesiones] = useState<any>([]);
 
     const progressDetail = async (idSesion: number) => {
         const response = await apiReq('GET', `cursos/getUserProgress?IdUsuario=${IdUsuario}&IdSesion=${idSesion}`);
@@ -32,26 +28,9 @@ const VideoPlayerHls: React.FC<VideoPlayerProps> = ({ curso, video, IdSesion, Id
           console.log(`Id Usuario: ${IdUsuario} Id Sesion: ${idSesion}`);
           setCompletada(response.data.data.Completada);
           setProgress(response.data.data.ProgresoSesion);
-          setMinutoActual(response.data.data.MinutoActual);
         }
         return response;
       }
-
-    const courseProgressDetail = async (idCurso: number) => {
-        try {
-            const response = await apiReq('GET', `cursos/getUserCourseProgress?IdUsuario=${IdUsuario}&IdCurso=${idCurso}`);
-            if (response?.status === 200 && response.data && typeof response.data.progreso !== 'undefined') {
-                console.log(`El progreso total del usuario es: ${parseInt(response.data.progreso)}`);
-                setProgresoCurso(parseInt(response.data.progreso));
-            } else {
-                console.error('Error en la respuesta del API o la estructura de datos es incorrecta');
-            }
-            return response;
-        } catch (error) {
-            console.error('Error al obtener el progreso del curso:', error);
-            return error.response;
-        }
-    }
 
     useEffect(() => {
         const savedTime = localStorage.getItem('lastTime');
@@ -61,21 +40,11 @@ const VideoPlayerHls: React.FC<VideoPlayerProps> = ({ curso, video, IdSesion, Id
         }
 
         progressDetail(IdSesion);
-        courseProgressDetail(IdCurso);
-
-        const listadoSesiones = async () => {
-            const response = await apiReq('GET', `cursos/getListadoSesiones?IdCurso=${IdCurso}`);
-            if (response?.status === 200) {
-              setSesiones(response.data.data);
-            }
-          }
-
-        listadoSesiones();
     }, []);
 
     const onReady = () => {
-        if (playerRef.current) {
-            playerRef.current.seekTo(minutoActual * 60, 'seconds');
+        if (playerRef.current && lastTime.current) {
+            playerRef.current.seekTo(lastTime.current);
         }
     };
 
@@ -95,7 +64,7 @@ const VideoPlayerHls: React.FC<VideoPlayerProps> = ({ curso, video, IdSesion, Id
                 IdSesion: IdSesion,
                 MinutoActual: playedMinutes,
                 ProgresoSesion: sessionProgress,
-                ProgresoCurso: progresoCurso,
+                ProgresoCurso: 0.5,
                 Completada: completada
             });
         }
@@ -106,16 +75,11 @@ const VideoPlayerHls: React.FC<VideoPlayerProps> = ({ curso, video, IdSesion, Id
 
     const onEnded = () => {
         setCompletada(true);
-        console.log(order)
-        const nextClass = sesiones[order].IdSesion
         console.log('onEnded');
         if (playerRef.current) {
             const state = { playedSeconds: playerRef.current.getCurrentTime() };
             onProgress(state);
         }
-        setTimeout(() => {
-            window.location.href = `/curso/${IdCurso}/${nextClass}`;
-          }, 2000);
     };
     return (
         <div style={{ position: 'relative', paddingTop: '56.25%' /* 16:9 Aspect Ratio */ }}>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { IonTitle, IonContent, IonPage, IonGrid, IonRow, IonCol, IonCard, IonCardContent } from '@ionic/react';
-import MenuToolbar from '../../shared/components/menuToolbar/MenuToolbar';
+import { IonTitle, IonContent, IonPage, IonGrid, IonRow, IonCol, IonHeader, IonSplitPane } from '@ionic/react';
+import TopToolbar from '../../shared/components/topToolBar/TopToolBar';
+import SideMenu from '../../shared/components/sideBarMenu/SideBarMenu';
 import styles from './Home.module.css';
 import CourseCard from "../../shared/components/course-card/CourseCard";
 import { UserIdContext } from "../../shared/services/global/global";
@@ -36,35 +37,38 @@ const Home: React.FC = () => {
 
   return (
     <IonPage>
-      <MenuToolbar />
-      <IonContent fullscreen id="main">
-        <IonGrid className={styles.grid}>
-          <IonRow>
-            <IonCol>
-              <IonTitle>Cursos en progreso</IonTitle>
-            </IonCol>
-          </IonRow>
-          <IonRow>
-            {historialCursos.map((course) => (
-              <IonCol size-xs="12" size-sm="6" size-md="4" size-lg="3" key={course.IdCurso}>
-                <CourseCard title={course.NombreCurso} description={course.NombreSesion} courseId={course.IdCurso} Imagen={course.ImagenCurso} ProgresoCurso={course.ProgresoCurso} />
+      <TopToolbar/>
+      <IonSplitPane contentId="main">
+        <SideMenu/>
+        <IonContent id="main" fullscreen>
+          <IonGrid className={styles.grid}>
+            <IonRow>
+              <IonCol>
+                <IonTitle>Cursos en progreso</IonTitle>
               </IonCol>
-            ))}
-          </IonRow>
-          <IonRow className={styles['ion-row-recomendados']}>
-            <IonCol>
-              <IonTitle>Cursos Recomendados</IonTitle>
-            </IonCol>
-          </IonRow>
-          <IonRow>
-            {recomendedCourses.map((course) => (
-              <IonCol size-xs="12" size-sm="6" size-md="4" size-lg="3" key={course.CursoId}>
-                <CourseCard title={course.Nombre} description={course.NombreProfesor+' '+course.ApellidoProfesor} courseId={course.CursoId} Imagen={course.Imagen}/>
+            </IonRow>
+            <IonRow>
+              {historialCursos.map((course) => (
+                <IonCol size-xs="12" size-sm="6" size-md="4" size-lg="3" key={course.IdCurso}>
+                  <CourseCard title={course.NombreCurso} description={course.NombreSesion} courseId={course.IdCurso} Imagen={course.ImagenCurso} ProgresoCurso={course.ProgresoCurso}/>
+                </IonCol>
+              ))}
+            </IonRow>
+            <IonRow className={styles['ion-row-recomendados']}>
+              <IonCol>
+                <IonTitle>Cursos Recomendados</IonTitle>
               </IonCol>
-            ))}
-          </IonRow>
-        </IonGrid>
-      </IonContent>
+            </IonRow>
+            <IonRow>
+              {recomendedCourses.map((course) => (
+                <IonCol size-xs="12" size-sm="6" size-md="6" size-lg="6" key={course.CursoId}>
+                  <CourseCard title={course.Nombre} description={`${course.NombreProfesor} ${course.ApellidoProfesor}`} courseId={course.CursoId} Imagen={course.Imagen} />
+                </IonCol>
+              ))}
+            </IonRow>
+          </IonGrid>
+        </IonContent>
+      </IonSplitPane>
     </IonPage>
   );
 };
