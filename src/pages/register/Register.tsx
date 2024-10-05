@@ -59,45 +59,53 @@ const Register: React.FC = () => {
     return (
         <IonPage>
             <IonContent fullscreen>
-                <IonGrid fixed>
+                <IonGrid fixed className={styles.fondo}>
                     <IonRow>
-                        <IonCol size="12">
-                            <div>
-                                <IonCard>
-                                    <form onSubmit={handleSubmit}>
-                                        <IonLabel>
-                                            UserName:
-                                            <IonInput type="text" value={userName} onIonChange={e => setUserName(e.detail.value!)} />
-                                        </IonLabel>
-                                        <IonLabel>
-                                            Nombres:
-                                            <IonInput type="text" value={firstName} onIonChange={e => setFirstName(e.detail.value!)} />
-                                        </IonLabel>
-                                        <IonLabel>
-                                            Apellidos:
-                                            <IonInput type="text" value={lastName} onIonChange={e => setLastName(e.detail.value!)} />
-                                        </IonLabel>
-                                        <IonLabel>
-                                            Correo:
-                                            <IonInput type="email" value={email} onIonChange={e => setEmail(e.detail.value!)} />
-                                        </IonLabel>
-                                        <IonLabel>
-                                            Documento:
-                                            <IonInput type="text" value={document} onIonChange={e => setDocument(e.detail.value!)} />
-                                        </IonLabel>
-                                        <IonLabel>
-                                            Celular:
-                                            <IonInput type="tel" value={phone} onIonChange={e => setPhone(e.detail.value!)} />
-                                        </IonLabel>
-                                        <IonLabel>
-                                            Password:
-                                            <IonInput type="password" value={password} onIonChange={e => setPassword(e.detail.value!)} />
-                                        </IonLabel>
-                                        <IonButton expand="block" type="submit" mode="ios">Registrarse</IonButton>
-                                        <IonButton expand="block" fill="clear" onClick={handleLoginRedirect}>Iniciar Sesion</IonButton>
-                                    </form>
-                                </IonCard>
-                            </div>
+                        <IonCol size="12" className={styles.container}>
+                            <IonCard className={styles['card-container']}>
+                                <IonRow className={styles['center-content']}>
+                                    <IonLabel className={styles.titulo}>Mi Plataforma</IonLabel>
+                                </IonRow>
+                                <IonRow className={styles['center-content']}>
+                                    <img src="img/logoPrincipal 1.png" alt="logo2" className={styles['logo-form']} />
+                                </IonRow>
+
+                                <IonRow className={styles['center-content']}>
+                                    <IonLabel className={styles['subTitulo']}>Crea tu cuenta!!</IonLabel>
+                                </IonRow>
+                                <form onSubmit={handleSubmit}>
+                                    <IonLabel>
+                                        UserName:
+                                        <IonInput type="text" value={userName} onIonChange={e => setUserName(e.detail.value!)} />
+                                    </IonLabel>
+                                    <IonLabel>
+                                        Nombres:
+                                        <IonInput type="text" value={firstName} onIonChange={e => setFirstName(e.detail.value!)} />
+                                    </IonLabel>
+                                    <IonLabel>
+                                        Apellidos:
+                                        <IonInput type="text" value={lastName} onIonChange={e => setLastName(e.detail.value!)} />
+                                    </IonLabel>
+                                    <IonLabel>
+                                        Correo:
+                                        <IonInput type="email" value={email} onIonChange={e => setEmail(e.detail.value!)} />
+                                    </IonLabel>
+                                    <IonLabel>
+                                        Documento:
+                                        <IonInput type="text" value={document} onIonChange={e => setDocument(e.detail.value!)} />
+                                    </IonLabel>
+                                    <IonLabel>
+                                        Celular:
+                                        <IonInput type="tel" value={phone} onIonChange={e => setPhone(e.detail.value!)} />
+                                    </IonLabel>
+                                    <IonLabel>
+                                        Password:
+                                        <IonInput type="password" value={password} onIonChange={e => setPassword(e.detail.value!)} />
+                                    </IonLabel>
+                                    <IonButton expand="block" type="submit" mode="ios">Registrarse</IonButton>
+                                    <IonButton expand="block" fill="clear" onClick={handleLoginRedirect}>Iniciar Sesion</IonButton>
+                                </form>
+                            </IonCard>
                         </IonCol>
                     </IonRow>
                 </IonGrid>

@@ -11,6 +11,7 @@ import Busqueda from './pages/busqueda/Busqueda';
 import Clase from './pages/clase/Clase';
 import Perfil from './pages/perfil/Perfil';
 import Ingreso from './pages/ingreso/Ingreso';
+import Personalizacion from './pages/personalizacion/Personalizacion';
 
 const Routes: React.FC = () => (
   <IonRouterOutlet>
@@ -26,6 +27,7 @@ const Routes: React.FC = () => (
     <ProtectedRoute exact path="/busqueda/:searchQuery" component={Busqueda} />
     <ProtectedRoute exact path="/perfil/" component={Perfil} />
     <ProtectedRoute exact path="/busqueda" component={Busqueda}/>
+    <ProtectedRoute exact path="/personalizarPerfil" component={Personalizacion}/>
   </IonRouterOutlet>
 );
 
