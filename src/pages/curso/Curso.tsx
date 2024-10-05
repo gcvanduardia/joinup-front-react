@@ -1,11 +1,11 @@
-import { IonContent, IonPage, IonGrid, IonRow, IonCol, IonLabel, IonListHeader, IonImg, IonText, IonCard, IonButton, IonItem, IonList, IonTitle } from '@ionic/react';
-import MenuToolbar from '../../shared/components/menuToolbar/MenuToolbar';
+import { IonContent, IonPage, IonGrid, IonRow, IonCol, IonLabel, IonListHeader, IonImg, IonText, IonCard, IonItem, IonList, IonTitle, IonSplitPane } from '@ionic/react';
+import SideBarMenu from '../../shared/components/sideBarMenu/SideBarMenu';
+import TopToolBar from '../../shared/components/topToolBar/TopToolBar';
 import { useParams } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import useApi from "../../shared/services/api/api";
 import styles from './Curso.module.css';
-import { Style } from '@capacitor/status-bar';
 
 interface Sesion {
   Duracion: number;
@@ -41,12 +41,14 @@ const Curso: React.FC = () => {
       }
     }
     listadoSesiones();
-  }, []);
+  }, [id]);
 
   return (
     <IonPage>
-      <MenuToolbar />
-      <IonContent fullscreen id="main">
+      <TopToolBar />
+      <IonSplitPane contentId="main">
+        <SideBarMenu />
+        <IonContent fullscreen id="main">
           <IonGrid className={styles["curso-container"]}>
             <IonRow>
               <IonCol size='8' sizeXs='12' sizeSm="12" sizeLg='8' >
@@ -101,7 +103,8 @@ const Curso: React.FC = () => {
               </IonCol>
             </IonRow>
           </IonGrid>
-      </IonContent>
+        </IonContent>
+      </IonSplitPane>
     </IonPage>
   );
 };
