@@ -1,6 +1,7 @@
 .course-card {
     min-width: 0px !important;
     min-height: 100%;
+    margin: 0px !important;
 }
 
 .course-progress-ba {
