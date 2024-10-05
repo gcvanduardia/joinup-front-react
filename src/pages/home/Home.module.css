@@ -3,6 +3,7 @@
   background-color: #2D45FF;
 }
 
-.ion-row-recomendados {
+.ion-row-recomendados, .ion-row-en-progreso {
+  color: #fff;
   margin-top: 10px;
 }

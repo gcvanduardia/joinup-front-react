@@ -44,7 +44,7 @@ const Home: React.FC = () => {
           <IonGrid className={styles.grid}>
             <IonRow>
               <IonCol>
-                <IonTitle>Cursos en progreso</IonTitle>
+                <IonTitle className={styles['ion-row-en-progreso']}>Cursos en progreso</IonTitle>
               </IonCol>
             </IonRow>
             <IonRow>
