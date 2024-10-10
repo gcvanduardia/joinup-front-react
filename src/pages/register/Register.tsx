@@ -11,8 +11,6 @@ const Register: React.FC = () => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
-    const [document, setDocument] = useState('');
-    const [phone, setPhone] = useState('');
     const [password, setPassword] = useState('');
     const [showAlert, setShowAlert] = useState(false);
     const [showSuccessAlert, setShowSuccessAlert] = useState(false);
@@ -30,10 +28,7 @@ const Register: React.FC = () => {
             firstName: firstName,
             lastName: lastName,
             email: email,
-            document: document,
-            phone: phone,
-            password: password,
-            userName: userName
+            password: password
         };
         apiReq('POST', 'auth/register', body)
             .then((response) => {
@@ -74,33 +69,29 @@ const Register: React.FC = () => {
                                     <IonLabel className={styles['subTitulo']}>Crea tu cuenta!!</IonLabel>
                                 </IonRow>
                                 <form onSubmit={handleSubmit}>
-                                    <IonLabel>
-                                        UserName:
-                                        <IonInput type="text" value={userName} onIonChange={e => setUserName(e.detail.value!)} />
-                                    </IonLabel>
-                                    <IonLabel>
-                                        Nombres:
-                                        <IonInput type="text" value={firstName} onIonChange={e => setFirstName(e.detail.value!)} />
-                                    </IonLabel>
-                                    <IonLabel>
-                                        Apellidos:
-                                        <IonInput type="text" value={lastName} onIonChange={e => setLastName(e.detail.value!)} />
-                                    </IonLabel>
-                                    <IonLabel>
+                                    <IonRow>
+                                        <IonCol>
+                                            <IonLabel className={styles.texto}>
+                                                Nombres:
+                                                <input type="text" value={firstName} onChange={e => setFirstName(e.target.value!)} />
+                                            </IonLabel>
+                                        </IonCol>
+
+                                        <IonCol>
+                                            <IonLabel className={styles['texto']}>
+                                                Apellidos:
+                                                <input type="text" value={lastName} onChange={e => setLastName(e.target.value!)} />
+                                            </IonLabel>
+                                        </IonCol>
+                                    </IonRow>
+
+                                    <IonLabel className={styles['texto']}>
                                         Correo:
-                                        <IonInput type="email" value={email} onIonChange={e => setEmail(e.detail.value!)} />
+                                        <input type="email" value={email} onChange={e => setEmail(e.target.value!)} />
                                     </IonLabel>
-                                    <IonLabel>
-                                        Documento:
-                                        <IonInput type="text" value={document} onIonChange={e => setDocument(e.detail.value!)} />
-                                    </IonLabel>
-                                    <IonLabel>
-                                        Celular:
-                                        <IonInput type="tel" value={phone} onIonChange={e => setPhone(e.detail.value!)} />
-                                    </IonLabel>
-                                    <IonLabel>
+                                    <IonLabel className={styles['texto']}>
                                         Password:
-                                        <IonInput type="password" value={password} onIonChange={e => setPassword(e.detail.value!)} />
+                                        <input type="password" value={password} onChange={e => setPassword(e.target.value!)} />
                                     </IonLabel>
                                     <IonButton expand="block" type="submit" mode="ios">Registrarse</IonButton>
                                     <IonButton expand="block" fill="clear" onClick={handleLoginRedirect}>Iniciar Sesion</IonButton>

@@ -25,6 +25,7 @@ const useApi = () => {
             const responseStatus = response.status === 200;
             if (responseStatus) {
                 setIdUsuario(response.data.data.IdUsuario);
+                console.log('Usuario guardado correctamente, IdUsuario:', response.data.data.IdUsuario);
             }
             return responseStatus;
         } catch (error) {

@@ -51,8 +51,9 @@ const VideoPlayerHls: React.FC<VideoPlayerProps> = ({ curso, video, IdSesion, Id
     const onProgress = async (state: { playedSeconds: number }) => {
         const playedMinutes = state.playedSeconds / 60;
         const sessionProgress = progress;
-        console.log('Minuto actual: ', Math.floor(playedMinutes));
+        console.log('Minuto actual: ', playedMinutes);
         console.log('progress', progress);
+        console.log('IdUsuario', IdUsuario);
         localStorage.setItem('lastTime', state.playedSeconds.toString());
         if (playedMinutes > progress) {
             setProgress(playedMinutes);
