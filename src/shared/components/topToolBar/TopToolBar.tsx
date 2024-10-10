@@ -100,7 +100,7 @@ const TopToolBar: React.FC = () => {
               <IonIcon icon={search} size='large'/>
             </IonButton>
           )}
-          {width > 768 && <IonChip color={'secondary'}> <IonLabel><strong>Hola {user.Nombres}!</strong></IonLabel></IonChip>}
+          {width > 768 && <IonChip className={styles.textoUser}> <IonLabel><strong>Hola {user.UserName}!</strong></IonLabel></IonChip>}
           <IonAvatar slot="start" onClick={handleButtonClick} className={styles['avatar-button']}>
             <img src={user.Avatar} alt="avatar" />
           </IonAvatar>

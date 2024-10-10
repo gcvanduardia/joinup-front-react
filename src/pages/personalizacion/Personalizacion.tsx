@@ -1,6 +1,10 @@
-import React, { useState } from 'react';
-import { IonContent, IonPage, IonInput, IonButton, IonLabel, IonGrid, IonRow, IonCol, IonCard, IonTitle, IonSelect, IonSelectOption } from '@ionic/react';
+import React, { useState, useEffect, useContext } from 'react';
+import { IonContent, IonPage, IonModal, IonAlert, IonLabel, IonGrid, IonRow, IonCol, IonCard, IonTitle, IonSelect, IonSelectOption, IonHeader, IonToolbar } from '@ionic/react';
 import styles from './Personalizacion.module.css';
+import useApi from "../../shared/services/api/api";
+import { useHistory } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import { UserIdContext } from "../../shared/services/global/global";
 
 const avatars = [
     'https://img.freepik.com/psd-gratis/3d-ilustracion-persona-gafas-sol_23-2149436178.jpg?t=st=1727924847~exp=1727928447~hmac=bcf5e98b215d190ab96503cd0aa280eb616c56f91f62daac9caac156f52838e8&w=740',
@@ -18,75 +22,137 @@ const interests = [
 ];
 
 const Personalizacion: React.FC = () => {
+    const { id } = useParams<{ id: string }>(); // Obtenemos el id de los parámetros de la ruta
+    const { IdUsuario } = useContext(UserIdContext);
+    const { apiReq } = useApi();
     const [username, setUsername] = useState('');
     const [selectedAvatar, setSelectedAvatar] = useState('');
-    const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
+    const [selectedInterest, setSelectedInterest] = useState(''); // Cambiado a un solo valor
+    const [showModal, setShowModal] = useState(false);
+    const [showAlert, setShowAlert] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
+    const history = useHistory();
 
+    useEffect(() => {
+        console.log('IdUsuario from Personalizacion: ', IdUsuario);
+    }, []);
+    
     const handleAvatarClick = (avatar: string) => {
         setSelectedAvatar(avatar);
     };
 
-    const handleSave = () => {
-        console.log('Username:', username);
-        console.log('Selected Avatar:', selectedAvatar);
-        console.log('Selected Interests:', selectedInterests);
-        // Aquí puedes agregar la lógica para guardar el nombre de usuario, el avatar seleccionado y los intereses seleccionados
+    const handleSubmit = (event: React.FormEvent) => {
+        event.preventDefault();
+        console.log(`Username: ${username}, Avatar: ${selectedAvatar}, IdUsuario: ${IdUsuario}`);
+        const body = {
+            IdUsuario: IdUsuario,
+            UserName: username,
+            Avatar: selectedAvatar
+        };
+        apiReq('POST', 'auth/updateUserProfile', body)
+            .then((response) => {
+                if(!response){
+                    console.log('No response from server');
+                    return;
+                }
+                if (response.status === 200) {
+                    console.log('Registration success');
+                    history.replace('/home');
+                } else if (response.status === 401 || response.status === 400){
+                    console.log('Registration failed', response.data);
+                    setErrorMessage('Por favor selecciona un avatar y escribe un nombre de usuario');
+                    setShowAlert(true);
+                }
+            })
+            .catch((error: any) => {
+                console.error('Registration failed: ', error);
+            });
     };
 
     return (
         <IonPage>
             <IonContent >
                 <IonGrid fixed className={styles.fondo}>
-                    <IonRow>
-                        <IonCol className={styles.container}>
-                            <IonCard className={styles['card-container']}>
-                                <IonRow>
-                                    <IonTitle>¡Personalicemos Tu Perfil!</IonTitle>
-                                </IonRow>
-                                <IonRow>
+                    <div className={styles.container}>
+                        <IonCard className={styles['card-container']}>
+                            <IonRow className={styles['center-content']}>
+                                <IonLabel className={styles.titulo}>Mi Plataforma</IonLabel>
+                            </IonRow>
+
+                            <IonRow className={styles['center-content']}>
+                                <img src="img/logoPrincipal 1.png" alt="logo2" className={styles['logo-form']} />
+                            </IonRow>
+
+                            <IonRow>
+                                <IonTitle className={styles.subTitulo}>¡Personalicemos Tu Perfil!</IonTitle>
+                            </IonRow>
+                            <IonRow>
+                                <IonCol size='3'>
+                                    <button className={styles.btnAvatar} onClick={() => setShowModal(true)}>
+                                        {selectedAvatar ? (
+                                            <img src={selectedAvatar} alt="Selected Avatar" className={styles.selectedAvatar} />
+                                        ) : (
+                                            'Escoge tu Avatar'
+                                        )}
+                                    </button>
+                                </IonCol>
+                                
+                                <IonCol size='9' className={styles.form}>
                                     <input
                                         className={styles.input}
                                         placeholder="Nombre de usuario"
                                         value={username}
-                                        onChange={(e) => setUsername(e.target.value!)}
+                                        onChange={(e) => setUsername(e.target.value)}
                                     />
-                                </IonRow>
-                                <IonRow>
-                                    <div className={styles['avatar-container']}>
-                                        {avatars.map((avatar) => (
-                                            <img
-                                                key={avatar}
-                                                src={avatar}
-                                                alt="Avatar"
-                                                className={`${styles.avatar} ${selectedAvatar === avatar ? styles.selected : ''}`}
-                                                onClick={() => handleAvatarClick(avatar)}
-                                            />
-                                        ))}
-                                    </div>
-                                </IonRow>
-                                <IonRow>
-                                    <IonLabel className={styles.input}>
-                                        <IonSelect
-                                            placeholder="Selecciona tus intereses"
-                                            multiple={true}
-                                            value={selectedInterests}
-                                            onIonChange={(e) => setSelectedInterests(e.detail.value)}
+                                    <label className={styles.label}>
+                                        <select
+                                            className={styles.select}
+                                            value={selectedInterest} // Cambiado a un solo valor
+                                            onChange={(e) => setSelectedInterest(e.target.value)} // Modificado
                                         >
+                                            <option value="" disabled>Selecciona tu interés</option>
                                             {interests.map((interest) => (
-                                                <IonSelectOption key={interest} value={interest}>
+                                                <option key={interest} value={interest}>
                                                     {interest}
-                                                </IonSelectOption>
+                                                </option>
                                             ))}
-                                        </IonSelect>
-                                    </IonLabel>
-                                </IonRow>
-                                <IonRow>
-                                    <IonButton onClick={handleSave} className={styles.button}>Guardar</IonButton>
-                                </IonRow>
-                            </IonCard>
-                        </IonCol>
-                    </IonRow>
+                                        </select>
+                                    </label>
+                                    <div className={styles.buttonContainer}>
+                                        <button onClick={handleSubmit} className={styles.button}>Guardar</button>
+                                    </div>
+                                </IonCol>
+                                
+                            </IonRow>
+                        </IonCard>
+                    </div>
                 </IonGrid>
+                <IonModal isOpen={showModal} onDidDismiss={() => setShowModal(false)}>
+                    <IonContent>
+                        <div className={styles['center-content']}><IonTitle className={styles.subTitulo}>¡Escoge tu avatar!</IonTitle></div>
+                        <div className={styles['avatar-container']}>
+                            {avatars.map((avatar) => (
+                                <img
+                                    key={avatar}
+                                    src={avatar}
+                                    alt="Avatar"
+                                    className={`${styles.avatar} ${selectedAvatar === avatar ? styles.selected : ''}`}
+                                    onClick={() => handleAvatarClick(avatar)}
+                                />
+                            ))}
+                        </div>
+                        <div className={styles['center-content']}>
+                            <button className={styles.button} onClick={() => setShowModal(false)}>¡Listo!</button>
+                        </div>
+                    </IonContent>
+                </IonModal>
+                <IonAlert
+                    isOpen={showAlert}
+                    onDidDismiss={() => setShowAlert(false)}
+                    header={'Error'}
+                    message={errorMessage}
+                    buttons={['OK']}
+                />
             </IonContent>
         </IonPage>
     );

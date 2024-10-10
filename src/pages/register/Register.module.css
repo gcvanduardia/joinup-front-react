@@ -24,7 +24,7 @@
 }
 
 .card-container{
-    max-width: 400px;
+    max-width: 700px;
     border-radius: 40px;
     text-align: center;
     padding: 30px;
@@ -52,6 +52,29 @@
     margin-bottom: 10px;
 }
 
+.texto{
+    font-size: 20px;
+    color: black;
+    font-weight: 700;
+}
+
+input{
+    background-color: #fff;
+}
+
+
+.texto input {
+    font-weight: normal;
+    border: solid 1px #2D45FF;
+    border-radius: 20px; /* Aplicar border-radius */
+    outline: none; /* Eliminar el borde predeterminado */
+    padding: 5px; /* Añadir padding para mejor apariencia */
+    width: 100%; /* Asegurar que el input ocupe todo el ancho disponible */
+    box-sizing: border-box; /* Incluir padding y border en el ancho total */
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
 .logo-form{
-    max-width: 100px;
+    max-width: 80px;
 }
