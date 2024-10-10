@@ -57,6 +57,11 @@
   padding: 20px;
 }
 
+.textoUser{
+  color: white;
+  background-color: #81E838;
+}
+
 @media (max-width: 768px) {
   .searchbar-container {
     display: none;

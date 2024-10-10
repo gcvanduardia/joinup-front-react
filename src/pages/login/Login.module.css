@@ -52,6 +52,10 @@
     margin-bottom: 10px;
 }
 
+input{
+    background-color: #fff;
+}
+
 .texto{
     font-size: 20px;
     color: black;
@@ -69,6 +73,7 @@
     box-sizing: border-box; /* Incluir padding y border en el ancho total */
     margin-top: 5px;
     margin-bottom: 25px;
+    background-color: #fff;
 }
 
 .texto input:focus {

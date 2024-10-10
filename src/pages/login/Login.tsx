@@ -14,7 +14,7 @@ const Login: React.FC = () => {
     const history = useHistory();
 
     const handleRegisterRedirect = () => {
-        history.push('/register'); // Redirige a la página de registro
+        history.push('/register');
     };
   
     useEffect(() => {
@@ -47,7 +47,13 @@ const Login: React.FC = () => {
                     const storageSession = response.data.token
                     console.log('storageSession: ', storageSession);
                     localStorage.setItem('joinup-session', storageSession);
-                    history.replace('/home');
+                    if (response.data.isUserNameNull) {
+                        history.replace(`/personalizarPerfil`);
+                    }
+
+                    else if (!response.data.isUserNameNull) {
+                        history.replace('/home');
+                    }
                 } else if (response.status === 401){
                     console.log('Login failed', response.data);
                     setErrorMessage(response.data.message);
