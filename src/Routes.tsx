@@ -12,6 +12,8 @@ import Clase from './pages/clase/Clase';
 import Perfil from './pages/perfil/Perfil';
 import Ingreso from './pages/ingreso/Ingreso';
 import Personalizacion from './pages/personalizacion/Personalizacion';
+import JoinForm from './pages/joinForm/JoinForm';
+import Conference from './pages/conference/Conference';
 
 const Routes: React.FC = () => (
   <IonRouterOutlet>
@@ -19,6 +21,7 @@ const Routes: React.FC = () => (
     <Route exact path="/login"> <Login /> </Route>
     <Route exact path="/register"> <Register /> </Route>
     <Route exact path="/access"> <Ingreso /> </Route>
+    <Route exact path="/join"> <JoinForm /> </Route>
     <ProtectedRoute exact path="/home" component={Home} />
     <ProtectedRoute exact path="/curso/:idCurso/:idClase" component={Clase} />
     <ProtectedRoute exact path="/curso/:id" component={Curso} />
@@ -28,6 +31,7 @@ const Routes: React.FC = () => (
     <ProtectedRoute exact path="/perfil/" component={Perfil} />
     <ProtectedRoute exact path="/busqueda" component={Busqueda}/>
     <ProtectedRoute exact path="/personalizarPerfil" component={Personalizacion}/>
+    <ProtectedRoute exact path="/conference" component={Conference} />
   </IonRouterOutlet>
 );
 
