@@ -12,7 +12,7 @@ import Clase from './pages/clase/Clase';
 import Perfil from './pages/perfil/Perfil';
 import Ingreso from './pages/ingreso/Ingreso';
 import Personalizacion from './pages/personalizacion/Personalizacion';
-import JoinForm from './pages/joinForm/JoinForm';
+import JoinRoom from './pages/joinRoom/JoinRoom';
 import Conference from './pages/conference/Conference';
 
 const Routes: React.FC = () => (
@@ -21,7 +21,7 @@ const Routes: React.FC = () => (
     <Route exact path="/login"> <Login /> </Route>
     <Route exact path="/register"> <Register /> </Route>
     <Route exact path="/access"> <Ingreso /> </Route>
-    <Route exact path="/join"> <JoinForm /> </Route>
+    <ProtectedRoute exact path="/join/:id" component={JoinRoom} />
     <ProtectedRoute exact path="/home" component={Home} />
     <ProtectedRoute exact path="/curso/:idCurso/:idClase" component={Clase} />
     <ProtectedRoute exact path="/curso/:id" component={Curso} />

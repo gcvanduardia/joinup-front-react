@@ -1,4 +1,5 @@
-import { useAVToggle } from "@100mslive/react-sdk";
+import { IonButton, IonFooter, IonToolbar } from '@ionic/react';
+import { useAVToggle, useHMSActions, useHMSStore, selectIsLocalScreenShared } from "@100mslive/react-sdk";
 import './Footer.css';
 
 function Footer() {
@@ -8,15 +9,32 @@ function Footer() {
     toggleAudio,
     toggleVideo
   } = useAVToggle();
+
+  const hmsActions = useHMSActions();
+  const isScreenShared = useHMSStore(selectIsLocalScreenShared);
+
+  const toggleScreenShare = async () => {
+    if (isScreenShared) {
+      await hmsActions.setScreenShareEnabled(false);
+    } else {
+      await hmsActions.setScreenShareEnabled(true);
+    }
+  };
+
   return (
-    <div className="control-bar">
-      <button className="btn-control" onClick={toggleAudio}>
-        {isLocalAudioEnabled ? "Mute" : "Unmute"}
-      </button>
-      <button className="btn-control" onClick={toggleVideo}>
-        {isLocalVideoEnabled ? "Hide" : "Unhide"}
-      </button>
-    </div>
+    <IonFooter>
+      <IonToolbar className="control-bar">
+        <IonButton className="btn-control" onClick={toggleAudio}>
+          {isLocalAudioEnabled ? "Mute" : "Unmute"}
+        </IonButton>
+        <IonButton className="btn-control" onClick={toggleVideo}>
+          {isLocalVideoEnabled ? "Hide" : "Unhide"}
+        </IonButton>
+        <IonButton className="btn-control" onClick={toggleScreenShare}>
+          {isScreenShared ? "Stop Sharing" : "Share Screen"}
+        </IonButton>
+      </IonToolbar>
+    </IonFooter>
   );
 }
 

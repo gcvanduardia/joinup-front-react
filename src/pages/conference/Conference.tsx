@@ -1,8 +1,9 @@
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonList, IonItem } from '@ionic/react';
 import { selectPeers, selectIsConnectedToRoom, useHMSStore } from "@100mslive/react-sdk";
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import Peer from "./Peer";
-import Footer from "./Footer"; // Importa el Footer
+import Footer from "./Footer";
 import './Conference.css';
 
 interface PeerType {
@@ -19,7 +20,7 @@ function Conference() {
 
   useEffect(() => {
     if (!isConnected) {
-      history.push('/join');
+      history.push('/home');
     }
   }, [isConnected, history]);
 
@@ -35,16 +36,23 @@ function Conference() {
   }, [peers]);
 
   return (
-    <div className="conference-section">
-      <h2>Conference</h2>
-
-      <div className="peers-container">
-        {peers.map((peer) => (
-          <Peer key={peer.id} peer={peer} />
-        ))}
-      </div>
-      <Footer /> {/* Incluye el Footer aquí */}
-    </div>
+    <IonPage>
+      <IonHeader>
+        <IonToolbar>
+          <IonTitle>Conference</IonTitle>
+        </IonToolbar>
+      </IonHeader>
+      <IonContent>
+        <IonList className="peers-container">
+          {peers.map((peer) => (
+            <IonItem key={peer.id}>
+              <Peer peer={peer} />
+            </IonItem>
+          ))}
+        </IonList>
+        <Footer />
+      </IonContent>
+    </IonPage>
   );
 }
 
