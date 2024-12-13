@@ -1,4 +1,5 @@
-import { useVideo } from "@100mslive/react-sdk";
+import { IonCard, IonCardContent, IonCardHeader, IonCardTitle } from '@ionic/react';
+import { useVideo, useHMSStore, selectScreenShareByPeerID } from "@100mslive/react-sdk";
 import React from "react";
 
 interface PeerProps {
@@ -15,21 +16,36 @@ const Peer: React.FC<PeerProps> = ({ peer }) => {
     trackId: peer.videoTrack
   });
 
+  const screenShareTrack = useHMSStore(selectScreenShareByPeerID(peer.id));
+  const { videoRef: screenShareRef } = useVideo({
+    trackId: screenShareTrack?.id
+  });
+
   console.log(`Rendering peer: ${peer.name}, isLocal: ${peer.isLocal}, videoTrack: ${peer.videoTrack}`);
 
   return (
-    <div className="peer-container">
-      <video
-        ref={videoRef}
-        className={`peer-video ${peer.isLocal ? "local" : ""}`}
-        autoPlay
-        muted={peer.isLocal} // Mute local peer to avoid echo
-        playsInline
-      />
-      <div className="peer-name">
-        {peer.name} {peer.isLocal ? "(You)" : ""}
-      </div>
-    </div>
+    <IonCard className="peer-container">
+      <IonCardHeader>
+        <IonCardTitle>{peer.name} {peer.isLocal ? "(You)" : ""}</IonCardTitle>
+      </IonCardHeader>
+      <IonCardContent>
+        <video
+          ref={videoRef}
+          className={`peer-video ${peer.isLocal ? "local" : ""}`}
+          autoPlay
+          muted={peer.isLocal}
+          playsInline
+        />
+        {screenShareTrack && (
+          <video
+            ref={screenShareRef}
+            className="screen-share-video"
+            autoPlay
+            playsInline
+          />
+        )}
+      </IonCardContent>
+    </IonCard>
   );
 };
 
