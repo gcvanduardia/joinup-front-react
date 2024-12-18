@@ -1,10 +1,11 @@
-import { IonContent, IonCheckbox, IonPage, IonGrid, IonRow, IonCol, IonCard, IonImg, IonListHeader, IonSegment, IonSegmentButton, IonLabel, IonInput, IonList, IonItem, IonTitle, IonCardContent, IonCardHeader, IonCardTitle, IonButton } from '@ionic/react';
+import { IonContent, IonCheckbox, IonPage, IonGrid, IonRow, IonCol, IonCard, IonImg, IonListHeader, IonSegment, IonSegmentButton, IonLabel, IonInput, IonList, IonItem, IonTitle, IonCardContent, IonCardHeader, IonCardTitle, IonButton, IonSplitPane } from '@ionic/react';
 import React, { useEffect, useState, useContext } from 'react';
 import { UserIdContext } from "../../shared/services/global/global";
 import { useHistory } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import VideoPlayerHls from '../../shared/components/video-player-hls/VideoPlayerHls';
-import MenuToolbar from '../../shared/components/menuToolbar/MenuToolbar';
+import SideBarMenu from '../../shared/components/sideBarMenu/SideBarMenu';
+import TopToolBar from '../../shared/components/topToolBar/TopToolBar';
 import useApi from '../../shared/services/api/api';
 import styles from './Clase.module.css';
 
@@ -124,22 +125,113 @@ const Clase: React.FC = () => {
 
   return (
     <IonPage>
-      <MenuToolbar />
-      <IonContent fullscreen id='main'>
-        <IonGrid>
-          <IonRow>
-            <IonCol>
-              <IonCard button onClick={() => {history.push(`/curso/${idCurso}`)}} >
-                <IonTitle className={styles['title']}>{curso.NombreCurso}</IonTitle>
-              </IonCard>
-            </IonCol>
-          </IonRow>
-          <IonRow className={styles['custom-row']}>
-            <IonCol sizeLg='8' sizeMd='12' sizeSm='12' sizeXs='12' className={styles["video-col"]}>
-              <div className={styles['video-container']}>
-                <VideoPlayerHls curso="robotica-test" video="curso-robotica-1.m3u8" IdCurso={parseInt(idCurso)} IdSesion={parseInt(idClase)} />
-              </div>
-              <div className={styles['resource-list-container']}>
+      <TopToolBar />
+      <IonSplitPane contentId="main">
+        <SideBarMenu />
+        <IonContent fullscreen id='main'>
+          <IonGrid className={styles["class-container"]}>
+            <IonRow>
+              <IonCol>
+                <IonCard button onClick={() => {history.push(`/curso/${idCurso}`)}} >
+                  <IonTitle className={styles['title']}>{curso.NombreCurso}</IonTitle>
+                </IonCard>
+              </IonCol>
+            </IonRow>
+            <IonRow className={styles['custom-row']}>
+              <IonCol sizeLg='8' sizeMd='12' sizeSm='12' sizeXs='12' className={styles["video-col"]}>
+                <div className={styles['video-container']}>
+                  <VideoPlayerHls curso="robotica-test" video="curso-robotica-1.m3u8" IdCurso={parseInt(idCurso)} IdSesion={parseInt(idClase)} />
+                </div>
+                <div className={styles['resource-list-container']}>
+                  <h2>Recursos</h2>
+                  <IonList className={styles['resources-list']}>
+                    {recursos.map((recurso: InterfaceRecurso, index: number) => (
+                      <IonItem key={index} lines="full" className={styles["resource-item"]}>
+                        <IonLabel className={styles["resource-label"]}>
+                          <div className={styles["resource-info"]}>
+                            <h2 className={styles["resource-title"]}>{recurso.Descripcion}</h2>
+                            <IonButton fill="outline" href={recurso.URL} target="_blank">Ver recurso</IonButton>
+                          </div>
+                          <p className={styles["resource-type"]}>{recurso.TipoRecurso}</p>
+                        </IonLabel>
+                      </IonItem>
+                    ))}
+                  </IonList>
+                </div>
+              </IonCol>
+
+
+              <IonCol sizeLg='4' sizeMd='12' sizeSm='12' sizeXs='12' className={styles["segment-col"]}>
+                <IonCard><IonTitle className={styles['title']}>{sesion.Nombre}</IonTitle></IonCard>
+                <IonCard>
+                  <IonSegment value={view} onIonChange={e => {
+                    if (typeof e.detail.value === 'string') {
+                      setView(e.detail.value);
+                    }
+                  }}>
+                    <IonSegmentButton value="clases">
+                      <IonLabel>Clases</IonLabel>
+                    </IonSegmentButton>
+                    <IonSegmentButton value="comentarios">
+                      <IonLabel>Comentarios</IonLabel>
+                    </IonSegmentButton>
+                  </IonSegment>
+                  {view === 'clases' && (
+                    <div>
+                      <IonList>
+                        {Object.entries(clases.reduce((r: any, a: InterfaceClase) => {
+                          r[a.Seccion] = [...r[a.Seccion] || [], a];
+                          return r;
+                        }, {}))
+                          .sort(([aKey, aVal], [bKey, bVal]) => {
+                            const aClases = aVal as InterfaceClase[];
+                            const bClases = bVal as InterfaceClase[];
+                            const aOrden = aClases[0]?.Orden || 0;
+                            const bOrden = bClases[0]?.Orden || 0;
+                            return aOrden - bOrden;
+                          })
+                          .map(([seccion, clasesEnSeccion], index) => (
+                            <div key={index}>
+                              <IonListHeader className={styles['title-seccion']}>{seccion}</IonListHeader>
+                              {(clasesEnSeccion as InterfaceClase[])
+                                .sort((a, b) => a.Orden - b.Orden)
+                                .map((sesion, index) => (
+                                  <IonItem button onClick={() => history.push(`/curso/${idCurso}/${sesion.IdSesion}`)} key={index}>
+                                    <IonCheckbox disabled checked={sesion.Completada}></IonCheckbox>
+                                    <IonImg style={{ height: '60px' }} src={sesion.Imagen}></IonImg>
+                                    <IonLabel>{sesion.Nombre}</IonLabel>
+                                    <IonLabel>
+                                      {Math.floor(sesion.Duracion * 60)} minutos
+                                      {Math.round((sesion.Duracion * 60 - Math.floor(sesion.Duracion * 60)) * 60) !== 0 &&
+                                        `${Math.round((sesion.Duracion * 60 - Math.floor(sesion.Duracion * 60)) * 60)} segundos`}
+                                    </IonLabel>
+                                  </IonItem>
+                                ))}
+                            </div>
+                          ))}
+                      </IonList>
+                    </div>
+                  )}
+                  {view === 'comentarios' && (
+                    <div>
+                      {comentarios.map((comentario: InterfaceComentario, index: number) => (
+                        <IonCard key={index}>
+                          <IonCardHeader>
+                            <IonCardTitle className={styles["user-name"]}>{comentario.NombreCompletoUsuario}</IonCardTitle>
+                          </IonCardHeader>
+                          <IonCardContent className={styles["comment-text"]}>
+                            {comentario.Comentario}
+                          </IonCardContent>
+                        </IonCard>
+                      ))}
+                      <IonInput placeholder="Escribe un comentario"></IonInput>
+                    </div>
+                  )}
+                </IonCard>
+              </IonCol>
+            </IonRow>
+            <IonRow>
+              <IonCol size="12" className={styles['resources-container']}>
                 <h2>Recursos</h2>
                 <IonList className={styles['resources-list']}>
                   {recursos.map((recurso: InterfaceRecurso, index: number) => (
@@ -154,102 +246,14 @@ const Clase: React.FC = () => {
                     </IonItem>
                   ))}
                 </IonList>
-              </div>
-            </IonCol>
+              </IonCol>
+              <IonCol size="4">
 
-
-            <IonCol sizeLg='4' sizeMd='12' sizeSm='12' sizeXs='12' className={styles["segment-col"]}>
-              <IonCard><IonTitle className={styles['title']}>{sesion.Nombre}</IonTitle></IonCard>
-              <IonCard>
-                <IonSegment value={view} onIonChange={e => {
-                  if (typeof e.detail.value === 'string') {
-                    setView(e.detail.value);
-                  }
-                }}>
-                  <IonSegmentButton value="clases">
-                    <IonLabel>Clases</IonLabel>
-                  </IonSegmentButton>
-                  <IonSegmentButton value="comentarios">
-                    <IonLabel>Comentarios</IonLabel>
-                  </IonSegmentButton>
-                </IonSegment>
-                {view === 'clases' && (
-                  <div>
-                    <IonList>
-                      {Object.entries(clases.reduce((r: any, a: InterfaceClase) => {
-                        r[a.Seccion] = [...r[a.Seccion] || [], a];
-                        return r;
-                      }, {}))
-                        .sort(([aKey, aVal], [bKey, bVal]) => {
-                          const aClases = aVal as InterfaceClase[];
-                          const bClases = bVal as InterfaceClase[];
-                          const aOrden = aClases[0]?.Orden || 0;
-                          const bOrden = bClases[0]?.Orden || 0;
-                          return aOrden - bOrden;
-                        })
-                        .map(([seccion, clasesEnSeccion], index) => (
-                          <div key={index}>
-                            <IonListHeader className={styles['title-seccion']}>{seccion}</IonListHeader>
-                            {(clasesEnSeccion as InterfaceClase[])
-                              .sort((a, b) => a.Orden - b.Orden)
-                              .map((sesion, index) => (
-                                <IonItem button onClick={() => history.push(`/curso/${idCurso}/${sesion.IdSesion}`)} key={index}>
-                                  <IonCheckbox disabled checked={sesion.Completada}></IonCheckbox>
-                                  <IonImg style={{ height: '60px' }} src={sesion.Imagen}></IonImg>
-                                  <IonLabel>{sesion.Nombre}</IonLabel>
-                                  <IonLabel>
-                                    {Math.floor(sesion.Duracion * 60)} minutos
-                                    {Math.round((sesion.Duracion * 60 - Math.floor(sesion.Duracion * 60)) * 60) !== 0 &&
-                                      `${Math.round((sesion.Duracion * 60 - Math.floor(sesion.Duracion * 60)) * 60)} segundos`}
-                                  </IonLabel>
-                                </IonItem>
-                              ))}
-                          </div>
-                        ))}
-                    </IonList>
-                  </div>
-                )}
-                {view === 'comentarios' && (
-                  <div>
-                    {comentarios.map((comentario: InterfaceComentario, index: number) => (
-                      <IonCard key={index}>
-                        <IonCardHeader>
-                          <IonCardTitle className={styles["user-name"]}>{comentario.NombreCompletoUsuario}</IonCardTitle>
-                        </IonCardHeader>
-                        <IonCardContent className={styles["comment-text"]}>
-                          {comentario.Comentario}
-                        </IonCardContent>
-                      </IonCard>
-                    ))}
-                    <IonInput placeholder="Escribe un comentario"></IonInput>
-                  </div>
-                )}
-              </IonCard>
-            </IonCol>
-          </IonRow>
-          <IonRow>
-            <IonCol size="12" className={styles['resources-container']}>
-              <h2>Recursos</h2>
-              <IonList className={styles['resources-list']}>
-                {recursos.map((recurso: InterfaceRecurso, index: number) => (
-                  <IonItem key={index} lines="full" className={styles["resource-item"]}>
-                    <IonLabel className={styles["resource-label"]}>
-                      <div className={styles["resource-info"]}>
-                        <h2 className={styles["resource-title"]}>{recurso.Descripcion}</h2>
-                        <IonButton fill="outline" href={recurso.URL} target="_blank">Ver recurso</IonButton>
-                      </div>
-                      <p className={styles["resource-type"]}>{recurso.TipoRecurso}</p>
-                    </IonLabel>
-                  </IonItem>
-                ))}
-              </IonList>
-            </IonCol>
-            <IonCol size="4">
-
-            </IonCol>
-          </IonRow>
-        </IonGrid>
-      </IonContent>
+              </IonCol>
+            </IonRow>
+          </IonGrid>
+        </IonContent>
+      </IonSplitPane>
     </IonPage>
   )
 };
