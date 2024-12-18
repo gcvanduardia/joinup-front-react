@@ -10,7 +10,7 @@ const local = {
     apiKey: 'joinupadventureAuthKey'
 }
 
-const use = local;
+const use = production;
 
 export const environment = {
     production: true,
