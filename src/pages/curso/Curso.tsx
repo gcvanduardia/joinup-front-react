@@ -3,7 +3,8 @@ import SideBarMenu from '../../shared/components/sideBarMenu/SideBarMenu';
 import TopToolBar from '../../shared/components/topToolBar/TopToolBar';
 import { useParams } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
+import { UserIdContext } from "../../shared/services/global/global";
 import useApi from "../../shared/services/api/api";
 import styles from './Curso.module.css';
 
@@ -24,6 +25,18 @@ const Curso: React.FC = () => {
   const { apiReq } = useApi();
   const [curso, setCurso] = useState<any>({});
   const [sesiones, setSesiones] = useState<any>([]);
+  const { IdUsuario } = useContext(UserIdContext);
+  const [isCursoUsuario, setIsCursoUsuario] = useState<boolean>(true);
+
+  useEffect(() => {
+    const checkCursoUsuario = async () => {
+      const response = await apiReq('GET', `cursos/checkCursoUsuario?IdCurso=${id}&IdUsuario=${IdUsuario}`);
+      if (response?.status === 200) {
+        setIsCursoUsuario(response.data.exists);
+      }
+    }
+    checkCursoUsuario();
+  }, [id]);
 
   useEffect(() => {
     const cursoDetail = async () => {
@@ -36,7 +49,7 @@ const Curso: React.FC = () => {
   }, [id]);
 
   useEffect(() => {
-    if (!curso.EnVivo) {
+    if (isCursoUsuario && !curso.EnVivo) {
       const listadoSesiones = async () => {
         const response = await apiReq('GET', `cursos/getListadoSesiones?IdCurso=${id}`);
         if (response?.status === 200) {
@@ -45,7 +58,7 @@ const Curso: React.FC = () => {
       }
       listadoSesiones();
     }
-  }, [curso, id]);
+  }, [curso, id, isCursoUsuario]);
 
   return (
     <IonPage>
@@ -57,17 +70,20 @@ const Curso: React.FC = () => {
             <IonRow>
               <IonCol size='8' sizeXs='12' sizeSm="12" sizeLg='8' >
                   <IonImg src={curso.Imagen} alt={id}/>
+                  {!isCursoUsuario && (
+                  <IonButton expand="full" className={styles['course-button']} color="danger">No tienes acceso a este curso!</IonButton>
+                )}
               </IonCol>
               <IonCol size='4' sizeXs='12' sizeSm='12' sizeLg='4' className={styles['description-container']}>
                 <IonCard><IonLabel className={styles['title']}>{curso.NombreCurso}</IonLabel></IonCard>
                 <IonCard><IonText>{curso.DescripcionPrincipal}</IonText></IonCard>
                 <IonCard><IonText>{curso.NombreCompletoProfesor}</IonText></IonCard>
-                {curso.EnVivo && (
+                {curso.EnVivo && isCursoUsuario && (
                   <IonButton expand="full" className={styles['course-button']} onClick={() => history.push(`/join/${id}`)}>Conectarse</IonButton>
                 )}
               </IonCol>
             </IonRow>
-            {!curso.EnVivo && (
+            {!curso.EnVivo && isCursoUsuario && (
               <IonRow>
                 <IonCol>
                   <div className={styles['curso-title']}>
