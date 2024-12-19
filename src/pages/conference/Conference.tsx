@@ -1,6 +1,6 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonList, IonItem } from '@ionic/react';
-import { selectPeers, selectIsConnectedToRoom, useHMSStore } from "@100mslive/react-sdk";
-import { useEffect } from "react";
+import { selectPeers, selectIsConnectedToRoom, useHMSStore, useHMSActions } from "@100mslive/react-sdk";
+import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import Peer from "./Peer";
 import Footer from "./Footer";
@@ -14,26 +14,57 @@ interface PeerType {
 }
 
 function Conference() {
-  const peers = useHMSStore(selectPeers) as PeerType[];
-  const isConnected = useHMSStore(selectIsConnectedToRoom);
+  const peers = useHMSStore(selectPeers) as PeerType[]; // Obtén la lista de peers
+  const isConnected = useHMSStore(selectIsConnectedToRoom); // Estado de conexión
+  const hmsActions = useHMSActions(); // Acciones del SDK de 100ms
   const history = useHistory();
 
+  // Estado para saber si la grabación está activa
+  const [isRecording, setIsRecording] = useState(false);
+
+  // Efecto para redirigir al usuario si no está conectado
   useEffect(() => {
     if (!isConnected) {
-      history.push('/home');
+      history.push('/home'); // Si no está conectado, redirige a la página de inicio
     }
   }, [isConnected, history]);
 
+  // Efecto para manejar los cambios en los peers
   useEffect(() => {
-    console.log(`Peers updated: ${JSON.stringify(peers)}`);
-    const localPeer = peers.find(peer => peer.isLocal);
+    console.log(`Peers actualizados: ${JSON.stringify(peers)}`);
+    const localPeer = peers.find(peer => peer.isLocal); // Busca el peer local
     if (localPeer) {
-      console.log(`Local peer created: ${JSON.stringify(localPeer)}`);
-      console.log(`Local peer videoTrack: ${localPeer.videoTrack}`);
+      console.log(`Peer local creado: ${JSON.stringify(localPeer)}`);
+      console.log(`VideoTrack del peer local: ${localPeer.videoTrack}`);
     } else {
-      console.log("Local peer not found.");
+      console.log("No se encontró el peer local.");
     }
   }, [peers]);
+
+  // Función para iniciar o detener la grabación
+  const toggleRecording = async () => {
+
+    const params = {
+      record: true, // Establece en false si solo deseas transmitir sin grabar
+    };
+
+    try {
+      console.log("Intentando iniciar/detener grabación...");
+      if (isRecording) {
+        // Detén la grabación si ya está en marcha
+        await hmsActions.stopRTMPAndRecording();
+        setIsRecording(false);
+        console.log("Grabación detenida");
+      } else {
+        // Inicia la grabación si no está activa
+        await hmsActions.startRTMPOrRecording(params);
+        setIsRecording(true);
+        console.log("Grabación iniciada");
+      }
+    } catch (err) {
+      console.error("Error al iniciar/detener la grabación o transmisión RTMP:", err);
+    }
+  };
 
   return (
     <IonPage>
@@ -50,7 +81,7 @@ function Conference() {
             </IonItem>
           ))}
         </IonList>
-        <Footer />
+        <Footer onRecordingToggle={toggleRecording} isRecording={isRecording} />
       </IonContent>
     </IonPage>
   );
