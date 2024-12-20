@@ -1,24 +1,44 @@
-.peers-container {
-  display: flex;
-  flex-direction: column; /* Stack peers vertically */
-  gap: 20px;
-  justify-content: flex-start;
-  align-items: center;
+/* Header */
+.ion-toolbar-custom {
+  --background: #2D45FF; /* Cambia el color de fondo */
+  color: white; /* Cambia el color del texto */
+  border-bottom: 3px solid #81E838; /* Añade un borde inferior */
+}
+
+.ion-title-custom {
+  font-size: 24px; /* Cambia el tamaño de la fuente */
+  font-weight: bold; /* Cambia el peso de la fuente */
+  text-align: center; /* Centra el texto */
+}
+
+/* Conference */
+
+.conference-container {
+  padding: 20px;
   width: 100%;
-  flex-grow: 1;
-  overflow-y: auto; /* Enable vertical scrolling */
+  height: 100%; /* Ajusta la altura para que el contenido ocupe todo el espacio disponible */
+  box-sizing: border-box; /* Incluye el padding en el cálculo de la altura */
+}
+
+.ion-padding-bottom {
+  --background: #FFF44B;
+}
+
+.peer-col {
+  width: 100%;
+  padding: 20px;
 }
 
 .peer-container {
   background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 8px;
-  padding: 10px;
   text-align: center;
-  width: 80%; /* Adjust width to fit within the container */
-  max-width: 800px; /* Limit the maximum width */
-  box-sizing: border-box;
+  width: 100%; /* Adjust width to fit within the container */
   overflow: hidden; /* Ensure content does not overflow */
+  margin: 0px;
+  padding: 0px;
+  border: 2px solid black;
 }
 
 .peer-video {
@@ -39,7 +59,6 @@
   border: 2px solid #007bff;
 }
 
-/* Añadir estilos para el video de pantalla compartida */
 .screen-share-video {
   width: 100%;
   height: auto;
@@ -47,4 +66,45 @@
   border: 2px solid #007bff;
   border-radius: 8px;
   object-fit: contain;
+}
+
+/* Footer */
+
+.control-bar {
+  display: flex;
+  justify-content: center; /* Centra los botones */
+  align-items: center;
+  border-top: 3px solid #81E838;
+  width: 100%;
+  height: 80px; /* Ajusta la altura del footer */
+  --background: #2D45FF;
+  position: relative; /* Necesario para posicionar el indicador de grabación */
+}
+
+.btn-control {
+  background-color: #81E838; /* Color de fondo gris */
+  color: black;
+  border: 2px solid black;
+  padding: 10px;
+  margin: 0 10px;
+  border-radius: 50%; /* Hace el botón circular */
+  cursor: pointer;
+  width: 50px; /* Ajusta el tamaño del botón */
+  height: 50px; /* Ajusta el tamaño del botón */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s ease;
+}
+
+.btn-control ion-icon {
+  font-size: 24px; /* Ajusta el tamaño del icono */
+}
+
+.recording-indicator {
+  position: absolute;
+  right: 20px;
+  color: #81E838;
+  font-weight: bold;
+  font-size: 30px;
 }

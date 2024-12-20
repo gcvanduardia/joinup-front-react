@@ -1,6 +1,6 @@
-import { IonButton, IonFooter, IonToolbar } from '@ionic/react';
+import { IonFooter, IonToolbar, IonIcon } from '@ionic/react';
+import { micOffOutline, micOutline, videocamOffOutline, videocamOutline, stopOutline, ellipseOutline, shareOutline, stopCircleOutline } from 'ionicons/icons';
 import { useAVToggle, useHMSActions, useHMSStore, selectIsLocalScreenShared } from "@100mslive/react-sdk";
-import './Footer.css';
 
 interface FooterProps {
   onRecordingToggle: () => void;
@@ -30,18 +30,21 @@ function Footer({ onRecordingToggle, isRecording }: FooterProps) {
   return (
     <IonFooter>
       <IonToolbar className="control-bar">
-        <IonButton className="btn-control" onClick={toggleAudio}>
-          {isLocalAudioEnabled ? "Mute" : "Unmute"} {/* Cambia el texto del botón de audio */}
-        </IonButton>
-        <IonButton className="btn-control" onClick={toggleVideo}>
-          {isLocalVideoEnabled ? "Hide" : "Unhide"} {/* Cambia el texto del botón de video */}
-        </IonButton>
-        <IonButton className="btn-control" onClick={toggleScreenShare}>
-          {isScreenShared ? "Stop Sharing" : "Share Screen"} {/* Cambia el texto del botón de pantalla compartida */}
-        </IonButton>
-        <IonButton className="btn-control" onClick={onRecordingToggle}>
-          {isRecording ? "Stop Recording" : "Start Recording"} {/* Cambia el texto del botón de grabación */}
-        </IonButton>
+        <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+          <button className="btn-control" onClick={toggleAudio}>
+            <IonIcon icon={isLocalAudioEnabled ? micOutline : micOffOutline} />
+          </button>
+          <button className="btn-control" onClick={toggleVideo}>
+            <IonIcon icon={isLocalVideoEnabled ? videocamOutline : videocamOffOutline} />
+          </button>
+          <button className="btn-control" onClick={toggleScreenShare}>
+            <IonIcon icon={isScreenShared ? stopOutline : shareOutline} />
+          </button>
+          <button className="btn-control" onClick={onRecordingToggle}>
+            <IonIcon icon={isRecording ? stopCircleOutline : ellipseOutline} />
+          </button>
+          {isRecording && <div className="recording-indicator">Grabando</div>}
+        </div>
       </IonToolbar>
     </IonFooter>
   );

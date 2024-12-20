@@ -1,4 +1,4 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonList, IonItem } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonGrid, IonRow, IonCol, IonFooter } from '@ionic/react';
 import { selectPeers, selectIsConnectedToRoom, useHMSStore, useHMSActions } from "@100mslive/react-sdk";
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
@@ -69,20 +69,24 @@ function Conference() {
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar>
-          <IonTitle>Conference</IonTitle>
+        <IonToolbar className="ion-toolbar-custom">
+          <IonTitle className="ion-title-custom">Conference</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent>
-        <IonList className="peers-container">
-          {peers.map((peer) => (
-            <IonItem key={peer.id}>
-              <Peer peer={peer} />
-            </IonItem>
-          ))}
-        </IonList>
-        <Footer onRecordingToggle={toggleRecording} isRecording={isRecording} />
+      <IonContent className="ion-padding-bottom">
+        <IonGrid class='conference-container'>
+          <IonRow class='peer-row'>
+            {peers.map((peer) => (
+              <IonCol key={peer.id} size='4' className='peer-col'>
+                <Peer peer={peer} />
+              </IonCol>
+            ))}
+          </IonRow>
+        </IonGrid>
       </IonContent>
+      <IonFooter>
+        <Footer onRecordingToggle={toggleRecording} isRecording={isRecording} />
+      </IonFooter>
     </IonPage>
   );
 }
