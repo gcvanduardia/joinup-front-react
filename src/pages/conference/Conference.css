@@ -1,9 +1,5 @@
 /* Header */
 
-*{
-  background: black;
-}
-
 .ion-toolbar-custom {
   --background: #2D45FF; /* Cambia el color de fondo */
   color: white; /* Cambia el color del texto */
