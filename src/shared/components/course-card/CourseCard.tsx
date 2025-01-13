@@ -9,14 +9,15 @@ interface CourseCardProps {
   courseId: number;
   Imagen: string;
   ProgresoCurso?: number;
+  Page: string
 }
 
-const CourseCard: React.FC<CourseCardProps> = ({ title, description, courseId, Imagen, ProgresoCurso }) => {
+const CourseCard: React.FC<CourseCardProps> = ({ title, description, courseId, Imagen, ProgresoCurso, Page }) => {
   const history = useHistory();
 
   return (
-    <IonCard className={styles['course-card ion-no-margin']} mode='ios' button onClick={() => history.push(`/curso/${courseId}`)}>
-      <IonImg src={Imagen} alt={Imagen}></IonImg>
+    <IonCard className={styles['course-card ion-no-margin']} mode='ios' button onClick={() => history.push(`/${Page}/${courseId}`)}>
+      <IonImg className={styles.ionImage} src={Imagen} alt={Imagen}></IonImg>
       <IonCardContent>
         <h2 className={styles["course-title"]}>{title}</h2>
         <p className={styles["course-description"]}>{description}</p>

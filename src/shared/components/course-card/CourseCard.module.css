@@ -1,23 +1,34 @@
 .course-card {
-    min-width: 0px !important;
-    min-height: 100%;
-    margin: 0px !important;
+  min-width: 0px !important;
+  min-height: 0px !important;
+  margin: 0px !important;
+  width: 300px; /* Establece un ancho fijo */
+  height: 100% !important; /* Establece una altura fija */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden; /* Asegura que el contenido no se desborde */
 }
 
-.course-progress-ba {
-    height: 5px;
-    border-radius: 3px;
+.ionImage {
+  width: 100%;
+  object-fit: contain;
+}
+
+.course-progress-bar {
+  height: 5px;
+  border-radius: 3px;
 }
 
 .progress-bar-container {
-    position: absolute;
-    bottom: 0px;
-    width: 100%;
-    padding: 0px 20px 10px 0px;
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  padding: 0px 20px 10px 0px;
 }
 
 .course-description {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

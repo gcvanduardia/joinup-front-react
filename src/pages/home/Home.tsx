@@ -50,7 +50,7 @@ const Home: React.FC = () => {
             <IonRow>
               {historialCursos.map((course) => (
                 <IonCol size-xs="12" size-sm="6" size-md="4" size-lg="3" key={course.IdCurso}>
-                  <CourseCard title={course.NombreCurso} description={course.NombreSesion} courseId={course.IdCurso} Imagen={course.ImagenCurso} ProgresoCurso={course.ProgresoCurso}/>
+                  <CourseCard title={course.NombreCurso} description={course.NombreSesion} courseId={course.IdCurso} Imagen={course.ImagenCurso} ProgresoCurso={course.ProgresoCurso} Page='curso'/>
                 </IonCol>
               ))}
             </IonRow>
@@ -62,7 +62,7 @@ const Home: React.FC = () => {
             <IonRow>
               {recomendedCourses.map((course) => (
                 <IonCol size-xs="12" size-sm="6" size-md="6" size-lg="6" key={course.CursoId}>
-                  <CourseCard title={course.Nombre} description={`${course.NombreProfesor} ${course.ApellidoProfesor}`} courseId={course.CursoId} Imagen={course.Imagen} />
+                  <CourseCard title={course.Nombre} description={`${course.NombreProfesor} ${course.ApellidoProfesor}`} courseId={course.CursoId} Imagen={course.Imagen} Page='curso'/>
                 </IonCol>
               ))}
             </IonRow>
