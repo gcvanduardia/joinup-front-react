@@ -1,0 +1,60 @@
+@font-face {
+    font-family: 'Montserrat';
+    src: url('../../../public/fonts/Montserrat-VariableFont_wght.ttf') format('truetype');
+}
+
+*{
+    font-family: 'Montserrat', sans-serif;
+}
+
+.sideMenu {
+    width: 250px;
+    height: 100%;
+    min-width: 250px;
+    border: none;
+}
+
+.sideMenu ion-content {
+    --color:#fff;
+    --background: #2D45FF;
+    --ion-item-background: #2D45FF;
+    --ion-item-color: #fff;
+}
+
+.fondo {
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+    padding: 10px;
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+    border: 3px solid #FFF44B;
+    border-radius: 15px;
+    padding: 10px;
+}
+
+.ionRow, .ionRow ion-col, .ionRow ion-col ion-title{
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.ionRow ion-col ion-title {
+    font-size: 130%;
+    font-weight: 700;
+}
+
+.titleContainer {
+    padding-bottom: 10px;
+    border-bottom: #81E838 3px solid;
+    margin-bottom: 20px;
+}
+
+.categoria {
+    margin: 20px 0px 20px 0px;
+    border: #68F0B4 3px solid;
+    font-size: 18px;
+}

@@ -28,6 +28,11 @@
   color: black;
 }
 
+.titulo:hover{
+  cursor: pointer;
+  color: #2D45FF;
+}
+
 .subTitulo{
   margin-top: 10px;
   font-size: 23px;

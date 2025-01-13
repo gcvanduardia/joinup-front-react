@@ -14,6 +14,10 @@ const Ingreso: React.FC = () => {
     history.push('/register');
   };
 
+  const handleRedirect = () => {
+    history.push('/inicio');
+  };
+
   return (
     <IonPage>
       <IonContent fullscreen>
@@ -22,7 +26,7 @@ const Ingreso: React.FC = () => {
             <IonCol className={styles.container}>
               <IonCard className={styles['card-container']}>
                 <IonRow>
-                  <IonTitle className={styles.titulo}>Mi Plataforma</IonTitle>
+                  <IonTitle className={styles.titulo} onClick={handleRedirect}>Mi Plataforma</IonTitle>
                 </IonRow>
                 
                 <IonRow className={styles['center-content']}>

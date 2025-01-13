@@ -14,13 +14,17 @@ import Ingreso from './pages/ingreso/Ingreso';
 import Personalizacion from './pages/personalizacion/Personalizacion';
 import JoinRoom from './pages/joinRoom/JoinRoom';
 import Conference from './pages/conference/Conference';
+import HomePublic from './pages/publicPreview/homePublic/HomePublic';
+import CursoPublic from './pages/publicPreview/cursoPublic/CursoPublic';
 
 const Routes: React.FC = () => (
   <IonRouterOutlet>
-    <Route exact path="/"> <Redirect to="/access" /> </Route>
+    <Route exact path="/"> <Redirect to="/inicio" /> </Route>
     <Route exact path="/login"> <Login /> </Route>
     <Route exact path="/register"> <Register /> </Route>
     <Route exact path="/access"> <Ingreso /> </Route>
+    <Route exact path="/inicio"> <HomePublic /> </Route>
+    <Route exact path="/curso-preview/:id"> <CursoPublic /> </Route>
     <ProtectedRoute exact path="/join/:id" component={JoinRoom} />
     <ProtectedRoute exact path="/home" component={Home} />
     <ProtectedRoute exact path="/curso/:idCurso/:idClase" component={Clase} />
