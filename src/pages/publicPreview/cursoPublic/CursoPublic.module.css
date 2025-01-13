@@ -1,0 +1,94 @@
+.curso-container {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ccc;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px; 
+    margin-left: 100px;
+    margin-right: 100px;
+    margin-top: 100px;
+  }
+  
+  .description-container {
+    align-items: left;
+    border: 1px solid #ccc;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+  }
+  .title {
+    font-size: 25px;
+  }
+  
+  .course-button {
+    margin: 10px;
+  }
+  
+  .curso-title {
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #ccc;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+    margin: 20px 0; 
+    background-color: white;
+    width: 100%;
+  }
+  
+  .curso-list {
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #ccc;
+    padding: 10px;
+    padding-top: 0px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+    margin: 20px 0;
+    background-color: white;
+    width: 100%;
+  }
+  
+  ion-card{
+    padding: 10px;
+    border-radius: 10px;
+    min-width: 0px !important;
+  }
+  
+  
+  .image-container {
+    width: 100%;
+  }
+  
+  @media (max-width: 768px) {
+    .curso-container {
+      padding: 0 15px;
+      margin: 10px;
+    }
+  }
+  
+  @media (max-width: 350px) {
+    .curso-container {
+      padding: 0 10px;
+    }
+  }
+  
+  .section-title {
+    padding-top: 20px;
+    font-size: 20px;
+  }
+  
+  .session-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  @media (max-width: 600px) {
+    .session-info {
+      flex-direction: column;
+    }
+  }
