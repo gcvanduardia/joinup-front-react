@@ -32,6 +32,7 @@ function JoinRoom() {
         console.log(`Estos son los datos del user: ${JSON.stringify(response.data.data)}`);
         if (response.data.data.Rol === 'Instructor') {
           setRolUser(1);
+          console.log(response.data.data.Rol);
         } else if (response.data.data.Rol === 'Estudiante') {
           setRolUser(2);
         }

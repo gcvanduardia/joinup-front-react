@@ -6,9 +6,10 @@ interface FooterProps {
   onRecordingToggle: () => void;
   isRecording: boolean;
   onLeave: () => void;
+  roleName: string | null;
 }
 
-function Footer({ onRecordingToggle, isRecording, onLeave }: FooterProps) {
+function Footer({ onRecordingToggle, isRecording, onLeave, roleName }: FooterProps) {
   const {
     isLocalAudioEnabled,
     isLocalVideoEnabled,
@@ -38,16 +39,21 @@ function Footer({ onRecordingToggle, isRecording, onLeave }: FooterProps) {
           <button className="btn-control" onClick={toggleVideo}>
             <IonIcon icon={isLocalVideoEnabled ? videocamOutline : videocamOffOutline} />
           </button>
-          <button className="btn-control" onClick={toggleScreenShare}>
-            <IonIcon icon={isScreenShared ? stopOutline : shareOutline} />
-          </button>
-          <button className="btn-control" onClick={onRecordingToggle}>
-            <IonIcon icon={isRecording ? stopCircleOutline : ellipseOutline} />
-          </button>
+          {roleName !== 'guest' && (
+            <>
+              <button className="btn-control" onClick={toggleScreenShare}>
+                <IonIcon icon={isScreenShared ? stopOutline : shareOutline} />
+              </button>
+              <button className="btn-control" onClick={onRecordingToggle}>
+                <IonIcon icon={isRecording ? stopCircleOutline : ellipseOutline} />
+              </button>
+              {isRecording && <div className="recording-indicator">Grabando</div>}
+            </>
+          )}
           <button className="btn-control exit" onClick={onLeave}>
             <IonIcon icon={exitOutline} />
           </button>
-          {isRecording && <div className="recording-indicator">Grabando</div>}
+          
         </div>
       </IonToolbar>
     </IonFooter>
