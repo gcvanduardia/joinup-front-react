@@ -3,7 +3,7 @@
     src: url('../../../public/fonts/Montserrat-VariableFont_wght.ttf') format('truetype');
 }
 
-*{
+* {
     font-family: 'Montserrat', sans-serif;
 }
 
@@ -15,7 +15,7 @@
 }
 
 .sideMenu ion-content {
-    --color:#fff;
+    --color: #fff;
     --background: #2D45FF;
     --ion-item-background: #2D45FF;
     --ion-item-color: #fff;
@@ -31,12 +31,12 @@
 .container {
     width: 100%;
     height: 100%;
-    border: 3px solid #FFF44B;
+    border: 3px solid #19268b;
     border-radius: 15px;
     padding: 10px;
 }
 
-.ionRow, .ionRow ion-col, .ionRow ion-col ion-title{
+.ionRow, .ionRow ion-col, .ionRow ion-col ion-title {
     justify-content: center;
     align-items: center;
     text-align: center;
@@ -54,7 +54,29 @@
 }
 
 .categoria {
-    margin: 20px 0px 20px 0px;
-    border: #68F0B4 3px solid;
+    margin: 10px 0; /* Ajustar el margen superior e inferior */
+    padding: 10px;
+    background-color: #81E838; /* Fondo verde */
+    border-radius: 20px; /* Bordes redondeados */
     font-size: 18px;
+    color: white; /* Texto blanco */
+    text-align: center;
+    cursor: pointer;
+    border: none; /* Eliminar el borde */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+}
+
+.categoria:hover {
+    background-color: #68F0B4; /* Cambiar color al pasar el ratón */
+}
+
+.categoria-button {
+    --background: #81E838;
+    color: white;
+    --border-radius: 20px;
+    width: 100%;
+    margin: 15px 0px;
 }

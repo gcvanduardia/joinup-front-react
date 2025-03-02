@@ -43,7 +43,6 @@ function Conference() {
 
   // Función para iniciar o detener la grabación
   const toggleRecording = async () => {
-
     const params = {
       record: true, // Establece en false si solo deseas transmitir sin grabar
     };
@@ -66,6 +65,11 @@ function Conference() {
     }
   };
 
+  // Función para salir de la reunión
+  const leaveConference = () => {
+    window.location.reload(); // Recarga la página
+  };
+
   return (
     <IonPage>
       <IonHeader>
@@ -85,7 +89,7 @@ function Conference() {
         </IonGrid>
       </IonContent>
       <IonFooter>
-        <Footer onRecordingToggle={toggleRecording} isRecording={isRecording} />
+        <Footer onRecordingToggle={toggleRecording} isRecording={isRecording} onLeaveConference={leaveConference} />
       </IonFooter>
     </IonPage>
   );

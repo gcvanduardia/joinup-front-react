@@ -5,9 +5,10 @@ import { useAVToggle, useHMSActions, useHMSStore, selectIsLocalScreenShared } fr
 interface FooterProps {
   onRecordingToggle: () => void;
   isRecording: boolean;
+  onLeaveConference: () => void; // Añade esta propiedad
 }
 
-function Footer({ onRecordingToggle, isRecording }: FooterProps) {
+function Footer({ onRecordingToggle, isRecording, onLeaveConference }: FooterProps) {
   const {
     isLocalAudioEnabled,
     isLocalVideoEnabled,
@@ -42,6 +43,9 @@ function Footer({ onRecordingToggle, isRecording }: FooterProps) {
           </button>
           <button className="btn-control" onClick={onRecordingToggle}>
             <IonIcon icon={isRecording ? stopCircleOutline : ellipseOutline} />
+          </button>
+          <button className="btn-control exit" onClick={onLeaveConference}>
+            Leave
           </button>
           {isRecording && <div className="recording-indicator">Grabando</div>}
         </div>

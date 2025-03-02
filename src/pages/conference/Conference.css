@@ -21,7 +21,7 @@
 }
 
 .ion-padding-bottom {
-  --background: #FFF44B;
+  --background: #19268b;
 }
 
 .peer-col {
@@ -97,6 +97,15 @@
   transition: background-color 0.3s ease;
 }
 
+.btn-control.exit {
+  border-radius: 12px; /* Hace el botón rectangular */
+  width: auto; /* Ajusta el ancho automáticamente */
+  height: auto; /* Ajusta la altura automáticamente */
+  padding: 10px 20px; /* Ajusta el padding */
+  background-color: red; /* Color de fondo rojo */
+  color: white; /* Color del texto blanco */
+}
+
 .btn-control ion-icon {
   font-size: 24px; /* Ajusta el tamaño del icono */
 }
@@ -107,4 +116,4 @@
   color: #81E838;
   font-weight: bold;
   font-size: 30px;
-} 
+}

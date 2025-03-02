@@ -1,0 +1,18 @@
+.curso-container {
+    padding: 20px;
+    margin-top: 120px;
+  }
+  
+  .card-text {
+    font-size: 15px;
+    font-weight: bold;
+  }
+
+  .card-title {
+    text-align: center;
+    font-size: 30px;
+  }
+
+  ion-button {
+    margin-left: 10px;
+  }

@@ -11,7 +11,7 @@
     box-shadow: none; /* Asegúrate de que no haya sombra */
   }
   
-  .logo {
+  .container-logo {
     width: 100%;
     max-width: 100px; 
     height: auto;
@@ -19,10 +19,17 @@
     margin-top: 10%;
   }
   
-  .logo ion-img {
+  .logo{
     border-radius: 50%;
     background-color: #fff;
+    padding: 2px;
   }
+
+  .logo img {
+    width: 100%;
+    height: auto;
+  }
+
   
   .searchbar {
     width: 70%;

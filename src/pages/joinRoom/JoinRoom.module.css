@@ -1,0 +1,112 @@
+@font-face {
+    font-family: 'Montserrat';
+    src: url('../../../public/fonts/Montserrat-VariableFont_wght.ttf') format('truetype');
+}
+
+.fondo {
+    margin: 0;
+    padding: 0; 
+    box-sizing: border-box; 
+    background-color: #00000079;
+    height: 100%;
+    width: 100%;
+}
+  
+.fondo *{
+    font-family: Montserrat;
+}
+
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh
+}
+
+.card-container{
+    max-width: 400px;
+    border-radius: 40px;
+    text-align: center;
+    padding: 30px;
+}
+
+.center-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.titulo {
+    font-size: 20px;
+    font-weight: bold;
+    color: black;
+}
+
+.subTitulo {
+    font-size: 25px;
+    color: #2D45FF;
+    font-weight: 800;
+    line-height: 1.5;
+    margin-bottom: 10px;
+}
+
+input {
+    background-color: #fff;
+}
+
+.texto {
+    font-size: 20px;
+    color: black;
+    font-weight: 700;
+}
+
+.texto input {
+    font-weight: normal;
+    border: solid 1px #2D45FF;
+    border-radius: 20px;
+    outline: none;
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 5px;
+    margin-bottom: 25px;
+    background-color: #fff;
+}
+
+.texto input:focus {
+    border: solid 1px #2D45FF;
+    box-shadow: none;
+    outline: none;
+}
+
+.logo-form {
+    max-width: 50px;
+}
+
+.texto-condiciones {
+    font-size: 12px;
+    color: black;
+    margin: 10px 10px 0px 10px;
+}
+
+.checkbox-hidden {
+    display: none;
+}
+
+.icon-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin: 10px;
+    border: none;
+    --border-width: 0; 
+    box-shadow: none; 
+    background: none; 
+}
+
+.icon-container ion-icon {
+    font-size: 24px;
+    color: #2D45FF;
+}
