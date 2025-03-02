@@ -66,8 +66,16 @@ function Conference() {
   };
 
   // Función para salir de la reunión
-  const leaveConference = () => {
-    window.location.reload(); // Recarga la página
+  const leaveConference = async () => {
+    try {
+      // Detener todos los medios (audio y video)
+      await hmsActions.setLocalAudioEnabled(false);
+      await hmsActions.setLocalVideoEnabled(false);
+      await hmsActions.leave();
+      history.push('/home');
+    } catch (err) {
+      console.error("Error al salir de la reunión:", err);
+    }
   };
 
   return (
@@ -89,7 +97,7 @@ function Conference() {
         </IonGrid>
       </IonContent>
       <IonFooter>
-        <Footer onRecordingToggle={toggleRecording} isRecording={isRecording} onLeaveConference={leaveConference} />
+        <Footer onRecordingToggle={toggleRecording} isRecording={isRecording} onLeave={leaveConference} />
       </IonFooter>
     </IonPage>
   );

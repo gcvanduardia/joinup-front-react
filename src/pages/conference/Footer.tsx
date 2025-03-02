@@ -1,14 +1,14 @@
 import { IonFooter, IonToolbar, IonIcon } from '@ionic/react';
-import { micOffOutline, micOutline, videocamOffOutline, videocamOutline, stopOutline, ellipseOutline, shareOutline, stopCircleOutline } from 'ionicons/icons';
+import { micOffOutline, micOutline, videocamOffOutline, videocamOutline, stopOutline, ellipseOutline, shareOutline, stopCircleOutline, exitOutline } from 'ionicons/icons';
 import { useAVToggle, useHMSActions, useHMSStore, selectIsLocalScreenShared } from "@100mslive/react-sdk";
 
 interface FooterProps {
   onRecordingToggle: () => void;
   isRecording: boolean;
-  onLeaveConference: () => void; // Añade esta propiedad
+  onLeave: () => void;
 }
 
-function Footer({ onRecordingToggle, isRecording, onLeaveConference }: FooterProps) {
+function Footer({ onRecordingToggle, isRecording, onLeave }: FooterProps) {
   const {
     isLocalAudioEnabled,
     isLocalVideoEnabled,
@@ -44,8 +44,8 @@ function Footer({ onRecordingToggle, isRecording, onLeaveConference }: FooterPro
           <button className="btn-control" onClick={onRecordingToggle}>
             <IonIcon icon={isRecording ? stopCircleOutline : ellipseOutline} />
           </button>
-          <button className="btn-control exit" onClick={onLeaveConference}>
-            Leave
+          <button className="btn-control exit" onClick={onLeave}>
+            <IonIcon icon={exitOutline} />
           </button>
           {isRecording && <div className="recording-indicator">Grabando</div>}
         </div>
