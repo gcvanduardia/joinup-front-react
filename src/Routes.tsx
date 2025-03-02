@@ -16,8 +16,10 @@ import JoinRoom from './pages/joinRoom/JoinRoom';
 import Conference from './pages/conference/Conference';
 import HomePublic from './pages/publicPreview/homePublic/HomePublic';
 import CursoPublic from './pages/publicPreview/cursoPublic/CursoPublic';
-import CursoInf from './pages/cursoInf/CursoInf';
+import CursoInfoPublic from './pages/publicPreview/cursoInfoPublic/CursoInfoPublic';
 import Compra from './pages/compra/Compra';
+import CompraPublic from './pages/publicPreview/compraPublic/CompraPublic';
+import CursoInf from './pages/cursoInf/CursoInf';
 
 const Routes: React.FC = () => (
   <IonRouterOutlet>
@@ -27,8 +29,9 @@ const Routes: React.FC = () => (
     <Route exact path="/access"> <Ingreso /> </Route>
     <Route exact path="/inicio"> <HomePublic /> </Route>
     <Route exact path="/curso-preview/:id"> <CursoPublic /> </Route>
-    <Route exact path="/curso-info/:id"> <CursoInf /> </Route>
-    {/* <Route exact path="/compra/:id"> <Compra /> </Route> */}
+    <Route exact path="/curso-info/:id"> <CursoInfoPublic /> </Route>
+    <Route exact path="/comprar/:id"> <CompraPublic /> </Route>
+    <ProtectedRoute exact path="/compra/:id" component={Compra} />
     <ProtectedRoute exact path="/join/:id" component={JoinRoom} />
     <ProtectedRoute exact path="/home" component={Home} />
     <ProtectedRoute exact path="/curso/:idCurso/:idClase" component={Clase} />
@@ -40,7 +43,7 @@ const Routes: React.FC = () => (
     <ProtectedRoute exact path="/busqueda" component={Busqueda}/>
     <ProtectedRoute exact path="/personalizarPerfil" component={Personalizacion}/>
     <ProtectedRoute exact path="/conference" component={Conference} />
-    <ProtectedRoute exact path="/compra/:id" component={Compra} />
+    <ProtectedRoute exact path="/cursoInfo/:id" component={CursoInf} />
   </IonRouterOutlet>
 );
 

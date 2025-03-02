@@ -88,7 +88,7 @@ const Curso: React.FC = () => {
                 {!isCursoUsuario && (
                   <div>
                     <IonButton onClick={() => handleButtonClick(`/compra/${id}`)}>¡Comienza tu aventura!</IonButton>
-                    <IonButton onClick={() => handleButtonClick(`/curso-info/${id}`)}>Más Información</IonButton>
+                    <IonButton onClick={() => handleButtonClick(`/cursoInfo/${id}`)}>Más Información</IonButton>
                   </div>
                 )}
               </IonCol>

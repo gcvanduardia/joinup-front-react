@@ -54,7 +54,7 @@ const CursoPublic: React.FC = () => {
                 <IonCard><IonLabel className={styles['title']}>{curso.NombreCurso}</IonLabel></IonCard>
                 <IonCard><IonText>{curso.DescripcionPrincipal}</IonText></IonCard>
                 <IonCard><IonText>{curso.NombreCompletoProfesor}</IonText></IonCard>
-                <IonButton onClick={() => handleButtonClick(`/compra/${id}`)}>¡Comienza tu aventura!</IonButton>
+                <IonButton onClick={() => handleButtonClick(`/comprar/${id}`)}>¡Comienza tu aventura!</IonButton>
                 <IonButton onClick={() => handleButtonClick(`/curso-info/${id}`)}>Más Información</IonButton>
               </IonCol>
             </IonRow>
