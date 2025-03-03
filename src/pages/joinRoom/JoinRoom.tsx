@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import useApi from "../../shared/services/api/api";
 import { UserIdContext } from "../../shared/services/global/global";
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonSpinner, IonText, IonCheckbox, IonLabel, IonItem, IonButton, IonGrid, IonRow, IonCol, IonCard, IonIcon } from '@ionic/react';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonSpinner, IonText, IonCheckbox, IonLabel, IonItem, IonButton, IonGrid, IonRow, IonCol, IonCard, IonIcon, IonAlert } from '@ionic/react';
 import { micOffOutline, micOutline, videocamOffOutline, videocamOutline } from 'ionicons/icons';
 import styles from './JoinRoom.module.css';
 
@@ -23,6 +23,7 @@ function JoinRoom() {
   const [isCursoUsuario, setIsCursoUsuario] = useState<boolean>(true);
   const [rolUser, setRolUser] = useState<number>(0);
   const [roomCode, setRoomCode] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
     const userDataIni = async () => {
@@ -86,10 +87,10 @@ function JoinRoom() {
         const userName = user.Nombres;
 
         console.log(`Fetching auth token for room code: ${roomCode}`);
-        const authToken = await hmsActions.getAuthTokenByRoomCode({ roomCode });
-        console.log(`Auth token received: ${authToken}`);
-
         try {
+          const authToken = await hmsActions.getAuthTokenByRoomCode({ roomCode });
+          console.log(`Auth token received: ${authToken}`);
+
           await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
 
           await hmsActions.join({
@@ -104,6 +105,7 @@ function JoinRoom() {
           history.push("/conference");
         } catch (e) {
           console.error(`Error joining the room: ${e}`);
+          setErrorMessage("Esta clase no está activa.");
         }
       };
 
@@ -113,6 +115,11 @@ function JoinRoom() {
 
   const handleJoinClick = () => {
     setPreferencesSet(true);
+  };
+
+  const handleAlertDismiss = () => {
+    setErrorMessage(null);
+    history.push('/home');
   };
 
   return (
@@ -152,6 +159,15 @@ function JoinRoom() {
                     </>
                   )}
                 </IonRow>
+                {errorMessage && (
+                  <IonAlert
+                    isOpen={!!errorMessage}
+                    onDidDismiss={handleAlertDismiss}
+                    header={'Error'}
+                    message={errorMessage}
+                    buttons={['OK']}
+                  />
+                )}
                 <IonRow>
                   <IonLabel className={styles['texto-condiciones']}>Al unirse acepta las Condiciones de Servicio y Politica de Privacidad de MiPlataforma</IonLabel>
                 </IonRow>
