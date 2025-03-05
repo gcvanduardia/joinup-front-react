@@ -91,7 +91,7 @@ const TopToolBarPublic: React.FC = () => {
               <IonIcon icon={search} size='large'/>
             </IonButton>
           )}
-          <IonButton className={styles["login-button"]} onClick={() => history.push("/access")}>Iniciar Sesión</IonButton>
+          <IonButton className={styles["login-button"]} onClick={() => history.push("/login")}>Iniciar Sesión</IonButton>
         </IonButtons>
       </IonToolbar>
       {showSearchResults && (

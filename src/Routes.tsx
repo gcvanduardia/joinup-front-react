@@ -26,7 +26,7 @@ const Routes: React.FC = () => (
     <Route exact path="/"> <Redirect to="/inicio" /> </Route>
     <Route exact path="/login"> <Login /> </Route>
     <Route exact path="/register"> <Register /> </Route>
-    <Route exact path="/access"> <Ingreso /> </Route>
+    {/* <Route exact path="/access"> <Ingreso /> </Route> */}
     <Route exact path="/inicio"> <HomePublic /> </Route>
     <Route exact path="/curso-preview/:id"> <CursoPublic /> </Route>
     <Route exact path="/curso-info/:id"> <CursoInfoPublic /> </Route>

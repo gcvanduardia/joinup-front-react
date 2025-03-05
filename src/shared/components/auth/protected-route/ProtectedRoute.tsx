@@ -21,7 +21,7 @@ const ProtectedRoute: React.FC<{ exact: boolean, path: string, component: React.
 
   useEffect(() => {
     if (!isAuthenticated && !isCheckingToken) {
-      history.replace("/access");
+      history.replace("/login");
     }
   }, [isAuthenticated, isCheckingToken, history]);
 
