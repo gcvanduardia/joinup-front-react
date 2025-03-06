@@ -11,6 +11,7 @@ interface PeerType {
   name: string;
   videoTrack: string;
   isLocal: boolean;
+  roleName: string;
 }
 
 function Conference() {
@@ -21,6 +22,7 @@ function Conference() {
 
   // Estado para saber si la grabación está activa
   const [isRecording, setIsRecording] = useState(false);
+  const [localRoleName, setLocalRoleName] = useState<string | null>(null);
 
   // Efecto para redirigir al usuario si no está conectado
   useEffect(() => {
@@ -36,6 +38,8 @@ function Conference() {
     if (localPeer) {
       console.log(`Peer local creado: ${JSON.stringify(localPeer)}`);
       console.log(`VideoTrack del peer local: ${localPeer.videoTrack}`);
+      console.log(`Rol del peer local: ${localPeer.roleName}`);
+      setLocalRoleName(localPeer.roleName);
     } else {
       console.log("No se encontró el peer local.");
     }
@@ -43,7 +47,6 @@ function Conference() {
 
   // Función para iniciar o detener la grabación
   const toggleRecording = async () => {
-
     const params = {
       record: true, // Establece en false si solo deseas transmitir sin grabar
     };
@@ -66,6 +69,30 @@ function Conference() {
     }
   };
 
+  // Función para salir de la reunión
+  const leaveConference = async () => {
+    try {
+      // Deshabilitar el audio y video locales
+      await hmsActions.setLocalAudioEnabled(false);
+      await hmsActions.setLocalVideoEnabled(false);
+
+      // Obtener las pistas de medios locales y detenerlas manualmente
+      const mediaStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+      mediaStream.getTracks().forEach(track => track.stop());
+
+      // Salir de la sala
+      await hmsActions.leave();
+
+      // Redirigir al usuario a la página de inicio
+      history.push('/home');
+
+      // Recargar la página
+      window.location.reload();
+    } catch (err) {
+      console.error("Error al salir de la reunión:", err);
+    }
+  };
+
   return (
     <IonPage>
       <IonHeader>
@@ -85,7 +112,7 @@ function Conference() {
         </IonGrid>
       </IonContent>
       <IonFooter>
-        <Footer onRecordingToggle={toggleRecording} isRecording={isRecording} />
+        <Footer onRecordingToggle={toggleRecording} isRecording={isRecording} onLeave={leaveConference} roleName={localRoleName} />
       </IonFooter>
     </IonPage>
   );

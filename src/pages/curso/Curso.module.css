@@ -8,7 +8,7 @@
   border-radius: 10px; 
   margin-left: 100px;
   margin-right: 100px;
-  margin-top: 100px;
+  margin-top: 120px;
 }
 
 .description-container {
@@ -24,6 +24,11 @@
 
 .course-button {
   margin: 10px;
+}
+
+.course-error{
+  color: red;
+  text-align: center;
 }
 
 .curso-title {

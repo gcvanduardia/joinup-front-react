@@ -79,7 +79,7 @@ const Login: React.FC = () => {
                                     <IonLabel className={styles.titulo}>Mi Plataforma</IonLabel>
                                 </IonRow>
                                 <IonRow className={styles['center-content']}>
-                                    <img src="img/logoPrincipal 1.png" alt="logo2" className={styles['logo-form']} />
+                                    <img src="img/logoPrincipal.png" alt="logo2" className={styles['logo-form']} />
                                 </IonRow>
 
                                 <IonRow className={styles['center-content']}>

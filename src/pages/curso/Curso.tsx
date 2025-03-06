@@ -60,6 +60,10 @@ const Curso: React.FC = () => {
     }
   }, [curso, id, isCursoUsuario]);
 
+  const handleButtonClick = (url: string) => {
+    history.push(url); // Redirige a la URL proporcionada
+  };
+
   return (
     <IonPage>
       <TopToolBar />
@@ -71,7 +75,7 @@ const Curso: React.FC = () => {
               <IonCol size='8' sizeXs='12' sizeSm="12" sizeLg='8' >
                   <IonImg src={curso.Imagen} alt={id}/>
                   {!isCursoUsuario && (
-                  <IonButton expand="full" className={styles['course-button']} color="danger">No tienes acceso a este curso!</IonButton>
+                  <h2 className={styles['course-error']}>No tienes acceso a este curso!</h2>
                 )}
               </IonCol>
               <IonCol size='4' sizeXs='12' sizeSm='12' sizeLg='4' className={styles['description-container']}>
@@ -80,6 +84,12 @@ const Curso: React.FC = () => {
                 <IonCard><IonText>{curso.NombreCompletoProfesor}</IonText></IonCard>
                 {curso.EnVivo && isCursoUsuario && (
                   <IonButton expand="full" className={styles['course-button']} onClick={() => history.push(`/join/${id}`)}>Conectarse</IonButton>
+                )}
+                {!isCursoUsuario && (
+                  <div>
+                    <IonButton onClick={() => handleButtonClick(`/compra/${id}`)}>¡Comienza tu aventura!</IonButton>
+                    <IonButton onClick={() => handleButtonClick(`/cursoInfo/${id}`)}>Más Información</IonButton>
+                  </div>
                 )}
               </IonCol>
             </IonRow>
