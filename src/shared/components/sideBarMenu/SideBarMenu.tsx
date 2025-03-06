@@ -2,10 +2,27 @@ import React from 'react';
 import { IonGrid, IonRow, IonTitle, IonContent, IonList, IonItem, IonMenu, IonLabel } from '@ionic/react';
 import { useHistory, useLocation } from 'react-router-dom';
 import styles from './SideBarMenu.module.css';
+import useApi from "../../services/api/api";
+import { UserIdContext } from "../../services/global/global";
+import { useState, useContext, useEffect } from 'react';
 
 const SideBarMenu: React.FC = () => {
   const history = useHistory();
   const location = useLocation();
+  const [user, setUser] = useState<any>({});
+  const { apiReq } = useApi();
+  const {IdUsuario } = useContext(UserIdContext);
+
+  useEffect(() => {
+      const userDataIni = async () => {
+        const response = await apiReq('GET', `user/dataIni?IdUsuario=${IdUsuario}`);
+        if (response?.status === 200) {
+          setUser(response.data.data);
+          console.log(response.data.data);
+        }
+      }
+      userDataIni();
+    }, [IdUsuario]);
 
   const getTitle = () => {
     switch (location.pathname) {
@@ -18,6 +35,10 @@ const SideBarMenu: React.FC = () => {
       default:
         return 'Menú';
     }
+  };
+
+  const handleNavigation = (path: string) => {
+    history.push(path);
   };
 
   return (
@@ -36,20 +57,15 @@ const SideBarMenu: React.FC = () => {
 
               <IonRow className={styles['center-content']}>
                 <IonList className={styles['lista-proyectos']}>
-                  <IonItem button lines="none" >Ingles</IonItem>
-                  <IonItem button lines="none" >Robótica</IonItem>
+                  <IonItem button lines="none" onClick={() => handleNavigation('/curso/3')}>Artes</IonItem>
+                  <IonItem button lines="none" onClick={() => handleNavigation('/curso/2')}>Robótica</IonItem>
                 </IonList>
               </IonRow>
 
               <IonRow className={styles['center-content']}>
                 <IonLabel className={styles.puntosTitulo}>Puntos Acumulados</IonLabel>
-                <IonLabel className={styles.puntos}>+45</IonLabel>
+                <IonLabel className={styles.puntos}>+{user.Puntos}</IonLabel>
               </IonRow>
-
-              <IonRow className={styles['center-content']}>
-                <IonLabel className={styles.cursosRecomendados}>Cursos que te podrian interesar</IonLabel>
-              </IonRow>
-
             </IonGrid>
           </div>
         </div>

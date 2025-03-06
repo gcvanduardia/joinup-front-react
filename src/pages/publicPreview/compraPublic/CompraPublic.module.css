@@ -1,0 +1,39 @@
+.compra-container {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ccc;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px; 
+    margin-left: 100px;
+    margin-right: 100px;
+    margin-top: 120px;
+  }
+  
+  .description-container {
+    align-items: left;
+    border: 1px solid #ccc;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+  }
+  
+  .title {
+    font-size: 25px;
+  }
+  
+  .whatsapp-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px; /* Aumenta el tamaño del botón */
+    height: 60px; /* Aumenta el tamaño del botón */
+    padding: 0;
+    --border-radius: 50px;
+  }
+  
+  .compra-container ion-label {
+    font-size: 20px;
+  }
+  

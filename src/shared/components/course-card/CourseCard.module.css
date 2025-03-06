@@ -13,6 +13,7 @@
 .ionImage {
   width: 100%;
   object-fit: contain;
+  height: 370px;
 }
 
 .course-progress-bar {
@@ -25,6 +26,13 @@
   bottom: 0px;
   width: 100%;
   padding: 0px 20px 10px 0px;
+}
+
+.course-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%; /* Asegura que el título no exceda el ancho del contenedor */
 }
 
 .course-description {

@@ -3,7 +3,7 @@ import { IonHeader, IonToolbar, IonButtons, IonButton, IonImg, IonSearchbar, Ion
 import { useHistory, useLocation } from 'react-router-dom';
 import { search } from 'ionicons/icons';
 import styles from './TopToolBar.module.css';
-import logo from '../../../../public/img/logoPrincipal 1.png';
+import logo from '../../../../public/img/logoPrincipal.png';
 import { UserIdContext } from "../../services/global/global";
 import useApi from "../../services/api/api";
 import { useWindowSize } from 'react-use';
@@ -72,8 +72,10 @@ const TopToolBar: React.FC = () => {
     <IonHeader className={styles.toolbar}>
       <IonToolbar className={styles.fondo}>
         <IonButtons slot="start">
-          <IonButton className={styles["logo"]} onClick={() => history.push("/home")}>
-            <IonImg src={logo} alt="Logo"/>
+          <IonButton className={styles["container-logo"]} onClick={() => history.push("/home")}>
+            <div className={styles["logo"]}>
+              <IonImg src={logo} alt="Logo"/>
+            </div>
           </IonButton>
         </IonButtons>
         {width > 768 && !location.pathname.startsWith('/busqueda') && (

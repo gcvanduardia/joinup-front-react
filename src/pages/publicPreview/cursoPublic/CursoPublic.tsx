@@ -35,8 +35,8 @@ const CursoPublic: React.FC = () => {
     cursoDetail();
   }, [id]);
 
-  const handleButtonClick = () => {
-    history.push('/access'); // Reemplaza '/ruta-deseada' con la ruta a la que deseas redirigir
+  const handleButtonClick = (url: string) => {
+    history.push(url); // Redirige a la URL proporcionada
   };
 
   return (
@@ -54,7 +54,8 @@ const CursoPublic: React.FC = () => {
                 <IonCard><IonLabel className={styles['title']}>{curso.NombreCurso}</IonLabel></IonCard>
                 <IonCard><IonText>{curso.DescripcionPrincipal}</IonText></IonCard>
                 <IonCard><IonText>{curso.NombreCompletoProfesor}</IonText></IonCard>
-                <IonButton onClick={handleButtonClick}>¡Comienza tu aventura!</IonButton>
+                <IonButton onClick={() => handleButtonClick(`/comprar/${id}`)}>¡Comienza tu aventura!</IonButton>
+                <IonButton onClick={() => handleButtonClick(`/curso-info/${id}`)}>Más Información</IonButton>
               </IonCol>
             </IonRow>
           </IonGrid>
