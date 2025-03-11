@@ -1,10 +1,12 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonGrid, IonRow, IonCol, IonFooter } from '@ionic/react';
 import { selectPeers, selectIsConnectedToRoom, useHMSStore, useHMSActions } from "@100mslive/react-sdk";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import Peer from "./Peer";
 import Footer from "./Footer";
 import './Conference.css';
+import useApi from "../../shared/services/api/api";
+import { UserIdContext } from "../../shared/services/global/global";
 
 interface PeerType {
   id: string;
@@ -19,6 +21,8 @@ function Conference() {
   const isConnected = useHMSStore(selectIsConnectedToRoom); // Estado de conexión
   const hmsActions = useHMSActions(); // Acciones del SDK de 100ms
   const history = useHistory();
+  const { apiReq } = useApi();
+  const { IdUsuario } = useContext(UserIdContext);
 
   // Estado para saber si la grabación está activa
   const [isRecording, setIsRecording] = useState(false);
@@ -34,6 +38,7 @@ function Conference() {
   // Efecto para manejar los cambios en los peers
   useEffect(() => {
     console.log(`Peers actualizados: ${JSON.stringify(peers)}`);
+    console.log(`User Id #############: ${IdUsuario}`);
     const localPeer = peers.find(peer => peer.isLocal); // Busca el peer local
     if (localPeer) {
       console.log(`Peer local creado: ${JSON.stringify(localPeer)}`);
@@ -75,22 +80,31 @@ function Conference() {
       // Deshabilitar el audio y video locales
       await hmsActions.setLocalAudioEnabled(false);
       await hmsActions.setLocalVideoEnabled(false);
-
+  
       // Obtener las pistas de medios locales y detenerlas manualmente
       const mediaStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
       mediaStream.getTracks().forEach(track => track.stop());
-
-      // Salir de la sala
-      await hmsActions.leave();
-
-      // Redirigir al usuario a la página de inicio
-      history.push('/home');
-
-      // Recargar la página
-      window.location.reload();
+  
+      // Salir de la sala y cambiar estado de conexion
+      const response = await userLiveTrackerEdit();
+      if (response?.status === 200) {
+        console.log('#################### Ahora el usuario esta desconectado', response.data);
+        await hmsActions.leave();
+  
+        // Redirigir al usuario a la página de inicio
+        history.push('/home');
+  
+        // Recargar la página
+        window.location.reload();
+      }
     } catch (err) {
       console.error("Error al salir de la reunión:", err);
     }
+  };
+  
+  const userLiveTrackerEdit = async () => {
+    const response = await apiReq('GET', `cursos/userLiveTracker?IdUsuario=${IdUsuario}&connected=false&accion=editar`);
+    return response;
   };
 
   return (

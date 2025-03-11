@@ -24,6 +24,7 @@ function JoinRoom() {
   const [rolUser, setRolUser] = useState<number>(0);
   const [roomCode, setRoomCode] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isConnectedAlert, setIsConnectedAlert] = useState<boolean>(false);
 
   useEffect(() => {
     const userDataIni = async () => {
@@ -56,6 +57,19 @@ function JoinRoom() {
   }, [id, IdUsuario, apiReq, history]);
 
   useEffect(() => {
+    const userLiveTracker = async () => {
+      const response = await apiReq('GET', `cursos/userLiveTracker?IdUsuario=${IdUsuario}&accion=leer`);
+      if (response?.status === 200) {
+        console.log('##################### El usuario esta: ', response.data.data.isConnected);
+        if (response.data.data.isConnected) {
+          setIsConnectedAlert(true); // Muestra el alert si el usuario está conectado
+        }
+      }
+    };
+    userLiveTracker();
+  }, [id, IdUsuario, apiReq, history]);
+
+  useEffect(() => {
     const detailSesion = async () => {
       try {
         console.log(id);
@@ -85,14 +99,14 @@ function JoinRoom() {
     if (user.Nombres && roomCode && preferencesSet) {
       const joinRoom = async () => {
         const userName = user.Nombres;
-
+  
         console.log(`Fetching auth token for room code: ${roomCode}`);
         try {
           const authToken = await hmsActions.getAuthTokenByRoomCode({ roomCode });
           console.log(`Auth token received: ${authToken}`);
-
+  
           await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-
+  
           await hmsActions.join({
             userName,
             authToken,
@@ -102,13 +116,17 @@ function JoinRoom() {
             }
           });
           console.log(`User ${userName} has joined the room successfully.`);
+          
+          // Llama a userLiveTrackerEdit antes de redirigir
+          await userLiveTrackerEdit();
+          
           history.push("/conference");
         } catch (e) {
           console.error(`Error joining the room: ${e}`);
           setErrorMessage("Esta clase no está activa.");
         }
       };
-
+  
       joinRoom();
     }
   }, [user, roomCode, preferencesSet, isAudioMuted, isVideoMuted, hmsActions, history]);
@@ -117,8 +135,20 @@ function JoinRoom() {
     setPreferencesSet(true);
   };
 
+  const userLiveTrackerEdit = async () => {
+    const response = await apiReq('GET', `cursos/userLiveTracker?IdUsuario=${IdUsuario}&connected=true&accion=editar`);
+    if (response?.status === 200) {
+      console.log('#################### Ahora el usuario esta conectado', response.data);
+    }
+  };
+
   const handleAlertDismiss = () => {
     setErrorMessage(null);
+    history.push('/home');
+  };
+
+  const handleConnectedAlertDismiss = () => {
+    setIsConnectedAlert(false);
     history.push('/home');
   };
 
@@ -165,6 +195,15 @@ function JoinRoom() {
                     onDidDismiss={handleAlertDismiss}
                     header={'Error'}
                     message={errorMessage}
+                    buttons={['OK']}
+                  />
+                )}
+                {isConnectedAlert && (
+                  <IonAlert
+                    isOpen={isConnectedAlert}
+                    onDidDismiss={handleConnectedAlertDismiss}
+                    header={'Aviso'}
+                    message={'Ya estás conectado a esta reunión.'}
                     buttons={['OK']}
                   />
                 )}
