@@ -28,14 +28,14 @@ function Footer({ onRecordingToggle, isRecording, onLeave, roleName }: FooterPro
           <button className="btn-control" onClick={toggleVideo}>
             <IonIcon icon={isLocalVideoEnabled ? videocamOutline : videocamOffOutline} />
           </button>
-          {roleName !== 'guest' && (
+          {/* {roleName !== 'guest' && (
             <>
               <button className="btn-control" onClick={onRecordingToggle}>
                 <IonIcon icon={isRecording ? stopCircleOutline : ellipseOutline} />
               </button>
               {isRecording && <div className="recording-indicator">Grabando</div>}
             </>
-          )}
+          )} */}
           <button className="btn-control" onClick={toggleScreenShare}>
             <IonIcon icon={isScreenShared ? stopOutline : shareOutline} />
           </button>
