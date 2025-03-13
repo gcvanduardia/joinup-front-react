@@ -91,10 +91,10 @@ function Conference() {
         <IonGrid className='conference-container'>
           {screenSharingPeer ? (
             <IonRow className='screen-sharing-layout'>
-              <IonCol size="8" className="screen-share-col">
+              <IonCol size="9" className="screen-share-col">
                 <Peer peer={screenSharingPeer} isScreenShare={true} />
               </IonCol>
-              <IonCol size="4" className="peers-col">
+              <IonCol size="3" className="peers-col">
                 {peers.filter(peer => peer.id !== screenSharingPeer.id).map(peer => (
                   <IonRow key={peer.id}>
                     <IonCol size="12" className='peer-col'>
