@@ -28,7 +28,7 @@
 
 /* Contenedor de la pantalla compartida */
 .screen-share-col {
-  flex: 2; /* Ocupa el 70% del ancho */
+  flex: 4; /* Ocupa el 80% del ancho */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -50,10 +50,13 @@
 
 /* Contenedor de los peers cuando hay pantalla compartida */
 .peers-col {
-  flex: 1; /* Ocupa el 30% del ancho */
+  margin-top: 20px;
+  flex: 1; /* Ocupa el 20% del ancho */
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 500px; /* Altura fija */
+  overflow-y: auto; /* Scroll vertical */
 }
 
 /* Ajuste de tamaño dinámico para los peers */
@@ -170,8 +173,5 @@
   width: 140px;
   height: 90px;
   border-radius: 8px;
-  border: 2px solid white;
-  background: rgba(0, 0, 0, 0.5);
   padding: 5px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 }
