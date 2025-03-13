@@ -36,12 +36,24 @@ function Conference() {
     }
   }, [peers, localRoleName]);
 
-  // ✅ Llamar useHMSStore fuera de map()
+  // Obtener el estado de pantalla compartida de todos los peers
   const screenShareStates = useHMSStore(state =>
     Object.fromEntries(peers.map(peer => [peer.id, selectScreenShareByPeerID(peer.id)(state)]))
   );
 
+  // Encontrar el peer que está compartiendo pantalla
   const screenSharingPeer = peers.find(peer => screenShareStates[peer.id]) || null;
+
+  // Ajustar tamaño de columnas según la cantidad de participantes
+  const getPeerColSize = () => {
+    if (peers.length === 1) return "12"; // Un solo participante → pantalla completa
+    if (peers.length <= 3) return "6";   // 2-3 participantes → columnas grandes (50%)
+    if (peers.length <= 6) return "4";   // 4-6 participantes → columnas medianas (33%)
+    if (peers.length <= 9) return "3";   // 7-9 participantes → columnas pequeñas (25%)
+    return "2";                          // 10+ participantes → columnas más pequeñas (16%-20%)
+  };
+  const peerColSize = getPeerColSize();
+
 
   const toggleRecording = async () => {
     try {
@@ -95,7 +107,7 @@ function Conference() {
           ) : (
             <IonRow className='peer-row'>
               {peers.map(peer => (
-                <IonCol key={peer.id} size='4' className='peer-col'>
+                <IonCol key={peer.id} size={peerColSize} className='peer-col'>
                   <Peer peer={peer} />
                 </IonCol>
               ))}
