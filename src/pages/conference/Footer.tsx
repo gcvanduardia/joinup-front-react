@@ -10,23 +10,12 @@ interface FooterProps {
 }
 
 function Footer({ onRecordingToggle, isRecording, onLeave, roleName }: FooterProps) {
-  const {
-    isLocalAudioEnabled,
-    isLocalVideoEnabled,
-    toggleAudio,
-    toggleVideo
-  } = useAVToggle(); // Para alternar entre audio y video
+  const { isLocalAudioEnabled, isLocalVideoEnabled, toggleAudio, toggleVideo } = useAVToggle();
+  const hmsActions = useHMSActions();
+  const isScreenShared = useHMSStore(selectIsLocalScreenShared);
 
-  const hmsActions = useHMSActions(); // Acciones del SDK de 100ms
-  const isScreenShared = useHMSStore(selectIsLocalScreenShared); // Estado de la pantalla compartida
-
-  // Función para alternar el estado de la pantalla compartida
   const toggleScreenShare = async () => {
-    if (isScreenShared) {
-      await hmsActions.setScreenShareEnabled(false); // Detener la compartición de pantalla
-    } else {
-      await hmsActions.setScreenShareEnabled(true); // Iniciar la compartición de pantalla
-    }
+    await hmsActions.setScreenShareEnabled(!isScreenShared);
   };
 
   return (
@@ -48,12 +37,11 @@ function Footer({ onRecordingToggle, isRecording, onLeave, roleName }: FooterPro
             </>
           )}
           <button className="btn-control" onClick={toggleScreenShare}>
-                <IonIcon icon={isScreenShared ? stopOutline : shareOutline} />
-              </button>
+            <IonIcon icon={isScreenShared ? stopOutline : shareOutline} />
+          </button>
           <button className="btn-control exit" onClick={onLeave}>
             <IonIcon icon={exitOutline} />
           </button>
-          
         </div>
       </IonToolbar>
     </IonFooter>

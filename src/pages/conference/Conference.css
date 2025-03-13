@@ -1,5 +1,4 @@
 /* Header */
-
 .ion-toolbar-custom {
   --background: #2D45FF; /* Cambia el color de fondo */
   color: white; /* Cambia el color del texto */
@@ -13,21 +12,54 @@
 }
 
 /* Conference */
-
 .conference-container {
   padding: 20px;
   width: 100%;
-  height: 100%; /* Ajusta la altura para que el contenido ocupe todo el espacio disponible */
+  height: 100%;
   box-sizing: border-box; /* Incluye el padding en el cálculo de la altura */
 }
 
-.ion-padding-bottom {
-  --background: #19268b;
+/* Estilos cuando hay pantalla compartida */
+.screen-sharing-layout {
+  display: flex;
+  width: 100%;
+  height: 100%;
 }
 
+/* Contenedor de la pantalla compartida */
+.screen-share-col {
+  flex: 2; /* Ocupa el 70% del ancho */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.screen-share-container {
+  width: 100%;
+  height: 100%;
+}
+
+/* Video de pantalla compartida */
+.screen-share-video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Mantiene la relación de aspecto sin recortar */
+  border: 2px solid #007bff;
+  border-radius: 8px;
+}
+
+/* Contenedor de los peers cuando hay pantalla compartida */
+.peers-col {
+  flex: 1; /* Ocupa el 30% del ancho */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Estilos generales de los peers */
 .peer-col {
   width: 100%;
-  padding: 20px;
+  padding: 10px;
 }
 
 .peer-container {
@@ -35,63 +67,50 @@
   border: 1px solid #ddd;
   border-radius: 8px;
   text-align: center;
-  width: 100%; /* Adjust width to fit within the container */
-  overflow: hidden; /* Ensure content does not overflow */
+  width: 100%;
+  overflow: hidden;
   margin: 0px;
   padding: 0px;
   border: 2px solid black;
 }
 
+/* Video de cada peer */
 .peer-video {
   width: 100%;
-  height: auto; /* Maintain aspect ratio */
-  max-height: 300px; /* Limit the maximum height of the video */
-  border-radius: 8px;
-  object-fit: contain; /* Ensure the video fits within the container without stretching */
-}
-
-.peer-name {
-  margin-top: 10px;
-  font-weight: bold;
-  color: #333;
-}
-
-.peer-video.local {
-  border: 2px solid #007bff;
-}
-
-.screen-share-video {
-  width: 100%;
   height: auto;
-  max-height: 500px; /* Limit the maximum height of the screen share video */
-  border: 2px solid #007bff;
+  max-height: 300px;
   border-radius: 8px;
   object-fit: contain;
 }
 
-/* Footer */
+/* Estilo especial para el video local */
+.peer-video.local {
+  border: 2px solid #007bff;
+}
 
+/* Footer */
 .control-bar {
   display: flex;
-  justify-content: center; /* Centra los botones */
+  justify-content: center;
   align-items: center;
   border-top: 3px solid #81E838;
   width: 100%;
-  height: 80px; /* Ajusta la altura del footer */
+  height: 80px;
   --background: #2D45FF;
-  position: relative; /* Necesario para posicionar el indicador de grabación */
+  position: relative;
 }
 
+/* Botones de control */
 .btn-control {
-  background-color: #81E838; /* Color de fondo gris */
+  background-color: #81E838;
   color: black;
   border: 2px solid black;
   padding: 10px;
   margin: 0 10px;
-  border-radius: 50%; /* Hace el botón circular */
+  border-radius: 50%;
   cursor: pointer;
-  width: 50px; /* Ajusta el tamaño del botón */
-  height: 50px; /* Ajusta el tamaño del botón */
+  width: 50px;
+  height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -99,22 +118,38 @@
 }
 
 .btn-control.exit {
-  border-radius: 12px; /* Hace el botón rectangular */
-  width: auto; /* Ajusta el ancho automáticamente */
-  height: auto; /* Ajusta la altura automáticamente */
-  padding: 10px 20px; /* Ajusta el padding */
-  background-color: red; /* Color de fondo rojo */
-  color: white; /* Color del texto blanco */
+  border-radius: 12px;
+  width: auto;
+  height: auto;
+  padding: 10px 20px;
+  background-color: red;
+  color: white;
 }
 
+/* Iconos dentro de los botones */
 .btn-control ion-icon {
-  font-size: 24px; /* Ajusta el tamaño del icono */
+  font-size: 24px;
 }
 
+/* Indicador de grabación */
 .recording-indicator {
   position: absolute;
   right: 20px;
   color: #81E838;
   font-weight: bold;
   font-size: 30px;
+}
+
+/* Miniatura del video mientras se comparte pantalla */
+.mini-video {
+  position: absolute;
+  bottom: 0px; /* 🔹 Se baja un poco más para no estar pegada arriba */
+  right: 0px;
+  width: 140px;
+  height: 90px;
+  border-radius: 8px;
+  border: 2px solid white;
+  background: rgba(0, 0, 0, 0.5); /* 🔹 Fondo semi-transparente */
+  padding: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 }
