@@ -10,15 +10,16 @@ interface PeerProps {
     isLocal: boolean;
   };
   isScreenShare?: boolean;
+  isScreenSharing?: boolean; // Nueva prop
 }
 
-const Peer: React.FC<PeerProps> = ({ peer, isScreenShare = false }) => {
+const Peer: React.FC<PeerProps> = ({ peer, isScreenShare = false, isScreenSharing = false }) => {
   const { videoRef } = useVideo({ trackId: peer.videoTrack });
   const screenShareTrack = useHMSStore(selectScreenShareByPeerID(peer.id));
   const { videoRef: screenShareRef } = useVideo({ trackId: screenShareTrack?.id });
 
   return (
-    <IonCard className={`peer-container ${isScreenShare ? "screen-share-container" : ""}`}>
+    <IonCard className={`peer-container ${isScreenShare ? "screen-share-container" : ""} ${isScreenSharing ? "auto-height" : ""}`}>
       <IonCardHeader>
         <IonCardTitle>{peer.name} {peer.isLocal ? "(You)" : ""}</IonCardTitle>
       </IonCardHeader>
