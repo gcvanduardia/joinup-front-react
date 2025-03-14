@@ -54,6 +54,14 @@ function Conference() {
   };
   const peerColSize = getPeerColSize();
 
+  const getPeerHeightClass = () => {
+    if (peers.length === 1) return "height-1";
+    if (peers.length <= 3) return "height-2-3";
+    if (peers.length <= 6) return "height-4-6";
+    if (peers.length <= 9) return "height-7-9";
+    return "height-10-plus";
+  };
+  const peerHeightClass = getPeerHeightClass();
 
   const toggleRecording = async () => {
     try {
@@ -88,7 +96,7 @@ function Conference() {
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding-bottom">
-        <IonGrid className='conference-container'>
+        <IonGrid className={`conference-container ${peerHeightClass}`}>
           {screenSharingPeer ? (
             <IonRow className='screen-sharing-layout'>
               <IonCol size="9" className="screen-share-col">
