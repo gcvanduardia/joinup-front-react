@@ -55,7 +55,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: auto; /* Altura automática */
+  height: 500px; /* Altura fija */
   overflow-y: auto; /* Scroll vertical */
 }
 
@@ -97,27 +97,6 @@
 
 .peer-col.size-2 {
   width: 16%; /* 10+ participantes → 5-6 columnas */
-}
-
-/* Alturas fijas según la cantidad de participantes */
-.conference-container.height-1 .peer-container {
-  height: 500px;
-}
-
-.conference-container.height-2-3 .peer-container {
-  height: 400px;
-}
-
-.conference-container.height-4-6 .peer-container {
-  height: 300px;
-}
-
-.conference-container.height-7-9 .peer-container {
-  height: 200px;
-}
-
-.conference-container.height-10-plus .peer-container {
-  height: 150px;
 }
 
 /* Video de cada peer */
