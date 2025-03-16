@@ -1,15 +1,25 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonGrid, IonRow, IonCol, IonFooter } from '@ionic/react';
-import { selectPeers, selectIsConnectedToRoom, useHMSStore, useHMSActions, selectScreenShareByPeerID } from "@100mslive/react-sdk";
-import { useEffect, useState, useMemo } from "react";
+import { 
+  IonContent, IonHeader, IonPage, IonTitle, IonToolbar, 
+  IonGrid, IonRow, IonCol, IonFooter 
+} from '@ionic/react';
+import { 
+  selectPeers, selectIsConnectedToRoom, useHMSStore, 
+  useHMSActions, selectScreenShareByPeerID 
+} from "@100mslive/react-sdk";
+import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import Peer from "./Peer";
 import Footer from "./Footer";
 import './Conference.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 interface PeerType {
   id: string;
   name: string;
   videoTrack: string;
+  audioTrack: string;
   isLocal: boolean;
   roleName: string;
 }
@@ -36,21 +46,46 @@ function Conference() {
     }
   }, [peers, localRoleName]);
 
-  // Obtener el estado de pantalla compartida de todos los peers
+  const mutePeer = async (peerId: string) => {
+    try {
+      const audioTrack = peers.find(peer => peer.id === peerId)?.audioTrack;
+      const peerName = peers.find(peer => peer.id === peerId)?.name || "Usuario";
+  
+      if (audioTrack) {
+        await hmsActions.setRemoteTrackEnabled(audioTrack, false);
+        toast.info(`${peerName} ha sido silenciado`, {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "colored",
+        });
+      }
+    } catch (err) {
+      console.error("Error al silenciar al peer:", err);
+      toast.error("No se pudo silenciar al usuario", {
+        position: "top-right",
+        autoClose: 3000,
+        theme: "colored",
+      });
+    }
+  };
+  
+
   const screenShareStates = useHMSStore(state =>
     Object.fromEntries(peers.map(peer => [peer.id, selectScreenShareByPeerID(peer.id)(state)]))
   );
 
-  // Encontrar el peer que está compartiendo pantalla
   const screenSharingPeer = peers.find(peer => screenShareStates[peer.id]) || null;
 
-  // Ajustar tamaño de columnas según la cantidad de participantes
   const getPeerColSize = () => {
-    if (peers.length === 1) return "12"; // Un solo participante → pantalla completa
-    if (peers.length <= 3) return "6";   // 2-3 participantes → columnas grandes (50%)
-    if (peers.length <= 6) return "4";   // 4-6 participantes → columnas medianas (33%)
-    if (peers.length <= 9) return "3";   // 7-9 participantes → columnas pequeñas (25%)
-    return "2";                          // 10+ participantes → columnas más pequeñas (16%-20%)
+    if (peers.length === 1) return "12";
+    if (peers.length <= 3) return "6";
+    if (peers.length <= 6) return "4";
+    if (peers.length <= 9) return "3";
+    return "2";
   };
   const peerColSize = getPeerColSize();
 
@@ -89,45 +124,49 @@ function Conference() {
   };
 
   return (
-    <IonPage>
-      <IonHeader>
-        <IonToolbar className="ion-toolbar-custom">
-          <IonTitle className="ion-title-custom">Conference</IonTitle>
-        </IonToolbar>
-      </IonHeader>
-      <IonContent className="ion-padding-bottom">
-        <IonGrid className={`conference-container ${screenSharingPeer ? "auto-height" : peerHeightClass}`}>
-          {screenSharingPeer ? (
-            <IonRow className='screen-sharing-layout'>
-              <IonCol size="9" className="screen-share-col">
-                <Peer peer={screenSharingPeer} isScreenShare={true} />
-              </IonCol>
-              <IonCol size="3" className="peers-col">
-                {peers.filter(peer => peer.id !== screenSharingPeer.id).map(peer => (
-                  <IonRow key={peer.id}>
-                    <IonCol size="12" className='peer-col'>
-                      <Peer peer={peer} isScreenSharing={true} />
-                    </IonCol>
-                  </IonRow>
-                ))}
-              </IonCol>
-            </IonRow>
-          ) : (
-            <IonRow className='peer-row'>
-              {peers.map(peer => (
-                <IonCol key={peer.id} size={peerColSize} className='peer-col'>
-                  <Peer peer={peer} />
+    <>
+      <ToastContainer /> {/* 🔹 Asegura que el toast pueda mostrarse */}
+      <IonPage>
+        <IonHeader>
+          <IonToolbar className="ion-toolbar-custom">
+            <IonTitle className="ion-title-custom">Conference</IonTitle>
+          </IonToolbar>
+        </IonHeader>
+        <IonContent className="ion-padding-bottom">
+          <IonGrid className={`conference-container ${screenSharingPeer ? "auto-height" : peerHeightClass}`}>
+            {screenSharingPeer ? (
+              <IonRow className='screen-sharing-layout'>
+                <IonCol size="9" className="screen-share-col">
+                  <Peer peer={screenSharingPeer} isScreenShare={true} onMutePeer={mutePeer} localRoleName={localRoleName} />
                 </IonCol>
-              ))}
-            </IonRow>
-          )}
-        </IonGrid>
-      </IonContent>
-      <IonFooter>
-        <Footer onRecordingToggle={toggleRecording} isRecording={isRecording} onLeave={leaveConference} roleName={localRoleName} />
-      </IonFooter>
-    </IonPage>
+                <IonCol size="3" className="peers-col">
+                  {peers.filter(peer => peer.id !== screenSharingPeer.id).map(peer => (
+                    <IonRow key={peer.id}>
+                      <IonCol size="12" className='peer-col'>
+                        <Peer peer={peer} isScreenSharing={true} onMutePeer={mutePeer} localRoleName={localRoleName} />
+                      </IonCol>
+                    </IonRow>
+                  ))}
+                </IonCol>
+              </IonRow>
+            ) : (
+              <IonRow className='peer-row'>
+                {peers.map(peer => (
+                  <IonCol key={peer.id} size={peerColSize} className='peer-col'>
+                    <Peer peer={peer} onMutePeer={mutePeer} localRoleName={localRoleName} />
+                  </IonCol>
+                ))}
+              </IonRow>
+            )}
+          </IonGrid>
+        </IonContent>
+        <IonFooter>
+          <Footer onRecordingToggle={toggleRecording} isRecording={isRecording} onLeave={leaveConference} roleName={localRoleName} />
+        </IonFooter>
+      </IonPage>
+    </>
   );
+  
 }
 
 export default Conference;
