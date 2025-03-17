@@ -32,6 +32,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 0; /* Eliminar padding */
+  margin: 0; /* Eliminar margen */
 }
 
 .screen-share-container {
@@ -55,8 +57,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 500px; /* Altura fija */
+  height: auto; /* Altura automática */
   overflow-y: auto; /* Scroll vertical */
+  padding: 0; /* Eliminar padding */
+  margin: 0; /* Eliminar margen */
+  height: 500px;
 }
 
 /* Ajuste de tamaño dinámico para los peers */
@@ -99,6 +104,32 @@
   width: 16%; /* 10+ participantes → 5-6 columnas */
 }
 
+/* Alturas fijas según la cantidad de participantes */
+.conference-container.height-1 .peer-container {
+  height: 500px;
+}
+
+.conference-container.height-2-3 .peer-container {
+  height: 400px;
+}
+
+.conference-container.height-4-6 .peer-container {
+  height: 300px;
+}
+
+.conference-container.height-7-9 .peer-container {
+  height: 200px;
+}
+
+.conference-container.height-10-plus .peer-container {
+  height: 150px;
+}
+
+/* Altura automática cuando se comparte pantalla */
+.conference-container.auto-height .peer-container {
+  height: auto;
+}
+
 /* Video de cada peer */
 .peer-video {
   width: 100%;
@@ -109,9 +140,6 @@
 }
 
 /* Estilo especial para el video local */
-.peer-video.local {
-  border: 2px solid #007bff;
-}
 
 /* Footer */
 .control-bar {
@@ -170,8 +198,31 @@
   position: absolute;
   bottom: 30px; /* 🔹 Se bajó más para no tapar contenido */
   right: 10px;
-  width: 140px;
-  height: 90px;
+  width: 200px;
+  height: auto;
   border-radius: 8px;
   padding: 5px;
+}
+
+.mute-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  width: 30px;  /* Tamaño del botón */
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.mute-button ion-icon {
+  width: 22px;
+  height: 22px;
 }
