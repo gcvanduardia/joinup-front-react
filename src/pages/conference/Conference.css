@@ -226,3 +226,16 @@
   width: 22px;
   height: 22px;
 }
+
+.peer-placeholder {
+  width: 50%; /* 🔹 Asegura que la imagen sea cuadrada */
+  height: auto;
+  border-radius: 50%; /* 🔹 Hace la imagen circular */
+  object-fit: cover; /* 🔹 Evita deformaciones */
+  background-color: #f0f0f0; /* 🔹 Color de fondo */
+  border: 3px solid #2D45FF; /* 🔹 Borde azul */
+  
+  /* 🔹 Centramos la imagen */
+  display: block;
+  margin: auto; /* 🔹 Centra horizontalmente */
+}
