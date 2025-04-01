@@ -24,15 +24,14 @@ const Peer: React.FC<PeerProps> = ({ peer, isScreenShare = false, isScreenSharin
   const { videoRef: screenShareRef } = useVideo({ trackId: screenShareTrack?.id });
 
   const videoTrack = useHMSStore(selectTrackByID(peer.videoTrack));
-  const [isMuted, setIsMuted] = useState(false);
+  const audioTrack = useHMSStore(selectTrackByID(peer.audioTrack));
+  const [isMuted, setIsMuted] = useState(audioTrack ? !audioTrack.enabled : true);
 
   useEffect(() => {
-    if (videoTrack && !videoTrack.enabled) {
-      setIsMuted(true);
-    } else {
-      setIsMuted(false);
+    if (audioTrack) {
+      setIsMuted(!audioTrack.enabled);
     }
-  }, [videoTrack?.enabled]);
+  }, [audioTrack?.enabled]);
 
   return (
     <IonCard className={`peer-container ${isScreenShare ? "screen-share-container" : ""} ${isScreenSharing ? "auto-height" : ""}`}>
@@ -41,10 +40,14 @@ const Peer: React.FC<PeerProps> = ({ peer, isScreenShare = false, isScreenSharin
 
         {/* Botón de mute SOLO visible para hosts/instructores */}
         {!peer.isLocal && (localRoleName === "host" || localRoleName === "instructor") && (
-          <button className="mute-button" onClick={() => onMutePeer(peer.id)}>
-            <IonIcon icon={isMuted ? micOffOutline : micOutline} />
+          <button 
+            className={`mute-button ${isMuted ? "muted" : "unmuted"}`} 
+            onClick={() => onMutePeer(peer.id)}
+          >
+            <IonIcon icon={isMuted ? micOffOutline : micOutline} className="mute-icon" />
           </button>
         )}
+
       </IonCardHeader>
 
       <IonCardContent>
