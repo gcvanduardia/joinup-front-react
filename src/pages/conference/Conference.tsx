@@ -7,7 +7,7 @@ import {
   useHMSActions, selectScreenShareByPeerID 
 } from "@100mslive/react-sdk";
 import { useEffect, useState, useContext } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import Peer from "./Peer";
 import Footer from "./Footer";
 import './Conference.css';
@@ -35,6 +35,8 @@ function Conference() {
   const history = useHistory();
   const [user, setUser] = useState<any>({});
   const [profileImage, setProfileImage] = useState<string | null>(null);
+  const { id } = useParams<{ id: string }>();
+  const [curso, setCurso] = useState<any>({});
 
   const [isRecording, setIsRecording] = useState(false);
   const [localRoleName, setLocalRoleName] = useState<string | null>(null);
@@ -50,6 +52,16 @@ function Conference() {
     };
     userDataIni();
   }, [IdUsuario, apiReq]);
+
+  useEffect(() => {
+    const cursoDetail = async () => {
+      const response = await apiReq('GET', `cursos/getCursoDetail?cursoId=${id}`);
+      if (response?.status === 200) {
+        setCurso(response.data.data);
+      }
+    }
+    cursoDetail();
+  }, [id]);
 
   useEffect(() => {
     if (!isConnected) {
@@ -147,7 +159,7 @@ function Conference() {
       <IonPage>
         <IonHeader>
           <IonToolbar className="ion-toolbar-custom">
-            <IonTitle className="ion-title-custom">Conference</IonTitle>
+            <IonTitle className="ion-title-custom">{curso.NombreCurso}</IonTitle>
           </IonToolbar>
         </IonHeader>
         <IonContent className="ion-padding-bottom">

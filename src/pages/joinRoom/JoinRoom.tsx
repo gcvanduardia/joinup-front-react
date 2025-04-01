@@ -102,7 +102,7 @@ function JoinRoom() {
             }
           });
           console.log(`User ${userName} has joined the room successfully.`);
-          history.push("/conference");
+          history.push(`/conference/${id}`);
         } catch (e) {
           console.error(`Error joining the room: ${e}`);
           setErrorMessage("Esta clase no está activa.");
