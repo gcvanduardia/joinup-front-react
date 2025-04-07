@@ -205,24 +205,44 @@
 }
 
 .mute-button {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  background-color: red;
-  color: white;
-  border-radius: 50%;
-  width: 30px;  /* Tamaño del botón */
-  height: 30px;
+  width: 5%; /* Ajusta según el tamaño que quieras */
+  height: 70%;
   display: flex;
-  justify-content: center;
   align-items: center;
-  z-index: 10;
+  justify-content: center;
   border: none;
+  border-radius: 50%;
   cursor: pointer;
-  padding: 0;
+  position: absolute; /* Posiciona el botón en la esquina */
+  top: 5px; /* Ajusta según sea necesario */
+  right: 5px; /* Ajusta según sea necesario */
 }
 
-.mute-button ion-icon {
-  width: 22px;
-  height: 22px;
+.mute-icon {
+  width: 80%; /* Hace que el icono ocupe todo el botón */
+  height: 80%;
+}
+
+
+.muted {
+  color: white; /* Icono rojo si el usuario está silenciado */
+  background-color: red;
+}
+
+.unmuted {
+  color: white; /* Icono verde si el usuario tiene el micrófono activo */
+  background-color: green;
+}
+
+.peer-placeholder {
+  width: 50%; /* 🔹 Asegura que la imagen sea cuadrada */
+  height: auto;
+  border-radius: 50%; /* 🔹 Hace la imagen circular */
+  object-fit: cover; /* 🔹 Evita deformaciones */
+  background-color: #f0f0f0; /* 🔹 Color de fondo */
+  border: 3px solid #2D45FF; /* 🔹 Borde azul */
+  
+  /* 🔹 Centramos la imagen */
+  display: block;
+  margin: auto; /* 🔹 Centra horizontalmente */
 }

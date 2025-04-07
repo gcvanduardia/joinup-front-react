@@ -42,7 +42,7 @@ const Routes: React.FC = () => (
     <ProtectedRoute exact path="/perfil/" component={Perfil} />
     <ProtectedRoute exact path="/busqueda" component={Busqueda}/>
     <ProtectedRoute exact path="/personalizarPerfil" component={Personalizacion}/>
-    <ProtectedRoute exact path="/conference" component={Conference} />
+    <ProtectedRoute exact path="/conference/:id" component={Conference} />
     <ProtectedRoute exact path="/cursoInfo/:id" component={CursoInf} />
   </IonRouterOutlet>
 );

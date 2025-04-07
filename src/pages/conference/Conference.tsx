@@ -6,13 +6,15 @@ import {
   selectPeers, selectIsConnectedToRoom, useHMSStore, 
   useHMSActions, selectScreenShareByPeerID 
 } from "@100mslive/react-sdk";
-import { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useEffect, useState, useContext } from "react";
+import { useHistory, useParams } from "react-router-dom";
 import Peer from "./Peer";
 import Footer from "./Footer";
 import './Conference.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { UserIdContext } from "../../shared/services/global/global";
+import useApi from "../../shared/services/api/api";
 
 
 interface PeerType {
@@ -25,13 +27,41 @@ interface PeerType {
 }
 
 function Conference() {
+  const { apiReq } = useApi();
   const peers = useHMSStore(selectPeers) as PeerType[];
   const isConnected = useHMSStore(selectIsConnectedToRoom);
   const hmsActions = useHMSActions();
+  const { IdUsuario } = useContext(UserIdContext);
   const history = useHistory();
+  const [user, setUser] = useState<any>({});
+  const [profileImage, setProfileImage] = useState<string | null>(null);
+  const { id } = useParams<{ id: string }>();
+  const [curso, setCurso] = useState<any>({});
 
   const [isRecording, setIsRecording] = useState(false);
   const [localRoleName, setLocalRoleName] = useState<string | null>(null);
+
+  useEffect(() => {
+    const userDataIni = async () => {
+      const response = await apiReq('GET', `user/dataIni?IdUsuario=${IdUsuario}`);
+      if (response?.status === 200) {
+        setUser(response.data.data);
+        setProfileImage(response.data.data.Avatar);
+        console.log(`#########Estos son los datos del user: ${response.data.data.Avatar}`)
+      }
+    };
+    userDataIni();
+  }, [IdUsuario, apiReq]);
+
+  useEffect(() => {
+    const cursoDetail = async () => {
+      const response = await apiReq('GET', `cursos/getCursoDetail?cursoId=${id}`);
+      if (response?.status === 200) {
+        setCurso(response.data.data);
+      }
+    }
+    cursoDetail();
+  }, [id]);
 
   useEffect(() => {
     if (!isConnected) {
@@ -129,7 +159,7 @@ function Conference() {
       <IonPage>
         <IonHeader>
           <IonToolbar className="ion-toolbar-custom">
-            <IonTitle className="ion-title-custom">Conference</IonTitle>
+            <IonTitle className="ion-title-custom">{curso.NombreCurso}</IonTitle>
           </IonToolbar>
         </IonHeader>
         <IonContent className="ion-padding-bottom">
@@ -137,13 +167,13 @@ function Conference() {
             {screenSharingPeer ? (
               <IonRow className='screen-sharing-layout'>
                 <IonCol size="9" className="screen-share-col">
-                  <Peer peer={screenSharingPeer} isScreenShare={true} onMutePeer={mutePeer} localRoleName={localRoleName} />
+                  <Peer peer={screenSharingPeer} isScreenShare={true} onMutePeer={mutePeer} localRoleName={localRoleName}/>
                 </IonCol>
                 <IonCol size="3" className="peers-col">
                   {peers.filter(peer => peer.id !== screenSharingPeer.id).map(peer => (
                     <IonRow key={peer.id}>
                       <IonCol size="12" className='peer-col'>
-                        <Peer peer={peer} isScreenSharing={true} onMutePeer={mutePeer} localRoleName={localRoleName} />
+                        <Peer peer={peer} isScreenSharing={true} onMutePeer={mutePeer} localRoleName={localRoleName} avatar={profileImage}/>
                       </IonCol>
                     </IonRow>
                   ))}
@@ -153,7 +183,7 @@ function Conference() {
               <IonRow className='peer-row'>
                 {peers.map(peer => (
                   <IonCol key={peer.id} size={peerColSize} className='peer-col'>
-                    <Peer peer={peer} onMutePeer={mutePeer} localRoleName={localRoleName} />
+                    <Peer peer={peer} onMutePeer={mutePeer} localRoleName={localRoleName} avatar={profileImage}/>
                   </IonCol>
                 ))}
               </IonRow>
