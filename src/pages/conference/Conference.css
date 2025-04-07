@@ -1,8 +1,12 @@
 /* Header */
 .ion-toolbar-custom {
-  --background: #2D45FF; /* Color de fondo */
+  --background: #03032b; /* Color de fondo */
   color: white; /* Color del texto */
   border-bottom: 3px solid #81E838; /* Borde inferior */
+}
+
+.ion-padding-bottom {
+  --background: #03032b;
 }
 
 .ion-title-custom {
@@ -72,15 +76,39 @@
 
 /* Contenedor del peer */
 .peer-container {
-  background-color: #fff;
-  border: 1px solid #ddd;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #03032b;
   border-radius: 8px;
   text-align: center;
   width: 100%;
   overflow: hidden;
   margin: 0px;
   padding: 0px;
-  border: 2px solid black;
+  box-shadow: 0px 0px 15px black;
+}
+
+/* Video de cada peer */
+.peer-video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Mantiene la relación de aspecto del video */
+  aspect-ratio: 16 / 9;
+  margin: 0; /* Elimina márgenes */
+  padding: 0; /* Elimina rellenos */
+  border: none; /* Elimina bordes si los hay */
+}
+
+.peer-name {
+  position: absolute;
+  bottom: 5px; /* Ajusta la distancia desde la parte inferior */
+  left: 5px; /* Ajusta la distancia desde la parte izquierda */
+  background-color: rgba(0, 0, 0, 0.6); /* Fondo semitransparente */
+  color: white; /* Texto blanco */
+  border-radius: 50px; /* Bordes redondeados */
+  z-index: 2; /* Asegura que esté por encima del video */
+  font-size: 17px;
 }
 
 /* Tamaños dinámicos según la cantidad de participantes */
@@ -129,16 +157,6 @@
 .conference-container.auto-height .peer-container {
   height: auto;
 }
-
-/* Video de cada peer */
-.peer-video {
-  width: 100%;
-  height: auto;
-  max-height: 300px;
-  border-radius: 8px;
-  object-fit: contain;
-}
-
 /* Estilo especial para el video local */
 
 /* Footer */
@@ -146,11 +164,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border-top: 3px solid #81E838;
   width: 100%;
   height: 80px;
-  --background: #2D45FF;
+  --background: #03032b;
   position: relative;
+  box-shadow: 0px 2px 100px black;
 }
 
 /* Botones de control */
@@ -174,7 +192,6 @@
   border-radius: 12px;
   width: auto;
   height: auto;
-  padding: 10px 20px;
   background-color: red;
   color: white;
 }

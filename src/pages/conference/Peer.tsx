@@ -1,6 +1,6 @@
 import { IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonIcon } from '@ionic/react';
 import { useVideo, useHMSStore, selectScreenShareByPeerID, selectTrackByID } from "@100mslive/react-sdk";
-import { micOutline, micOffOutline } from 'ionicons/icons';
+import { micOutline, micOffOutline, headset, helpCircle } from 'ionicons/icons';
 import React, { useState, useEffect } from "react";
 
 interface PeerProps {
@@ -35,8 +35,7 @@ const Peer: React.FC<PeerProps> = ({ peer, isScreenShare = false, isScreenSharin
 
   return (
     <IonCard className={`peer-container ${isScreenShare ? "screen-share-container" : ""} ${isScreenSharing ? "auto-height" : ""}`}>
-      <IonCardHeader style={{ position: "relative" }}>
-        <IonCardTitle>{peer.name} {peer.isLocal ? "(Tú)" : ""}</IonCardTitle>
+      <IonCardHeader style={{ position: "absolute", top: 0, left: 0, right: 0, zIndex: 1 }}>
 
         {/* Botón de mute SOLO visible para hosts/instructores */}
         {!peer.isLocal && (localRoleName === "host" || localRoleName === "instructor") && (
@@ -50,7 +49,7 @@ const Peer: React.FC<PeerProps> = ({ peer, isScreenShare = false, isScreenSharin
 
       </IonCardHeader>
 
-      <IonCardContent>
+      <IonCardContent style={{ padding: 0, margin: 0, height: "100%" }}>
         {screenShareTrack ? (
           <>
             <video ref={screenShareRef} className="screen-share-video" autoPlay playsInline controls />
@@ -60,12 +59,14 @@ const Peer: React.FC<PeerProps> = ({ peer, isScreenShare = false, isScreenSharin
           <video ref={videoRef} className={`peer-video ${peer.isLocal ? "local" : ""}`} autoPlay muted={peer.isLocal} playsInline />
         ) : (
           <img 
-            src={avatar || "default-avatar.png"} // Usa la prop `avatar` directamente
+            src={avatar || "default-avatar.png"} 
             alt="Usuario con cámara desactivada"
             className="peer-placeholder"
           />
         )}
+
       </IonCardContent>
+      <IonCardTitle className="peer-name">{peer.name} {peer.isLocal ? "(Tú)" : ""}</IonCardTitle>
     </IonCard>
   );
 };
