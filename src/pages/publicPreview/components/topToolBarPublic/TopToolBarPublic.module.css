@@ -1,13 +1,12 @@
 .toolbar {
     margin-left: 250px; /* Ajusta este valor según el ancho del menú lateral */
     width: calc(100% - 250px); /* Ajusta este valor según el ancho del menú lateral */
-    box-shadow: none;
-    border-bottom: 3px solid #FFF44B;
+    box-shadow: 0px 10px 25px black;
   
   }
   
   .fondo {
-    --background: #2D45FF;
+    --background: #03032b;
     box-shadow: none; /* Asegúrate de que no haya sombra */
   }
   

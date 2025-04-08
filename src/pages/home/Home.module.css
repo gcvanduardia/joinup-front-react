@@ -1,9 +1,9 @@
 .grid {
   padding: 100px 10px 10px 10px;
-  background-color: #2D45FF;
+  background-color: #fff;
 }
 
 .ion-row-recomendados, .ion-row-en-progreso {
-  color: #fff;
+  color: black;
   margin-top: 10px;
 }
