@@ -19,6 +19,7 @@ const HomePublic: React.FC = () => {
   const { width } = useWindowSize();
   const location = useLocation();
   const [courses, setCourses] = useState<any[]>([]);
+  const whatsappNumber = "573207105607"; // Reemplaza con el número de WhatsApp
 
   useEffect(() => {
     const getRecomendedCourses = async () => {
@@ -67,6 +68,19 @@ const HomePublic: React.FC = () => {
               ))}
             </IonRow>
           </IonGrid>
+          {/* Botón flotante de WhatsApp */}
+          <a
+            href={`https://wa.me/${whatsappNumber}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.whatsappButton}
+          >
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
+              alt="WhatsApp"
+              className={styles.whatsappIcon}
+            />
+          </a>
         </IonContent>
       </IonSplitPane>
     </IonPage>

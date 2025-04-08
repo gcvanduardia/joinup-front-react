@@ -47,9 +47,6 @@ const SideBarMenu: React.FC = () => {
         <div className={styles.fondo}>
           <div className={styles.container}>
             <IonGrid>
-              <IonRow>
-                <IonTitle>{getTitle()}</IonTitle>
-              </IonRow>
 
               <IonRow className={styles['center-content']}>
                 <IonLabel className={styles.misProyectos}>Mis Proyectos</IonLabel>

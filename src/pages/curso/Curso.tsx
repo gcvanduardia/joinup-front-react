@@ -79,9 +79,9 @@ const Curso: React.FC = () => {
                 )}
               </IonCol>
               <IonCol size='4' sizeXs='12' sizeSm='12' sizeLg='4' className={styles['description-container']}>
-                <IonCard><IonLabel className={styles['title']}>{curso.NombreCurso}</IonLabel></IonCard>
+                <IonCard className={styles['title-container']}><IonLabel className={styles['title']}>{curso.NombreCurso}</IonLabel></IonCard>
                 <IonCard><IonText>{curso.DescripcionPrincipal}</IonText></IonCard>
-                <IonCard><IonText>{curso.NombreCompletoProfesor}</IonText></IonCard>
+                <IonCard className={styles['name-container']}><IonText>{curso.NombreCompletoProfesor}</IonText></IonCard>
                 {curso.EnVivo && isCursoUsuario && (
                   <IonButton expand="full" className={styles['course-button']} onClick={() => history.push(`/join/${id}`)}>Conectarse</IonButton>
                 )}
