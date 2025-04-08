@@ -20,10 +20,23 @@
 }
 .title {
   font-size: 25px;
+  font-weight: bold;
+}
+
+.title-container{
+  background-color: #03032b;
+  color: #fff;
+}
+
+.name-container{
+  background-color: #fa2c63;
+  color: #03032b;
 }
 
 .course-button {
   margin: 10px;
+  --background: #2D45FF;
+  --border-radius: 20px !important;
 }
 
 .course-error{
