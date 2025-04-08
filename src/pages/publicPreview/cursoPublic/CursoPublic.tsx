@@ -51,11 +51,11 @@ const CursoPublic: React.FC = () => {
                   <IonImg src={curso.Imagen} alt={id}/>
               </IonCol>
               <IonCol size='4' sizeXs='12' sizeSm='12' sizeLg='4' className={styles['description-container']}>
-                <IonCard><IonLabel className={styles['title']}>{curso.NombreCurso}</IonLabel></IonCard>
+                <IonCard className={styles['title-container']}><IonLabel className={styles['title']}>{curso.NombreCurso}</IonLabel></IonCard>
                 <IonCard><IonText>{curso.DescripcionPrincipal}</IonText></IonCard>
-                <IonCard><IonText>{curso.NombreCompletoProfesor}</IonText></IonCard>
-                <IonButton onClick={() => handleButtonClick(`/comprar/${id}`)}>¡Comienza tu aventura!</IonButton>
-                <IonButton onClick={() => handleButtonClick(`/curso-info/${id}`)}>Más Información</IonButton>
+                <IonCard className={styles['name-container']}><IonText>{curso.NombreCompletoProfesor}</IonText></IonCard>
+                <IonButton className={styles['btn']} onClick={() => handleButtonClick(`/comprar/${id}`)}>¡Comienza tu aventura!</IonButton>
+                <IonButton className={styles['btn']} onClick={() => handleButtonClick(`/curso-info/${id}`)}>Más Información</IonButton>
               </IonCol>
             </IonRow>
           </IonGrid>
