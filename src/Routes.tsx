@@ -25,7 +25,8 @@ const Routes: React.FC = () => (
   <IonRouterOutlet>
     <Route exact path="/"> <Redirect to="/inicio" /> </Route>
     <Route exact path="/login"> <Login /> </Route>
-    <Route exact path="/register"> <Register /> </Route>
+    <Route exact path="/login/:id"> <Login /> </Route>
+    {/* <Route exact path="/register"> <Register /> </Route> */}
     {/* <Route exact path="/access"> <Ingreso /> </Route> */}
     <Route exact path="/inicio"> <HomePublic /> </Route>
     <Route exact path="/curso-preview/:id"> <CursoPublic /> </Route>

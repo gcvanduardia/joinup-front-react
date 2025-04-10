@@ -1,8 +1,18 @@
 .toolbar {
     margin-left: 250px; /* Ajusta este valor según el ancho del menú lateral */
     width: calc(100% - 250px); /* Ajusta este valor según el ancho del menú lateral */
-    box-shadow: 0px 10px 25px black;
-  
+  }
+
+  .toolbar::after {
+    content: "";
+    position: absolute;
+    bottom: -10;
+    left: 0;
+    width: 100%;
+    height: 30px;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), transparent);
+    pointer-events: none;
+    z-index: 10;
   }
   
   .fondo {
