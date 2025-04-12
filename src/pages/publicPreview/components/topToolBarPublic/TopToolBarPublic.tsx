@@ -67,7 +67,7 @@ const TopToolBarPublic: React.FC = () => {
             </div>
           </IonButton>
         </IonButtons>
-        {width > 768 && !location.pathname.startsWith('/busqueda') && (
+        {width > 768 && !location.pathname.startsWith('/busquedaPublic') && (
           <div className={styles["searchbar-container"]}>
             <div className={styles["searchbar-wrapper"]}>
               <IonSearchbar 
@@ -78,7 +78,7 @@ const TopToolBarPublic: React.FC = () => {
                 onIonInput={handleSearch}
                 onKeyPress={(e: React.KeyboardEvent) => {
                   if (e.key === 'Enter' && searchQuery.trim() !== '') {
-                    history.push(`/busqueda/${searchQuery.trim()}`);
+                    history.push(`/busquedaPublic/${searchQuery.trim()}`);
                   }
                 }}
               />
@@ -87,7 +87,7 @@ const TopToolBarPublic: React.FC = () => {
         )}
         <IonButtons slot="end">
           {width <= 768 && (
-            <IonButton className={styles['search-icon']} onClick={() => history.push("/busqueda")}>
+            <IonButton className={styles['search-icon']} onClick={() => history.push("/busquedaPublic")}>
               <IonIcon icon={search} size='large'/>
             </IonButton>
           )}
