@@ -20,17 +20,22 @@ import CursoInfoPublic from './pages/publicPreview/cursoInfoPublic/CursoInfoPubl
 import Compra from './pages/compra/Compra';
 import CompraPublic from './pages/publicPreview/compraPublic/CompraPublic';
 import CursoInf from './pages/cursoInf/CursoInf';
+import SeccionPublic from './pages/publicPreview/seccionPublic/SeccionPublic';
+import BusquedaPublic from './pages/publicPreview/busquedaPublic/BusquedaPublic';
 
 const Routes: React.FC = () => (
   <IonRouterOutlet>
     <Route exact path="/"> <Redirect to="/inicio" /> </Route>
     <Route exact path="/login"> <Login /> </Route>
-    <Route exact path="/register"> <Register /> </Route>
+    <Route exact path="/login/:id"> <Login /> </Route>
+    {/* <Route exact path="/register"> <Register /> </Route> */}
     {/* <Route exact path="/access"> <Ingreso /> </Route> */}
     <Route exact path="/inicio"> <HomePublic /> </Route>
     <Route exact path="/curso-preview/:id"> <CursoPublic /> </Route>
     <Route exact path="/curso-info/:id"> <CursoInfoPublic /> </Route>
     <Route exact path="/comprar/:id"> <CompraPublic /> </Route>
+    <Route exact path="/seccion-preview/:id"> <SeccionPublic /> </Route>
+    <Route exact path="/busquedaPublic/:searchQuery"> <BusquedaPublic /> </Route>
     <ProtectedRoute exact path="/compra/:id" component={Compra} />
     <ProtectedRoute exact path="/join/:id" component={JoinRoom} />
     <ProtectedRoute exact path="/home" component={Home} />
