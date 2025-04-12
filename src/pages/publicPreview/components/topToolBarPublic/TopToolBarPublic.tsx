@@ -103,7 +103,7 @@ const TopToolBarPublic: React.FC = () => {
               button 
               onMouseDown={(e) => {
                 if (e.button === 0) {
-                  history.push(`/curso/${course.CursoId}`);
+                  history.push(`/curso-preview/${course.CursoId}`);
                 }
               }}
             >

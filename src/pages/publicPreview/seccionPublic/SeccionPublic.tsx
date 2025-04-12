@@ -50,7 +50,7 @@ const SeccionPublic: React.FC = () => {
                     description={`${course.NombreProfesor} ${course.ApellidoProfesor}`} 
                     courseId={course.CursoId} 
                     Imagen={course.Imagen} 
-                    Page='curso' 
+                    Page='curso-preview' 
                   />
                 </IonCol>
               ))}
