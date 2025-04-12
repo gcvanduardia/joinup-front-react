@@ -20,6 +20,7 @@ import CursoInfoPublic from './pages/publicPreview/cursoInfoPublic/CursoInfoPubl
 import Compra from './pages/compra/Compra';
 import CompraPublic from './pages/publicPreview/compraPublic/CompraPublic';
 import CursoInf from './pages/cursoInf/CursoInf';
+import SeccionPublic from './pages/publicPreview/seccionPublic/SeccionPublic';
 
 const Routes: React.FC = () => (
   <IonRouterOutlet>
@@ -32,6 +33,7 @@ const Routes: React.FC = () => (
     <Route exact path="/curso-preview/:id"> <CursoPublic /> </Route>
     <Route exact path="/curso-info/:id"> <CursoInfoPublic /> </Route>
     <Route exact path="/comprar/:id"> <CompraPublic /> </Route>
+    <Route exact path="/seccion-preview/:id"> <SeccionPublic /> </Route>
     <ProtectedRoute exact path="/compra/:id" component={Compra} />
     <ProtectedRoute exact path="/join/:id" component={JoinRoom} />
     <ProtectedRoute exact path="/home" component={Home} />
