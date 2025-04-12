@@ -1,6 +1,6 @@
 import { IonContent, IonPage, IonInput, IonButton, IonLabel, IonGrid, IonCol, IonRow, IonCard, IonAlert } from '@ionic/react';
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import styles from './Login.module.css';
 import useApi from "../../shared/services/api/api";
 
@@ -12,9 +12,10 @@ const Login: React.FC = () => {
     const [showAlert, setShowAlert] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const history = useHistory();
+    const { id } = useParams<{ id: string }>();
 
     const handleRegisterRedirect = () => {
-        history.push('/register');
+        history.push(`/comprar/${id}`);
     };
   
     useEffect(() => {
@@ -79,7 +80,9 @@ const Login: React.FC = () => {
                                     <IonLabel className={styles.titulo}>Mi Plataforma</IonLabel>
                                 </IonRow>
                                 <IonRow className={styles['center-content']}>
+                                  <IonButton fill="clear" onClick={() => history.push('/inicio')} className={styles['logo-button']}>
                                     <img src="img/logoPrincipal.png" alt="logo2" className={styles['logo-form']} />
+                                  </IonButton>
                                 </IonRow>
 
                                 <IonRow className={styles['center-content']}>

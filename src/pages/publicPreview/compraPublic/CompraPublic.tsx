@@ -33,17 +33,26 @@ const CompraPublic: React.FC = () => {
             <IonRow>
               <IonCol size="12">
                 <IonCard>
-                  <IonLabel>Para seguir con la compra del curso:</IonLabel>
+                  <IonLabel>Para continuar con la compra del curso de <strong>{curso.NombreCurso}</strong>, sigue estos pasos:</IonLabel>
                 </IonCard>
                 <IonCard>
-                  <h2>{curso.NombreCurso}</h2>
+                  <IonLabel><strong>Ingresa a nuestro Whatsapp:</strong></IonLabel>
+                  <br />
+                  <IonLabel>Paso 1: Escoge el plan o curso que más te convenga</IonLabel>
+                  <br />
+                  <IonLabel>Paso 2: Haz el pago y envía tu comprobante de pago</IonLabel>
+                  <br />
+                  <IonLabel>Paso 3: Recibe tu usuario y contraseña</IonLabel>
+                  <br />
+                  <IonLabel>Paso 4: Inicia sesión y Disfruta!</IonLabel>
+                  <br />
                 </IonCard>
                 <IonCard>
-                  <IonLabel>Continue por nuestro chatbot de WhatsApp</IonLabel>
+                  <IonLabel>Continuar en nuestro chatbot de WhatsApp:</IonLabel>
+                  <IonButton color="success" href={`https://wa.me/573207105607?text=Hola%20quiero%20más%20información%20sobre%20el%20curso%20de%20${curso.NombreCurso}`} target="_blank" className={styles["whatsapp-button"]}>
+                    <IonIcon slot="icon-only" icon={logoWhatsapp} style={{ fontSize: '200%' }} />
+                  </IonButton>
                 </IonCard>
-                <IonButton color="success" href="https://wa.me/1234567890" target="_blank" className={styles["whatsapp-button"]}>
-                  <IonIcon slot="icon-only" icon={logoWhatsapp} style={{ fontSize: '200%' }} />
-                </IonButton>
               </IonCol>
             </IonRow>
           </IonGrid>

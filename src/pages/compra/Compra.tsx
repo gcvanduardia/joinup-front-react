@@ -41,7 +41,7 @@ const Compra: React.FC = () => {
                 <IonCard>
                   <IonLabel>Continue por nuestro chatbot de WhatsApp</IonLabel>
                 </IonCard>
-                <IonButton color="success" href="https://wa.me/1234567890" target="_blank" className={styles["whatsapp-button"]}>
+                <IonButton color="success" href="https://wa.me/573207105607" target="_blank" className={styles["whatsapp-button"]}>
                   <IonIcon slot="icon-only" icon={logoWhatsapp} style={{ fontSize: '200%' }} />
                 </IonButton>
               </IonCol>

@@ -70,7 +70,7 @@ const HomePublic: React.FC = () => {
           </IonGrid>
           {/* Botón flotante de WhatsApp */}
           <a
-            href={`https://wa.me/${whatsappNumber}`}
+            href={`https://wa.me/${whatsappNumber}?text=Hola%20quiero%20más%20información`}
             target="_blank"
             rel="noopener noreferrer"
             className={styles.whatsappButton}

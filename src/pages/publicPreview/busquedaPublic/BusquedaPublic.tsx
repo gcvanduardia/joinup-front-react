@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { IonContent, IonGrid, IonPage, IonCol, IonRow, IonItem, IonSearchbar, IonInfiniteScroll, IonInfiniteScrollContent, IonSplitPane } from '@ionic/react';
 import { useParams } from 'react-router-dom';
-import styles from './Busqueda.module.css';
-import SideBarMenu from '../../shared/components/sideBarMenu/SideBarMenu';
-import TopToolBar from '../../shared/components/topToolBar/TopToolBar';
+import styles from './BusquedaPublic.module.css';
+import SideBarMenuPublic from '../components/sideBarMenuPublic/SideBarMenuPublic';
+import TopToolBarPublic from '../components/topToolBarPublic/TopToolBarPublic';
 import { useHistory } from 'react-router-dom';
 import { SearchbarChangeEventDetail } from '@ionic/core';
-import useApi from "../../shared/services/api/api";
-import CourseCard from '../../shared/components/course-card/CourseCard';
+import useApi from "../../../shared/services/api/api";
+import CourseCard from '../../../shared/components/course-card/CourseCard';
 
 interface Course {
   CursoId: number;
@@ -17,7 +17,7 @@ interface Course {
   Profesor: string;
 }
 
-const Busqueda: React.FC = () => {
+const BusquedaPublic: React.FC = () => {
   const { searchQuery: initialSearchQuery } = useParams<{ searchQuery: string }>();
   const history = useHistory();
   const [searchQuery, setSearchQuery] = useState(initialSearchQuery || '');
@@ -89,9 +89,9 @@ const Busqueda: React.FC = () => {
 
   return (
     <IonPage>
-      <TopToolBar />
+      <TopToolBarPublic />
       <IonSplitPane contentId="main">
-        <SideBarMenu />
+        <SideBarMenuPublic />
         <IonContent id="main">
           <div className={styles['custom-card-title']}>
             <h2 style={{ textAlign: 'center' }}>Búsqueda</h2>
@@ -125,7 +125,7 @@ const Busqueda: React.FC = () => {
                         description={course.Descripcion}
                         courseId={course.CursoId}
                         Imagen={course.Imagen}
-                        Page='curso'
+                        Page='curso-preview'
                       />
                     </IonCol>
                   ))}
@@ -142,4 +142,4 @@ const Busqueda: React.FC = () => {
   );
 };
 
-export default Busqueda;
+export default BusquedaPublic;
