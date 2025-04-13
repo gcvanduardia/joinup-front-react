@@ -54,8 +54,8 @@ const SideBarMenu: React.FC = () => {
 
               <IonRow className={styles['center-content']}>
                 <IonList className={styles['lista-proyectos']}>
-                  <IonItem button lines="none" onClick={() => handleNavigation('/curso/3')}>Artes</IonItem>
-                  <IonItem button lines="none" onClick={() => handleNavigation('/curso/2')}>Robótica</IonItem>
+                  <IonItem button lines="none" onClick={() => handleNavigation('/curso/2')}>Artes</IonItem>
+                  <IonItem button lines="none" onClick={() => handleNavigation('/curso/1')}>Raices</IonItem>
                 </IonList>
               </IonRow>
 
