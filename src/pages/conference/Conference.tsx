@@ -1,10 +1,12 @@
 import { 
   IonContent, IonHeader, IonPage, IonTitle, IonToolbar, 
-  IonGrid, IonRow, IonCol, IonFooter 
+  IonGrid, IonRow, IonCol, IonFooter, 
+  IonIcon
 } from '@ionic/react';
 import { 
   selectPeers, selectIsConnectedToRoom, useHMSStore, 
-  useHMSActions, selectScreenShareByPeerID 
+  useHMSActions, selectScreenShareByPeerID,
+  selectHMSMessages
 } from "@100mslive/react-sdk";
 import { useEffect, useState, useContext } from "react";
 import { useHistory, useParams } from "react-router-dom";
@@ -15,6 +17,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { UserIdContext } from "../../shared/services/global/global";
 import useApi from "../../shared/services/api/api";
+import { arrowForwardOutline, closeCircleOutline} from 'ionicons/icons';
 
 
 interface PeerType {
@@ -37,6 +40,10 @@ function Conference() {
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const { id } = useParams<{ id: string }>();
   const [curso, setCurso] = useState<any>({});
+  const messages = useHMSStore(selectHMSMessages);
+  const [chatInput, setChatInput] = useState("");
+  const [showChat, setShowChat] = useState(false);
+
 
   const [isRecording, setIsRecording] = useState(false);
   const [localRoleName, setLocalRoleName] = useState<string | null>(null);
@@ -75,6 +82,23 @@ function Conference() {
       setLocalRoleName(localPeer.roleName);
     }
   }, [peers, localRoleName]);
+
+  const sendMessage = async () => {
+    if (chatInput.trim() === "") return;
+  
+    try {
+      await hmsActions.sendBroadcastMessage(chatInput);
+      setChatInput("");
+    } catch (error) {
+      console.error("Error al enviar mensaje:", error);
+    }
+  };
+
+  const toggleChat = () => {
+    setShowChat(!showChat);
+  };
+  
+  
 
   const mutePeer = async (peerId: string) => {
     try {
@@ -189,10 +213,46 @@ function Conference() {
               </IonRow>
             )}
           </IonGrid>
+
         </IonContent>
         <IonFooter>
-          <Footer onRecordingToggle={toggleRecording} isRecording={isRecording} onLeave={leaveConference} roleName={localRoleName} />
+          <Footer onRecordingToggle={toggleRecording} isRecording={isRecording} onLeave={leaveConference} roleName={localRoleName} onToggleChat={toggleChat}/>
         </IonFooter>
+
+        {showChat && (
+          <div className="chat-floating-panel">
+            <div className="chat-header">
+              <IonTitle className="chat-title">Chat</IonTitle>
+              <button className="chat-close-button" onClick={toggleChat}>
+                <IonIcon icon={closeCircleOutline} />
+              </button>
+            </div>
+            <div className="chat-messages">
+              {messages.map((msg, i) => (
+                <div key={i}>
+                  <strong>{msg.senderName}:</strong> {msg.message}
+                </div>
+              ))}
+            </div>
+            <div className="chat-input-area">
+              <input
+                type="text"
+                value={chatInput}
+                onChange={(e) => setChatInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    sendMessage();
+                  }
+                }}
+                placeholder="Escribe tu mensaje..."
+              />
+              <button onClick={sendMessage} className="chat-send-button">
+                <IonIcon icon={arrowForwardOutline} />
+              </button>
+            </div>
+          </div>
+        )}
+
       </IonPage>
     </>
   );
