@@ -51,7 +51,18 @@ const CursoPublic: React.FC = () => {
                   <IonImg src={curso.Imagen} alt={id}/>
               </IonCol>
               <IonCol size='4' sizeXs='12' sizeSm='12' sizeLg='4' className={styles['description-container']}>
-                <IonCard className={styles['title-container']}><IonLabel className={styles['title']}>{curso.NombreCurso}</IonLabel></IonCard>
+                <IonCard className={styles['title-container']}>
+                  <IonTitle className={styles['title']}>
+                      {curso.NombreCurso?.includes("Grupo") ? (
+                        <>
+                          {curso.NombreCurso.split("Grupo")[0]}<br />
+                          Grupo{curso.NombreCurso.split("Grupo")[1]}
+                        </>
+                      ) : (
+                        curso.NombreCurso
+                      )}
+                  </IonTitle>
+                </IonCard>
                 <IonCard><IonText>{curso.DescripcionPrincipal}</IonText></IonCard>
                 <IonCard className={styles['name-container']}><IonText>{curso.NombreCompletoProfesor}</IonText></IonCard>
                 <IonButton className={styles['btn']} onClick={() => handleButtonClick(`/login/${id}`)}>¡Comienza tu aventura!</IonButton>
