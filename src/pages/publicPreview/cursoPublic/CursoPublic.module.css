@@ -21,6 +21,8 @@
   .title {
     font-size: 25px;
     font-weight: bold;
+    margin: 0;
+    padding: 0;
   }
 
   .title-container{
