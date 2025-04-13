@@ -1,5 +1,5 @@
 import { IonFooter, IonToolbar, IonIcon } from '@ionic/react';
-import { micOffOutline, micOutline, videocamOffOutline, videocamOutline, stopOutline, ellipseOutline, shareOutline, stopCircleOutline, exitOutline } from 'ionicons/icons';
+import { micOffOutline, micOutline, videocamOffOutline, videocamOutline, stopOutline, ellipseOutline, shareOutline, chatboxEllipsesOutline, exitOutline } from 'ionicons/icons';
 import { useAVToggle, useHMSActions, useHMSStore, selectIsLocalScreenShared } from "@100mslive/react-sdk";
 
 interface FooterProps {
@@ -7,9 +7,10 @@ interface FooterProps {
   isRecording: boolean;
   onLeave: () => void;
   roleName: string | null;
+  onToggleChat: () => void;
 }
 
-function Footer({ onRecordingToggle, isRecording, onLeave, roleName }: FooterProps) {
+function Footer({ onRecordingToggle, isRecording, onLeave, roleName, onToggleChat }: FooterProps) {
   const { isLocalAudioEnabled, isLocalVideoEnabled, toggleAudio, toggleVideo } = useAVToggle();
   const hmsActions = useHMSActions();
   const isScreenShared = useHMSStore(selectIsLocalScreenShared);
@@ -39,6 +40,10 @@ function Footer({ onRecordingToggle, isRecording, onLeave, roleName }: FooterPro
           <button className="btn-control" onClick={toggleScreenShare}>
             <IonIcon icon={isScreenShared ? stopOutline : shareOutline} />
           </button>
+          <button className="btn-control" onClick={onToggleChat}>
+            <IonIcon icon={chatboxEllipsesOutline} />
+          </button>
+
           <button className="btn-control exit" onClick={onLeave}>
             <IonIcon icon={exitOutline} />
           </button>
