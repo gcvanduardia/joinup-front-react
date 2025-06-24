@@ -3,7 +3,7 @@ import { IonHeader, IonToolbar, IonButtons, IonButton, IonImg, IonSearchbar, Ion
 import { useHistory, useLocation } from 'react-router-dom';
 import { search } from 'ionicons/icons';
 import styles from './TopToolBarPublic.module.css';
-import logo from '../../../../../public/img/logoPrincipal.png'
+const logo = '/img/logoPrincipal.png';
 import useApi from "../../../../shared/services/api/api";
 import { useWindowSize } from 'react-use';
 import { SearchbarChangeEventDetail } from '@ionic/core';
