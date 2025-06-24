@@ -1,6 +1,6 @@
 const production = {
     production: true,
-    apiUrl: 'https://miplataforma-api.azurewebsites.net',
+    apiUrl: 'https://api.miplataforma.co',
     apiKey: 'joinupadventureAuthKey'
 }
 
